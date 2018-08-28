@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>区块链科普 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="分布式,区块链,blockchain,科普," />
+  
+
+  <meta name="description" content="区块链开发入门书籍和文档 知乎某科普区块链链接：https://www.zhihu.com/question/37290469 （感觉说的挺生动） 1. 区块链基础定义：区块链是一种新型去中心化协议，能安全地存储比特币交易或其它数据，信息不可伪造和篡改，可以自动执行智能合约，无需任何中心化机构的审核。交易既可以是比特币这样的数字货币，也可以是债权、股权、版权等数字资产，区块链技术解决了拜占庭将军问">
+<meta name="keywords" content="分布式,区块链,blockchain,科普">
+<meta property="og:type" content="article">
+<meta property="og:title" content="区块链科普">
+<meta property="og:url" content="http://mu-mo.top/2017/12/30/分布式/区块链科普/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="区块链开发入门书籍和文档 知乎某科普区块链链接：https://www.zhihu.com/question/37290469 （感觉说的挺生动） 1. 区块链基础定义：区块链是一种新型去中心化协议，能安全地存储比特币交易或其它数据，信息不可伪造和篡改，可以自动执行智能合约，无需任何中心化机构的审核。交易既可以是比特币这样的数字货币，也可以是债权、股权、版权等数字资产，区块链技术解决了拜占庭将军问">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-21e2db6ece302d34.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-9191f39f65210938.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-cec738aca4b518e7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-3263453fd65e045e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.118Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="区块链科普">
+<meta name="twitter:description" content="区块链开发入门书籍和文档 知乎某科普区块链链接：https://www.zhihu.com/question/37290469 （感觉说的挺生动） 1. 区块链基础定义：区块链是一种新型去中心化协议，能安全地存储比特币交易或其它数据，信息不可伪造和篡改，可以自动执行智能合约，无需任何中心化机构的审核。交易既可以是比特币这样的数字货币，也可以是债权、股权、版权等数字资产，区块链技术解决了拜占庭将军问">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7109326-21e2db6ece302d34.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-区块链基础"><span class="toc-text">1. 区块链基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是去中心化呢？"><span class="toc-text">什么是去中心化呢？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拜占庭问题"><span class="toc-text">拜占庭问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是一致性呢？"><span class="toc-text">什么是一致性呢？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-区块链的核心优势"><span class="toc-text">2. 区块链的核心优势</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-区块链的工作原理"><span class="toc-text">3. 区块链的工作原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Hash-不可修改性"><span class="toc-text">2. Hash 不可修改性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-区块链分叉"><span class="toc-text">3. 区块链分叉</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-小结"><span class="toc-text">4. 小结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-分布式/区块链科普" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      区块链科普
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2017.12.30
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/分布式/">分布式</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <p><a href="https://bitshuo.com/topic/583405978bf98a143753b86a" target="_blank" rel="noopener">区块链开发入门书籍和文档</a></p>
+<p>知乎某科普区块链链接：<a href="https://www.zhihu.com/question/37290469" target="_blank" rel="noopener">https://www.zhihu.com/question/37290469</a> （感觉说的挺生动）</p>
+<h2 id="1-区块链基础"><a href="#1-区块链基础" class="headerlink" title="1. 区块链基础"></a>1. 区块链基础</h2><p><strong>定义</strong>：区块链是一种新型去中心化协议，能安全地存储比特币交易或其它数据，信息不可伪造和篡改，可以自动执行智能合约，无需任何中心化机构的审核。交易既可以是比特币这样的数字货币，也可以是债权、股权、版权等数字资产，区块链技术解决了<strong>拜占庭将军问题</strong>，大大降低了现实经济的信任成本与会计成本，重新定义了互联网时代的产权制度。                </p>
+<p><strong>简单来说</strong>：区块链是一个<strong>去中心化</strong>的分布式数据库</p>
+<ul>
+<li>首先，区块链的主要作用是储存信息。任何需要保存的信息，都可以写入区块链，也可以从里面读取，所以它是数据库。</li>
+<li>其次，任何人都可以架设服务器，加入区块链网络，成为一个节点。区块链的世界里面，没有中心节点，每个节点都是平等的，都保存着整个数据库。你可以向任何一个节点，写入/读取数据，因为所有节点最后都会同步，保证区块链一致。</li>
+</ul>
+<h3 id="什么是去中心化呢？"><a href="#什么是去中心化呢？" class="headerlink" title="什么是去中心化呢？"></a>什么是去中心化呢？</h3><p><strong>中心化集中式处理</strong></p>
+<p>eg: 你要在某宝上买一部手机，交易流程是：</p>
+<ul>
+<li>你将钱打给支付宝</li>
+<li>支付宝收款后通知卖家发货</li>
+<li>卖家发货</li>
+<li>你确认收货</li>
+<li>支付宝把钱打给卖家。</li>
+</ul>
+<blockquote>
+<p> 在这个过程中，虽然你是在和卖家交易，但是这笔交易还牵扯到了除了你和卖家的第三方，即支付宝，你和卖家的交易都是围绕支付宝展开。因此，如果支付宝系统出了问题便会造成这笔交易的失败。并且虽然你只是简单的买了一个手机，但是你和卖家都要向第三方提供多余的信息。因此考虑极端情况，如果支付宝跑路了或者是拿了钱不却不承认你的交易或者是支付宝所在的城市因为开G20把所有人都赶走了(?)，那么你就悲剧了。</p>
+</blockquote>
+<p><strong>去中心化</strong></p>
+<p>对于上面的例子：去中心化的处理方式就要显得简单很多，你只需要和卖家交换钱和手机，然后双方都<strong>声称完成了这笔交易</strong>，就OK了，同时也无须担心自己的与交易无关的信息泄漏给第三方或者被控制。</p>
+<p>去中心化是区块链技术的颠覆性特点，它无需中心化代理，实现了一种<strong>点对点的直接交互</strong>，使得高效率、大规模、无中心化代理的信息交互方式成为了现实。</p>
+<p>但是，没有一个中心管理，人人都可以往里面写入数据，那怎么来保证数据可信？被坏人改了怎么办？这就是区块链奇妙的地方。</p>
+<h3 id="拜占庭问题"><a href="#拜占庭问题" class="headerlink" title="拜占庭问题"></a>拜占庭问题</h3><p><strong>引言</strong>：又叫拜占庭将军（ Byzantine Generals Problem） 问题，是 Leslie Lamport 1982 年提出用来解释一致性问题的一个虚构模型。拜占庭是古代东罗马帝国的首都，由于地域宽广，守卫边境的多个将军（ 系统中的多个节点） 需要通过信使来传递消息，达成某些一致的决定。但由于将军中可能存在叛徒（ 系统中节点出错） ，这些叛徒将努力向不同的将军发送不同的消息，试图会干扰一致性的达成。拜占庭问题即为在此情况下，如何让忠诚的将军们能达成行动的一致。</p>
+<p>两个问题：</p>
+<ul>
+<li>拜占庭问题：允许存在少数节点作恶（ 消息可能被伪造） 场景下的一致性达成问题。</li>
+<li>非拜占庭问题：分布式的系统中存在故障（ fault） ，但不存在恶意（ corrupt） 节点场景（ 即可能消息丢失或重复，但无错误消息） 下的一致性达成 问题。</li>
+</ul>
+<h3 id="什么是一致性呢？"><a href="#什么是一致性呢？" class="headerlink" title="什么是一致性呢？"></a>什么是一致性呢？</h3><p>在分布式系统中，一致性(Consistency，早期也叫 Agreement)是指对于系统中的多个服务节点，给定一系列操作，在协议（ 往往通过某种共识算法） 保障下，试图使得它们对处理结果达成某种程度的一致。</p>
+<p>eg: **某影视公司旗下有西单和中关村的两个电影院，都出售某电影票，票一共就一万张。那么，顾客到达某个电影院买票的时候，售票员该怎么决策是否该卖这张票，才能避免超售呢？当电影院个数更多的时候呢？</p>
+<p>一些问题：</p>
+<ul>
+<li>如果两个影院各自卖出去一千张，那么达成的结果就是还剩八千张，而不能是其他的结果。</li>
+<li>现在就剩一张票了，中关村和西单的电影院也分别刚确认过这张票的存在，然后两个电影院同时来了一个顾客要买票，从各自“观察”看来，自己的顾客都是第一个到的……怎么能达成结果的共识呢？</li>
+</ul>
+<h2 id="2-区块链的核心优势"><a href="#2-区块链的核心优势" class="headerlink" title="2. 区块链的核心优势"></a>2. 区块链的核心优势</h2><ol>
+<li>任何节点都可以创建交易，在经过一段时间的确认之后，就可以合理地确认该交易是否为有效，区块链可有效地防止双花问题的发生。</li>
+<li>对于试图重写或者修改交易记录而言，它的成本是非常高的。</li>
+<li>区块链实现了两种记录：交易（transactions）以及区块（blocks）。交易是被存储在区块链上的实际数据，而区块则是记录确认某些交易是在何时，以及以何种顺序成为区块链数据库的一部分。交易是由参与者在正常过程中使用系统所创建的（在加密数字货币的例子中，一笔交易是由bob将代币发送给alice所创建的），而区块则是由我们称之为矿工（miners）的单位负责创建。</li>
+</ol>
+<h2 id="3-区块链的工作原理"><a href="#3-区块链的工作原理" class="headerlink" title="3. 区块链的工作原理"></a>3. 区块链的工作原理</h2><p>####　１. 什么是区块</p>
+<p>数据通过称之为<strong>区块(block)</strong>的文件，永久记录在数字货币网络上。它们好比是一个股票交易账本。新的区块会被添加到记录（区块链）的末端，而且一旦书写就很难修改或移除。区块很像数据库的记录，每次写入数据，就是创建一个区块。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-21e2db6ece302d34.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Blockchain"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-9191f39f65210938.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+<p>每个区块包含两个部分:</p>
+<ul>
+<li>区块头（Head）：记录当前区块的元信息<ul>
+<li>生成时间戳</li>
+<li>实际数据（即区块体）的<strong>哈希值</strong></li>
+<li>上一个区块的 <strong>哈希值</strong></li>
+<li>…</li>
+</ul>
+</li>
+<li>区块体（Body）：实际数据</li>
+</ul>
+<h4 id="2-Hash-不可修改性"><a href="#2-Hash-不可修改性" class="headerlink" title="2. Hash 不可修改性"></a>2. Hash 不可修改性</h4><p>Hash: 所谓 Hash 就是计算机可以对任意内容，计算出一个长度相同的特征值。区块链的 Hash 长度是256位，这就是说，不管原始内容是什么，最后都会计算出一个256位的二进制数字。而且可以保证，只要原始内容不同，对应的 Hash 一定是不同的。</p>
+<p>举例来说，字符串<code>123</code>的 Hash 是<code>a8fdc205a9f19cc1c7507a60c4f01b13d11d7fd0</code>（十六进制），转成二进制就是256位，而且只有<code>123</code>能得到这个 Hash。</p>
+<p>因此，就有两个重要的推论：</p>
+<ul>
+<li>推论1：每个区块的 Hash 都是不一样的，区块与 Hash 是一一对应的。</li>
+<li>推论2：如果区块的内容变了，它的 Hash 一定会改变。</li>
+</ul>
+<p>区块Hash计算公式：</p>
+<blockquote>
+<p>Hash = SHA256(区块头)</p>
+</blockquote>
+<p><code>SHA256</code>是区块链的 Hash 算法。</p>
+<p>前面说过，区块头包含很多内容，其中有当前区块体的 Hash（注意是”区块体”的 Hash，而不是整个区块），还有<strong>上一个区块的 Hash</strong>。这意味着，如果当前区块的内容变了，或者上一个区块的 Hash 变了，一定会引起当前区块的 Hash 改变。</p>
+<p>这一点对区块链有重大意义。如果有人修改了一个区块，该区块的 Hash 就变了。为了让后面的区块还能连到它，该人必须同时修改后面所有的区块，否则被改掉的区块就脱离区块链了。由于后面要提到的原因，Hash 的计算很耗时，同时修改多个区块几乎不可能发生，除非有人掌握了全网51%以上的计算能力。</p>
+<p>正是通过这种联动机制，区块链保证了自身的可靠性，数据一旦写入，就无法被篡改。</p>
+<h4 id="3-区块链分叉"><a href="#3-区块链分叉" class="headerlink" title="3. 区块链分叉"></a>3. 区块链分叉</h4><p><img src="http://upload-images.jianshu.io/upload_images/7109326-cec738aca4b518e7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Blockchain"></p>
+<p>即使区块链是可靠的，那么有一个问题是：如果两个人同时向区块链写入数据，也就是说，同时有两个区块加入，因为它们都连着前一个区块，就形成了分叉。这时应该采纳哪一个区块呢？</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-3263453fd65e045e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+<blockquote>
+<p>“长度”（Length）指区块链的累计计算难度，而不是是区块数目。当包括在链中的所有区块以及交易都有效，且是从创世区块开始的链，才是被我们承认的有效区块链。</p>
+</blockquote>
+<p>解决的办法是，每一个节点总是选择并尝试延长<strong>最长的或最大累计难度的链</strong>(累计了最大工作量证明的区块链)。节点通过将记录在每个区块中的难度加总起来，得到建立这个链所要付出的工作量证明的总量。只要所有的节点选择最长累计难度的区块链，整个比特币网络最终会收敛到一致的状态。分叉即在不同区块链间发生的临时差异，当更多的区块添加到了某个分叉中，这个问题便会迎刃而解。</p>
+<h2 id="4-小结"><a href="#4-小结" class="headerlink" title="4. 小结"></a>4. 小结</h2><p>区块链作为无人管理的分布式数据库，从2009年开始已经运行了8年，没有出现大的问题。这证明它是可行的。</p>
+<p>但是，为了保证数据的可靠性，区块链也有自己的代价。</p>
+<ul>
+<li>效率，数据写入区块链，最少要等待十分钟，所有节点都同步数据，则需要更多的时间；</li>
+<li>能耗，区块的生成需要矿工进行无数无意义的计算，这是非常耗费能源的。</li>
+</ul>
+<p>因此，区块链的适用场景，其实非常有限。</p>
+<blockquote>
+<ol>
+<li>不存在所有成员都信任的管理当局</li>
+<li>写入的数据不要求实时使用</li>
+<li>挖矿的收益能够弥补本身的成本</li>
+</ol>
+</blockquote>
+<p>参考链接：</p>
+<ul>
+<li><a href="http://www.ruanyifeng.com/blog/2017/12/blockchain-tutorial.html" target="_blank" rel="noopener">区块链入门教程</a></li>
+<li><a href="http://www.8btc.com/what-is-blockchain" target="_blank" rel="noopener">区块链是什么</a></li>
+</ul>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/12/29/编程语言/Golang/golang-学习传送门/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/12/31/工具/Sublime-配置/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Sublime 配置 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="config,工具,sublime," />
+  
+
+  <meta name="description" content="Sublime Text：学习资源篇](https://www.jianshu.com/p/d1b9a64e2e37) Sublime插件：增强篇 Sublime插件：Markdown篇 Sublime插件：C语言篇 Sublime插件：主题篇 Sublime插件：Git篇 Sublime 小技巧：文本自动换行显示？  sublime-settings - User 基本配置:  &amp;#123;">
+<meta name="keywords" content="config,工具,sublime">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sublime 配置">
+<meta property="og:url" content="http://mu-mo.top/2017/12/31/工具/Sublime-配置/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="Sublime Text：学习资源篇](https://www.jianshu.com/p/d1b9a64e2e37) Sublime插件：增强篇 Sublime插件：Markdown篇 Sublime插件：C语言篇 Sublime插件：主题篇 Sublime插件：Git篇 Sublime 小技巧：文本自动换行显示？  sublime-settings - User 基本配置:  &amp;#123;">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-3279b3bb9aeb1c35.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-bbe350b21860e1f3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-6dcc6a40546e3d58.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-fdd642f475d6a20d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-6c910a237073ec0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-ce43d30147ab3bba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-b6af410635f6c029.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-b79089b6f9273cea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-32fc41650a833d50.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-8269fd72b9b7fc6e.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/26219-318ce98c56fdfe18.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/521">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/26219-9a58baaa98020b35.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/521">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-55c16b382dfc0437.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.126Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Sublime 配置">
+<meta name="twitter:description" content="Sublime Text：学习资源篇](https://www.jianshu.com/p/d1b9a64e2e37) Sublime插件：增强篇 Sublime插件：Markdown篇 Sublime插件：C语言篇 Sublime插件：主题篇 Sublime插件：Git篇 Sublime 小技巧：文本自动换行显示？  sublime-settings - User 基本配置:  &amp;#123;">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7109326-3279b3bb9aeb1c35.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#sublime-中文解决方案"><span class="toc-text">sublime 中文解决方案</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插件篇"><span class="toc-text">插件篇</span></a>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-工具/Sublime-配置" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      Sublime 配置
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2017.12.31
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/工具/">工具</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <ul>
+<li>Sublime Text：学习资源篇](<a href="https://www.jianshu.com/p/d1b9a64e2e37" target="_blank" rel="noopener">https://www.jianshu.com/p/d1b9a64e2e37</a>)</li>
+<li><a href="https://www.jianshu.com/p/5905f927d01b" target="_blank" rel="noopener">Sublime插件：增强篇</a></li>
+<li><a href="https://www.jianshu.com/p/aa30cc25c91b" target="_blank" rel="noopener">Sublime插件：Markdown篇</a></li>
+<li><a href="https://www.jianshu.com/p/595975a2a5f3" target="_blank" rel="noopener">Sublime插件：C语言篇</a></li>
+<li><a href="https://www.jianshu.com/p/13fedee165f1" target="_blank" rel="noopener">Sublime插件：主题篇</a></li>
+<li><a href="https://www.jianshu.com/p/3a8555c273d8" target="_blank" rel="noopener">Sublime插件：Git篇</a></li>
+<li><a href="https://www.jianshu.com/p/c75d21d2e967" target="_blank" rel="noopener">Sublime 小技巧：文本自动换行显示？</a></li>
+</ul>
+<p>sublime-settings - User 基本配置: </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;font_size&quot;: 12,</span><br><span class="line">    &quot;ignored_packages&quot;:</span><br><span class="line">    [</span><br><span class="line">        &quot;Vintage&quot;</span><br><span class="line">    ],</span><br><span class="line">    &quot;font_face&quot;: &quot;Consolas&quot;,</span><br><span class="line">    // 设置tab的大小为4</span><br><span class="line">    &quot;tab_size&quot;: 4,</span><br><span class="line">    // 使用空格代替tab</span><br><span class="line">    &quot;translate_tabs_to_spaces&quot;: true,</span><br><span class="line">    &quot;font_face&quot;: &quot;YaHei Consolas Hybrid&quot;, //需要先安装字体，解决中文，英文不在一行问题</span><br><span class="line">    &quot;save_on_focus_lost&quot;: true,     // 失去光标自动保存</span><br><span class="line">    // 添加行宽标尺</span><br><span class="line">    &quot;rulers&quot;: [80, 100],</span><br><span class="line">    // 显示空白字符</span><br><span class="line">    &quot;draw_white_space&quot;: &quot;all&quot;,</span><br><span class="line">    // 保存时自动去除行末空白</span><br><span class="line">    &quot;trim_trailing_white_space_on_save&quot;: true,</span><br><span class="line">    // 保存时自动增加文件末尾换行</span><br><span class="line">    &quot;ensure_newline_at_eof_on_save&quot;: true,</span><br><span class="line">    // 默认编码格式</span><br><span class="line">    &quot;default_encoding&quot;: &quot;UTF-8&quot;,</span><br><span class="line">    &quot;update_check&quot;: false,   // 不检查更新</span><br><span class="line">// 这个会把光标的样式从闪烁变成淡入淡出，其余的选项还有“smooth”, “phase”, “blink”, “wide”， “solid”.</span><br><span class="line">	&quot;caret_style&quot;: &quot;phase&quot;,</span><br><span class="line">	// 高亮当前行</span><br><span class="line">	&quot;highlight_line&quot;: true,</span><br><span class="line">	// 增加行间距</span><br><span class="line">    &quot;line_padding_bottom&quot;: 1,</span><br><span class="line">    &quot;line_padding_top&quot;: 1,</span><br><span class="line">    // 一直现在代码折叠箭头</span><br><span class="line">    &quot;fade_fold_buttons&quot;: false,</span><br><span class="line">    &quot;word_wrap&quot;: true,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>sublime 自带格式化：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">	&#123;&quot;keys&quot;: [&quot;ctrl+alt+l&quot;], &quot;command&quot;: &quot;reindent&quot; , &quot;args&quot;:</span><br><span class="line">    &#123;&quot;single_line&quot;: false&#125;&#125;,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h4 id="sublime-中文解决方案"><a href="#sublime-中文解决方案" class="headerlink" title="sublime 中文解决方案"></a>sublime 中文解决方案</h4><ul>
+<li><p>下载需要的文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/lyfeyaj/sublime-text-imfix.git</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2.将subl移动到/usr/bin/，并且将sublime-imfix.so移动到/opt/sublime_text/（sublime的安装目录）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd ~/sublime-text-imfix</span><br><span class="line">sudo cp ./lib/libsublime-imfix.so /opt/sublime_text/</span><br><span class="line">sudo cp ./src/subl /usr/bin/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用subl命令试试能不能启动sublime，如果成功启动的话，应该就可以输入中文了。</p>
+<p>终端输入：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">LD_PRELOAD=./libsublime-imfix.so subl</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>注：<code>如果不在终端中输入**subl**则无法输入中文，即要想输入中文则必须使用subl命令在终端中打开sublime</code></p>
+<blockquote>
+<p>如果想点击sublime图标启动也能输入中文的话，则只需将 sublime 相应的 .desktop文件 中的 Exec那一行修改为<br><code>Exec=subl</code> 即可 （.desktop文件一般位置 <code>/usr/share/applications/</code> 和 <code>~/.local/share/applications/</code>）</p>
+</blockquote>
+<p>###　主题篇</p>
+<p>Sublime Text 是一个轻量、简洁、高效、跨平台的编辑器。有些人会认为变更Sublime Text的皮肤是一件浪费时间的事情，但也许你没想过，一个漂亮的主题会提高你的工作效率。下面这9款主题都能让你的编辑器里的代码具有不同的配色效果。</p>
+<ol>
+<li>Spacegray</li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-3279b3bb9aeb1c35.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Best sublime text 2 and 3 theme for 2014 1"></p>
+<p>   一个最小化的设计可以帮你把注意力放在编写代码上，该主题在 UI 上没什么吸引人之处，但很适合编码。</p>
+<ol start="2">
+<li><a href="http://ethanschoonover.com/solarized" target="_blank" rel="noopener">Solarized</a></li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-bbe350b21860e1f3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Best sublime text 2 and 3 theme for 2014 2"></p>
+<p>   非常精确的颜色设置，这些颜色在不同的设备和不同的亮度环境下测试过。</p>
+<ol start="3">
+<li><a href="http://glaciertheme.com/" target="_blank" rel="noopener">Glacier</a></li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-6dcc6a40546e3d58.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Best sublime text 2 and 3 theme for 2014 3"></p>
+<p>   颜色很丰富，使用流行的扁平设计风格。</p>
+<ol start="4">
+<li><a href="http://jamiewilson.io/predawn/" target="_blank" rel="noopener">Predawn</a></li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-fdd642f475d6a20d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Best sublime text 2 and 3 theme for 2014 4"></p>
+<p>   Predawn 非常漂亮，特别适合编写代码。</p>
+<ol start="5">
+<li><a href="https://github.com/thinkpixellab/flatland" target="_blank" rel="noopener">Flatland</a></li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-6c910a237073ec0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Best sublime text 2 and 3 theme for 2014 5"></p>
+<p>   Flatland 是一个基于 Soda 构建的 Sublime Text 主题，看起来不错。</p>
+<ol start="6">
+<li><a href="https://github.com/daylerees/colour-schemes/blob/master/sublime/legacy.tmTheme" target="_blank" rel="noopener">Tron Legacy</a></li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-ce43d30147ab3bba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Best sublime text 2 and 3 theme for 2014 6"></p>
+<p>   Tron 电影迷们可能会喜欢这一款主题，因为颜色相似。</p>
+<ol start="7">
+<li><a href="http://itsthatguy.com/post/70191573560/sublime-text-theme-itg-flat" target="_blank" rel="noopener">ITG:Flat</a></li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-b6af410635f6c029.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Best sublime text 2 and 3 theme for 2014 7"></p>
+<p>   另外一个扁平化设计风格主题。</p>
+<ol start="8">
+<li><a href="https://github.com/chriskempson/tomorrow-theme" target="_blank" rel="noopener">Tomorrow Theme</a></li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-b79089b6f9273cea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Best sublime text 2 and 3 theme for 2014 8"></p>
+<p>   Tomorrow 主题颜色丰富，有着强烈的对比。</p>
+<ol start="9">
+<li><p><a href="https://github.com/kenwheeler/brogrammer-theme" target="_blank" rel="noopener">Brogrammar</a></p>
+<p>自带多种主题风格，可以融合<a href="https://link.zhihu.com/?target=https%3A//github.com/ihodev/sublime-file-icons" target="_blank" rel="noopener">ihodev/sublime-file-icons</a>；</p>
+</li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-32fc41650a833d50.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Best sublime text 2 and 3 theme for 2014 9"></p>
+<p>   扁平而且性感的设计。</p>
+<ol start="10">
+<li><p>Boxy</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-8269fd72b9b7fc6e.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+</li>
+</ol>
+<h3 id="插件篇"><a href="#插件篇" class="headerlink" title="插件篇"></a>插件篇</h3><ol>
+<li><p>Sublime Package Control</p>
+<ul>
+<li><p>打开 Sublime Text 3，按下<code>Control + &#39;</code>调出 Console。</p>
+</li>
+<li><p>将以下代码粘贴进命令行中并回车:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import urllib.request,os; pf = &apos;Package Control.sublime-package&apos;; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), &apos;wb&apos;).write(urllib.request.urlopen( &apos;http://sublime.wbond.net/&apos; + pf.replace(&apos; &apos;,&apos;%20&apos;)).read())</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Sublime Text 2 请使用以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import urllib2,os; pf=&apos;Package Control.sublime-package&apos;; ipp = sublime.installed_packages_path(); os.makedirs( ipp ) if not os.path.exists(ipp) else None; urllib2.install_opener( urllib2.build_opener( urllib2.ProxyHandler( ))); open( os.path.join( ipp, pf), &apos;wb&apos; ).write( urllib2.urlopen( &apos;http://sublime.wbond.net/&apos; +pf.replace( &apos; &apos;,&apos;%20&apos; )).read()); print( &apos;Please restart Sublime Text to finish installation&apos;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启 Sublime Text 3，如果在 <code>Preferences -&gt; Package Settings</code>中见到<code>Package Control</code>这一项，就说明安装成功了。</p>
+<p>通过Package Control 来安装插件：</p>
+</li>
+<li><p>按下<code>Shift + Command + P</code>调出命令面板。</p>
+</li>
+<li>输入install调出<code>Package Control: Install Package</code>选项，按下回车。</li>
+<li>输入插件名称并回车，稍等几秒就安装好了，有的插件可能需要重启Sublime Text才能激活。</li>
+</ul>
+</li>
+</ol>
+<ol start="2">
+<li><p><a href="https://link.jianshu.com/?t=https://github.com/spadgos/sublime-jsdocs" target="_blank" rel="noopener">DocBlockr</a>：自动<code>生成大块的注释，并且可以用**tab**在不同内容之间切换，很爽的</code></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/26219-318ce98c56fdfe18.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/521" alt="img"></p>
+<p>​                                  <code>用**tab**在参数之间平滑切换</code></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/26219-9a58baaa98020b35.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/521" alt="img"></p>
+<p><strong>注</strong>：安装完重启一下，否则可能效果不理想，比如<code>tab</code>跳到别的地方去了</p>
+</li>
+<li><p><a href="https://link.jianshu.com/?t=http://theo.im/SublimeAStyleFormatter/" target="_blank" rel="noopener">SublimeAStyleFormatter</a>：国人做的Astyle Sublime版，蛮不错的。</p>
+<p>安装完成之后，下面这个配置一定要打开，即保存自动格式化，这个相比于CoolFormat要简单很多。</p>
+<p>settings - user（default也行）：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// Auto format on file save</span><br><span class="line">    &quot;autoformat_on_save&quot;: true,</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>SideBarEnhancements</p>
+<p>SideBarEnhancements 是一款很实用的右键菜单增强插件，有以 diff 形式式显示未保存的修改、在文件管理器中显示该文件、复制文件路径、在侧边栏中定位该文件等功能，也有基础的诸如新建文件/目录，编辑，打开/运行，显示，在选择中/上级目录/项目中查找，剪切，复制，粘贴，重命名，删除，刷新等常见功能。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-55c16b382dfc0437.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+</li>
+<li><p><a href="https://link.jianshu.com/?t=https://github.com/seanliang/ConvertToUTF8" target="_blank" rel="noopener">ConvertToUTF8</a></p>
+<p>通过本插件，您可以编辑并保存目前编码不被 Sublime Text 支持的文件，特别是中日韩用户使用的 GB2312，GBK，BIG5，EUC-KR，EUC-JP 等。ConvertToUTF8 同时支持 Sublime Text 2 和 3。</p>
+</li>
+<li><p><a href="https://link.jianshu.com/?t=https://github.com/wbond/sublime_terminal" target="_blank" rel="noopener">Terminal</a></p>
+<p>这个插件可以让你在Sublime中直接使用终端打开你的项目文件夹，并支持使用快捷键<code>Ctrl + Shift + T</code>（不是 Ctrl  + Alt + T）。</p>
+</li>
+<li><p><a href="https://link.jianshu.com/?t=https://sublime.wbond.net/packages/Git" target="_blank" rel="noopener">Git</a></p>
+<p>将Git整合进你的SublimeText，使的你可以在SublimeText中运行Git命令，包括添加，提交文件，查看日志，文件注解以及其它Git功能。</p>
+</li>
+<li><p><a href="https://link.jianshu.com/?t=https://sublime.wbond.net/packages/BracketHighlighter" target="_blank" rel="noopener">BracketHighlighter</a></p>
+<p>可以使括号<strong>高亮匹配</strong>，这个需要自己来配置配色方案。我的配置方案见最后（Bracket settings-User和主题文件Monokai Extended.sublime-package添加的代码）。</p>
+<p>Bracket settings-User</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">        &quot;bracket_styles&quot;: &#123;</span><br><span class="line">            // This particular style is used to highlight</span><br><span class="line">            // unmatched bracket pairs. It is a special</span><br><span class="line">            // style.</span><br><span class="line">            &quot;unmatched&quot;: &#123;</span><br><span class="line">                &quot;icon&quot;: &quot;question&quot;,</span><br><span class="line">                &quot;color&quot;: &quot;brackethighlighter.unmatched&quot;,</span><br><span class="line">                &quot;style&quot;: &quot;highlight&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            // User defined region styles</span><br><span class="line">            &quot;curly&quot;: &#123;</span><br><span class="line">                &quot;icon&quot;: &quot;curly_bracket&quot;,</span><br><span class="line">                &quot;color&quot;: &quot;brackethighlighter.curly&quot;,</span><br><span class="line">                &quot;style&quot;: &quot;highlight&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;round&quot;: &#123;</span><br><span class="line">                &quot;icon&quot;: &quot;round_bracket&quot;,</span><br><span class="line">                &quot;color&quot;: &quot;brackethighlighter.round&quot;,</span><br><span class="line">                &quot;style&quot;: &quot;outline&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;square&quot;: &#123;</span><br><span class="line">                &quot;icon&quot;: &quot;square_bracket&quot;,</span><br><span class="line">                &quot;color&quot;: &quot;brackethighlighter.square&quot;,</span><br><span class="line">                &quot;style&quot;: &quot;outline&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;angle&quot;: &#123;</span><br><span class="line">                &quot;icon&quot;: &quot;angle_bracket&quot;,</span><br><span class="line">                &quot;color&quot;: &quot;brackethighlighter.angle&quot;,</span><br><span class="line">                &quot;style&quot;: &quot;outline&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;tag&quot;: &#123;</span><br><span class="line">                &quot;icon&quot;: &quot;tag&quot;,</span><br><span class="line">                &quot;color&quot;: &quot;brackethighlighter.tag&quot;,</span><br><span class="line">                &quot;style&quot;: &quot;outline&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;single_quote&quot;: &#123;</span><br><span class="line">                &quot;icon&quot;: &quot;single_quote&quot;,</span><br><span class="line">                &quot;color&quot;: &quot;brackethighlighter.quote&quot;,</span><br><span class="line">                &quot;style&quot;: &quot;outline&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;double_quote&quot;: &#123;</span><br><span class="line">                &quot;icon&quot;: &quot;double_quote&quot;,</span><br><span class="line">                &quot;color&quot;: &quot;brackethighlighter.quote&quot;,</span><br><span class="line">                &quot;style&quot;: &quot;outline&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;regex&quot;: &#123;</span><br><span class="line">                &quot;icon&quot;: &quot;regex&quot;,</span><br><span class="line">                &quot;color&quot;: &quot;brackethighlighter.quote&quot;,</span><br><span class="line">                &quot;style&quot;: &quot;outline&quot;</span><br><span class="line">            &#125;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><a href="https://link.jianshu.com/?t=https://github.com/jonschlinkert/sublime-monokai-extended" target="_blank" rel="noopener">Monokai Extended</a></p>
+<p>比较喜欢Soda Dark和Monokai，这里有Monokai Extended。这个 color scheme 是 Monokai Soda 的增强。如果再配合 Markdown Extended，将大大改善 Markdown 的语法高亮。</p>
+<p>Monokai Extended.sublime-package添加的代码</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!-- BEGIN Bracket Highlighter plugin color modifications --&gt;</span><br><span class="line">&lt;dict&gt;</span><br><span class="line">    &lt;key&gt;name&lt;/key&gt;</span><br><span class="line">    &lt;string&gt;Bracket Default&lt;/string&gt;</span><br><span class="line">    &lt;key&gt;scope&lt;/key&gt;</span><br><span class="line">    &lt;string&gt;brackethighlighter.default&lt;/string&gt;</span><br><span class="line">    &lt;key&gt;settings&lt;/key&gt;</span><br><span class="line">    &lt;dict&gt;</span><br><span class="line">        &lt;key&gt;foreground&lt;/key&gt;</span><br><span class="line">        &lt;string&gt;#FFFFFF&lt;/string&gt;</span><br><span class="line">        &lt;key&gt;background&lt;/key&gt;</span><br><span class="line">        &lt;string&gt;#A6E22E&lt;/string&gt;</span><br><span class="line">    &lt;/dict&gt;</span><br><span class="line">&lt;/dict&gt;</span><br><span class="line"></span><br><span class="line">&lt;dict&gt;</span><br><span class="line">    &lt;key&gt;name&lt;/key&gt;</span><br><span class="line">    &lt;string&gt;Bracket Unmatched&lt;/string&gt;</span><br><span class="line">    &lt;key&gt;scope&lt;/key&gt;</span><br><span class="line">    &lt;string&gt;brackethighlighter.unmatched&lt;/string&gt;</span><br><span class="line">    &lt;key&gt;settings&lt;/key&gt;</span><br><span class="line">    &lt;dict&gt;</span><br><span class="line">        &lt;key&gt;foreground&lt;/key&gt;</span><br><span class="line">        &lt;string&gt;#FFFFFF&lt;/string&gt;</span><br><span class="line">        &lt;key&gt;background&lt;/key&gt;</span><br><span class="line">        &lt;string&gt;#FF0000&lt;/string&gt;</span><br><span class="line">    &lt;/dict&gt;</span><br><span class="line">&lt;/dict&gt;</span><br><span class="line"></span><br><span class="line">&lt;dict&gt;</span><br><span class="line">    &lt;key&gt;name&lt;/key&gt;</span><br><span class="line">    &lt;string&gt;Bracket Curly&lt;/string&gt;</span><br><span class="line">    &lt;key&gt;scope&lt;/key&gt;</span><br><span class="line">    &lt;string&gt;brackethighlighter.curly&lt;/string&gt;</span><br><span class="line">    &lt;key&gt;settings&lt;/key&gt;</span><br><span class="line">    &lt;dict&gt;</span><br><span class="line">        &lt;key&gt;foreground&lt;/key&gt;</span><br><span class="line">        &lt;string&gt;#FF00FF&lt;/string&gt;</span><br><span class="line">    &lt;/dict&gt;</span><br><span class="line">&lt;/dict&gt;</span><br><span class="line"></span><br><span class="line">&lt;dict&gt;</span><br><span class="line">    &lt;key&gt;name&lt;/key&gt;</span><br><span class="line">    &lt;string&gt;Bracket Round&lt;/string&gt;</span><br><span class="line">    &lt;key&gt;scope&lt;/key&gt;</span><br><span class="line">    &lt;string&gt;brackethighlighter.round&lt;/string&gt;</span><br><span class="line">    &lt;key&gt;settings&lt;/key&gt;</span><br><span class="line">    &lt;dict&gt;</span><br><span class="line">        &lt;key&gt;foreground&lt;/key&gt;</span><br><span class="line">        &lt;string&gt;#E7FF04&lt;/string&gt;</span><br><span class="line">    &lt;/dict&gt;</span><br><span class="line">&lt;/dict&gt;</span><br><span class="line"></span><br><span class="line">&lt;dict&gt;</span><br><span class="line">    &lt;key&gt;name&lt;/key&gt;</span><br><span class="line">    &lt;string&gt;Bracket Square&lt;/string&gt;</span><br><span class="line">    &lt;key&gt;scope&lt;/key&gt;</span><br><span class="line">    &lt;string&gt;brackethighlighter.square&lt;/string&gt;</span><br><span class="line">    &lt;key&gt;settings&lt;/key&gt;</span><br><span class="line">    &lt;dict&gt;</span><br><span class="line">        &lt;key&gt;foreground&lt;/key&gt;</span><br><span class="line">        &lt;string&gt;#FE4800&lt;/string&gt;</span><br><span class="line">    &lt;/dict&gt;</span><br><span class="line">&lt;/dict&gt;</span><br><span class="line"></span><br><span class="line">&lt;dict&gt;</span><br><span class="line">    &lt;key&gt;name&lt;/key&gt;</span><br><span class="line">    &lt;string&gt;Bracket Angle&lt;/string&gt;</span><br><span class="line">    &lt;key&gt;scope&lt;/key&gt;</span><br><span class="line">    &lt;string&gt;brackethighlighter.angle&lt;/string&gt;</span><br><span class="line">    &lt;key&gt;settings&lt;/key&gt;</span><br><span class="line">    &lt;dict&gt;</span><br><span class="line">        &lt;key&gt;foreground&lt;/key&gt;</span><br><span class="line">        &lt;string&gt;#02F78E&lt;/string&gt;</span><br><span class="line">    &lt;/dict&gt;</span><br><span class="line">&lt;/dict&gt;</span><br><span class="line"></span><br><span class="line">&lt;dict&gt;</span><br><span class="line">    &lt;key&gt;name&lt;/key&gt;</span><br><span class="line">    &lt;string&gt;Bracket Tag&lt;/string&gt;</span><br><span class="line">    &lt;key&gt;scope&lt;/key&gt;</span><br><span class="line">    &lt;string&gt;brackethighlighter.tag&lt;/string&gt;</span><br><span class="line">    &lt;key&gt;settings&lt;/key&gt;</span><br><span class="line">    &lt;dict&gt;</span><br><span class="line">        &lt;key&gt;foreground&lt;/key&gt;</span><br><span class="line">        &lt;string&gt;#FFFFFF&lt;/string&gt;</span><br><span class="line">        &lt;key&gt;background&lt;/key&gt;</span><br><span class="line">        &lt;string&gt;#0080FF&lt;/string&gt;</span><br><span class="line">    &lt;/dict&gt;</span><br><span class="line">&lt;/dict&gt;</span><br><span class="line"></span><br><span class="line">&lt;dict&gt;</span><br><span class="line">    &lt;key&gt;name&lt;/key&gt;</span><br><span class="line">    &lt;string&gt;Bracket Quote&lt;/string&gt;</span><br><span class="line">    &lt;key&gt;scope&lt;/key&gt;</span><br><span class="line">    &lt;string&gt;brackethighlighter.quote&lt;/string&gt;</span><br><span class="line">    &lt;key&gt;settings&lt;/key&gt;</span><br><span class="line">    &lt;dict&gt;</span><br><span class="line">        &lt;key&gt;foreground&lt;/key&gt;</span><br><span class="line">        &lt;string&gt;#56FF00&lt;/string&gt;</span><br><span class="line">    &lt;/dict&gt;</span><br><span class="line">&lt;/dict&gt;</span><br><span class="line">&lt;!-- END Bracket Highlighter plugin color modifications --&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><a href="http://damnwidget.github.io/anaconda/" target="_blank" rel="noopener">Anaconda</a></p>
+<p>settings: </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;pep8_ignore&quot;: [&quot;E501&quot;, &quot;W292&quot;, &quot;E303&quot;, &quot;W391&quot;, &quot;E225&quot;, &quot;E302&quot;, &quot;W293&quot;, &quot;E402&quot;],</span><br><span class="line">    &quot;pyflakes_explicit_ignore&quot;:</span><br><span class="line">    [</span><br><span class="line">        &quot;UnusedImport&quot;</span><br><span class="line">    ],</span><br><span class="line">    &quot;auto_formatting&quot;: true,</span><br><span class="line">    &quot;enable_signatures_tooltip&quot;: true,</span><br><span class="line">    &quot;merge_signatures_and_doc&quot;:true,</span><br><span class="line">    &quot;anaconda_linting&quot;: false,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/12/30/分布式/区块链科普/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/12/31/编程语言/Python/Python学习传送门/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

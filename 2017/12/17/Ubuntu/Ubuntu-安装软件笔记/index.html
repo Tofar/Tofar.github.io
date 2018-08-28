@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Ubuntu 安装软件笔记 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Ubuntu,note,install,software," />
+  
+
+  <meta name="description" content="超赞的Linux软件 16 Things To Do After Installing Ubuntu 16.04 LTS 系统清理篇 系统更新 sudo apt-get updatesudo apt-get upgrade  卸载libreOffice ibreoffice是ubuntu自带的开源office软件，体验效果不如windows上的office，于是选择用WPS来替代。（安装WPS见安">
+<meta name="keywords" content="Ubuntu,note,install,software">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu 安装软件笔记">
+<meta property="og:url" content="http://mu-mo.top/2017/12/17/Ubuntu/Ubuntu-安装软件笔记/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="超赞的Linux软件 16 Things To Do After Installing Ubuntu 16.04 LTS 系统清理篇 系统更新 sudo apt-get updatesudo apt-get upgrade  卸载libreOffice ibreoffice是ubuntu自带的开源office软件，体验效果不如windows上的office，于是选择用WPS来替代。（安装WPS见安">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-bb3a0003012aee21.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-2b547e55dc399967.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-24c1c335e9de19d3.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-70de6b4ddccabb37.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-6ede88fd49aac048.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-f70eb641fb0510fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-496ca2a993e3b674.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-f0b4e448210a401a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.114Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ubuntu 安装软件笔记">
+<meta name="twitter:description" content="超赞的Linux软件 16 Things To Do After Installing Ubuntu 16.04 LTS 系统清理篇 系统更新 sudo apt-get updatesudo apt-get upgrade  卸载libreOffice ibreoffice是ubuntu自带的开源office软件，体验效果不如windows上的office，于是选择用WPS来替代。（安装WPS见安">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7109326-bb3a0003012aee21.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#系统清理篇"><span class="toc-text">系统清理篇</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装篇"><span class="toc-text">安装篇</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-Ubuntu/Ubuntu-安装软件笔记" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      Ubuntu 安装软件笔记
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2017.12.17
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/Ubuntu/">Ubuntu</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <p><a href="https://alim0x.gitbooks.io/awesome-linux-software-zh_cn/content/" target="_blank" rel="noopener">超赞的Linux软件</a></p>
+<p><a href="http://www.omgubuntu.co.uk/2016/04/10-things-to-do-after-installing-ubuntu-16-04-lts" target="_blank" rel="noopener">16 Things To Do After Installing Ubuntu 16.04 LTS</a></p>
+<h2 id="系统清理篇"><a href="#系统清理篇" class="headerlink" title="系统清理篇"></a>系统清理篇</h2><ol>
+<li><p>系统更新</p>
+<p><code>sudo apt-get update</code><br><code>sudo apt-get upgrade</code></p>
+</li>
+<li><p>卸载libreOffice</p>
+<p>ibreoffice是ubuntu自带的开源office软件，体验效果不如windows上的office，于是选择用WPS来替代。（安装WPS见安装篇）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get purge libreoffice?</span><br><span class="line">或</span><br><span class="line">sudo aptitude purge libreoffice?</span><br><span class="line">不要漏掉通配符“?”，否则无法清除/卸载全部 LibreOffice 软件包</span><br><span class="line">或</span><br><span class="line">sudo apt-get remove --purge libreoffice*</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除不常用软件</p>
+<p>删除Amazon的链接</p>
+<p><code>sudo apt-get remove unity-webapps-common</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get remove thunderbird totem rhythmbox empathy brasero simple-scan gnome-mahjongg aisleriot </span><br><span class="line">sudo apt-get remove gnome-mines cheese transmission-common gnome-orca webbrowser-app gnome-sudoku  landscape-client-ui-install  </span><br><span class="line">sudo apt-get remove onboard deja-dup</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="安装篇"><a href="#安装篇" class="headerlink" title="安装篇"></a>安装篇</h2><ol>
+<li><p>安装wps</p>
+<p><a href="http://community.wps.cn/download/" target="_blank" rel="noopener">wps下载</a> </p>
+<p>安装： <code>sudo dpkg -i  kingsoft-office_9.1.0.4280~a12p4_i386.deb</code></p>
+<p>如果有依赖故障 修复依赖: <code>sudo apt-get   install  -f</code></p>
+<p>之后可以在<strong>模板</strong>文件夹中分别新建一个Excel，Word，PPT模板，这样可以在 右键菜单中直接新建文档。</p>
+<p><strong>WPS字体配置：</strong></p>
+<ol>
+<li><p>下载缺失的字体文件，然后复制到Linux系统中的/usr/share/fonts文件夹中。</p>
+<p>国外下载地址：<a href="https://www.dropbox.com/s/lfy4hvq95ilwyw5/wps_symbol_fonts.zip" target="_blank" rel="noopener">https://www.dropbox.com/s/lfy4hvq95ilwyw5/wps_symbol_fonts.zip</a></p>
+<p>国内下载地址：<a href="https://pan.baidu.com/s/1eS6xIzo" target="_blank" rel="noopener">https://pan.baidu.com/s/1eS6xIzo</a></p>
+</li>
+<li><p>下载完成后，解压并进入目录中，继续执行：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo cp * /usr/share/fonts</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>执行以下命令,生成字体的索引信息：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo mkfontscale</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo mkfontdir</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行fc-cache命令更新字体缓存。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo fc-cache</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启wps即可，字体缺失的提示不再出现。</p>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>Install Linux Graphics Drivers</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-bb3a0003012aee21.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="drivers"></p>
+<p>Install GPU drivers</p>
+<p>Ubuntu supports most Nvidia and Intel graphics hardware out of the box, giving you a choice of free, open-source drivers or proprietary, closed-source drivers.</p>
+<p>But to <strong>get the best performance from your Ubuntu PC</strong>you will want to use the latest <em>proprietary</em> graphics drivers available for your hardware.</p>
+<p>Ubuntu makes it easy to do this, and you benefit from a smoother Unity desktop experience as a result.  You’ll squeeze higher frame rates out of your favourite games, too. ;)</p>
+<p>If you plan to <strong>play the latest Steam games on Ubuntu </strong>or use GPU heavy apps like Blender you should install the latest proprietary Linux graphics drivers available for your hardware.</p>
+<p>To do this:</p>
+<ol>
+<li><strong>Open up the ‘Software &amp; Updates’ tool from the Unity Dash</strong></li>
+<li><strong>Click the ‘Additional Drivers’ tab</strong></li>
+<li><strong>Follow any on-screen prompts to check for, install and apply any changes </strong></li>
+</ol>
+<p>Gamers using Nvidia hardware who are willing to trade a bit of stability for a whole lot of newness can use the <a href="http://www.omgubuntu.co.uk/2015/08/ubuntu-nvidia-graphics-drivers-ppa-is-ready-for-action" target="_blank" rel="noopener">Nvidia Graphics PPA</a> to install newer Nvidia Linux graphics drivers.</p>
+</li>
+<li><p>Install Media Codecs</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-2b547e55dc399967.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="rythmbox-in-ubuntu"></p>
+<p>Playing MP3s in Rhythmbox</p>
+<p>Legal issues stop Ubuntu from being able to play MP3, MP4 and other media files ‘out of the box’.</p>
+<p>Ubuntu can play your audio and video files, you just have to tell it to do so.</p>
+<p>The easiest way to do this is to check (tick) the ‘<em>Enable Restricted Formats</em>‘ box during installation. This will install all the required multimedia codecs automatically, along with the OS itself.</p>
+<p>If you forgot to do that (or upgrade from an earlier release) you can install the multimedia codecs manually via the Software app:</p>
+<p><a href="apt://ubuntu-restricted-extras" target="_blank" rel="noopener">Install Ubuntu Restricted Extras</a></p>
+</li>
+<li><p>鼠标点击最小化</p>
+<p><a href="http://www.omgubuntu.co.uk/wp-content/uploads/2016/04/unity-launcher.gif" target="_blank" rel="noopener"><img src="http://upload-images.jianshu.io/upload_images/7109326-24c1c335e9de19d3.gif?imageMogr2/auto-orient/strip" alt="unity launcher"></a></p>
+<p>Click on an app launcher icon to open an app. Click on the same icon again to minimise the app. Intuitive, right?</p>
+<p>That may be, but it is not the default behaviour in Unity — which can be off-putting to new users. It’s also not obvious how to enable it.</p>
+<p>Run the following command (or install/use Unity Tweak Tool &gt; Unity &gt; Launcher &gt; Minimise):</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">gsettings set org.compiz.unityshell:/org/compiz/profiles/unity/plugins/unityshell/ launcher-minimize-window true</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>移动Unitty启动器位置</p>
+<p><a href="http://www.omgubuntu.co.uk/wp-content/uploads/2016/04/2016-04-06-20_25_32.gif" target="_blank" rel="noopener"><img src="http://upload-images.jianshu.io/upload_images/7109326-70de6b4ddccabb37.gif?imageMogr2/auto-orient/strip" alt="2016-04-06 20_25_32"></a></p>
+<p>Ubuntu positions its app launcher on the left-hand side of the desktop by default.</p>
+<p>Ubuntu 16.04 finally lets you <strong>choose where the Unity launcher is positioned.</strong></p>
+<p>If you want to move the Unity launcher to the bottom of the screen run the following command in a new Terminal (or install/use Unity Tweak Tool &gt; Unity &gt; Launcher &gt; Position):</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">gsettings set com.canonical.Unity.Launcher launcher-position Bottom</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Adobe Flash on Linux</p>
+<p>Flash sucks, but for some sites you may not have the option of not using it.</p>
+<p><a href="http://www.omgubuntu.co.uk/2012/02/adobe-adandons-flash-on-linux" target="_blank" rel="noopener">Adobe officially stopped supporting Flash on Linux</a> in 2012 and many web browsers are in the process of dropping support for its NPAPI architecture.</p>
+<p>The overall best solution for using Flash on Linux is to download and use Google Chrome. Chrome comes with an<strong>up-to-date version of the Flash plugin</strong> built-in. In fact it’s the only way to get the latest Flash player updates on Linux — and it’s a PPAPI plugin, too.</p>
+<p>But I appreciate that not everyone wants to use Chrome. Some of you may be using a 32-bit version of Ubuntu, which Chrome no longer supports. Whatever the reason you need it, here’s how to get it:</p>
+<p><a href="apt://flashplugin-installer" target="_blank" rel="noopener">Install Flash Player Plugin</a></p>
+<p>If you want to watch Amazon Instant Video, Hulu or any other sites that uses DRM through HAL, <a href="http://www.omgubuntu.co.uk/2015/09/how-to-watch-hulu-on-ubuntu-1404-up" target="_blank" rel="noopener">we’ve got a guide on that.</a></p>
+</li>
+<li><p>垃圾清理软件</p>
+<p>Caches and cruft accumulate as you use Ubuntu. To <strong>keep your fresh install feeling, well, fresh</strong> you should do a bit of basic housekeeping from time to time.</p>
+<p><a href="http://www.omgubuntu.co.uk/wp-content/uploads/2016/04/bleachbit-system-cleaner-app-on-ubuntu.jpg" target="_blank" rel="noopener"><img src="http://upload-images.jianshu.io/upload_images/7109326-6ede88fd49aac048.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="bleachbit running on ubuntu 16.04"></a></p>
+<p>One of my favourite system cleaning apps is <strong>BleachBit</strong> (free, open source). BleachBit can tackle menial tasks, from clearing your browser’s cache to deleting packages left over from installation, all at the push of a button.</p>
+<p>If you upgrade from an earlier version of Ubuntu using a system cleaning tool (or command) is a foolproof way to claw back some precious space. You’ll also keep your system running lean ‘n mean — which is always bonus!</p>
+<p>Just be careful about what you clean: <strong>don’t remove anything you’re unsure of</strong>.</p>
+<p><a href="apt://bleachbit" target="_blank" rel="noopener">Install BleachBit on Ubuntu</a></p>
+</li>
+<li><p>sublime text</p>
+<p><a href="https://github.com/Tofar/sublime-plugs" target="_blank" rel="noopener">https://github.com/Tofar/sublime-plugs</a></p>
+</li>
+<li><p>搜狗输入法</p>
+</li>
+<li><p>vim</p>
+<p><a href="https://github.com/Tofar/vimrc" target="_blank" rel="noopener">https://github.com/Tofar/vimrc</a></p>
+</li>
+<li><p>redshift （护眼软件）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install redshift gtk-redshift</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-f70eb641fb0510fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+<p><a href="http://jonls.dk/redshift/" target="_blank" rel="noopener">redshift docs</a></p>
+<p>​</p>
+<p>其他：<strong>flux</strong></p>
+<p>f.lux是一款优秀的应用，支持win/Mac OS/Linux，在linux下安装：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo add-apt-repository ppa:kilian/f.lux</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install fluxgui</span><br></pre></td></tr></table></figure>
+<p>在搜索框搜索<code>flux</code>会看到下面这样的图标：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-496ca2a993e3b674.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+<p>第一次打开会弹出来设置窗口：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-f0b4e448210a401a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+<p>这里只需要输入经纬度就行，如果不了解自己的经纬度，<a href="http://www.latlong.net/" target="_blank" rel="noopener">点击这里查看自己城市的经纬度</a></p>
+<p>但是这里遇到一个问题，flux在ubuntu14.04和12.04下无法<code>重新设置配置</code>或者<code>经常不起作用</code>，详情见<a href="http://askubuntu.com/questions/151901/how-can-i-get-f-lux-working" target="_blank" rel="noopener">ask ubuntu</a></p>
+<p>所以个人推荐<code>redshift</code></p>
+</li>
+<li><p>网易云音乐</p>
+</li>
+<li><p>postman</p>
+</li>
+</ol>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/12/17/工具/sublime-实用快捷键/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/12/17/Ubuntu/Ubuntu美化笔记/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

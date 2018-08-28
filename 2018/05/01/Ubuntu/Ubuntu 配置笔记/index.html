@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Ubuntu 配置指南 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Ubuntu,config,beautify,init," />
+  
+
+  <meta name="description" content="测试环境：Ubuntu16.04 LTS 安装篇16 Things To Do After Installing Ubuntu 16.04 LTS  安装wps wps下载  安装： sudo dpkg -i wps-office_10.1.0.5707~a21_amd64.deb 如果有依赖故障 修复依赖: sudo apt-get install  -f 之后可以在 模板 文件夹中分别新建一个">
+<meta name="keywords" content="Ubuntu,config,beautify,init">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu 配置指南">
+<meta property="og:url" content="http://mu-mo.top/2018/05/01/Ubuntu/Ubuntu 配置笔记/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="测试环境：Ubuntu16.04 LTS 安装篇16 Things To Do After Installing Ubuntu 16.04 LTS  安装wps wps下载  安装： sudo dpkg -i wps-office_10.1.0.5707~a21_amd64.deb 如果有依赖故障 修复依赖: sudo apt-get install  -f 之后可以在 模板 文件夹中分别新建一个">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36d7d2e4150?w=500&h=293&f=jpeg&s=35938">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36d7d0e8d3c?w=350&h=200&f=jpeg&s=13841">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36d7d4be846?w=350&h=223&f=gif&s=309176">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36d7d54079e?w=750&h=392&f=jpeg&s=80231">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36d7d537462?w=750&h=418&f=png&s=338072">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36d7df2659b?w=500&h=317&f=jpeg&s=16339">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36d9d160e0f?w=500&h=311&f=jpeg&s=25363">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36d9edaa00f?w=500&h=399&f=jpeg&s=36714">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36d9db7008a?w=497&h=400&f=jpeg&s=36100">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36da124a876?w=501&h=380&f=jpeg&s=26981">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/29/1631010591a45936?w=400&h=235&f=png&s=50366">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36da5285f0a?w=792&h=511&f=png&s=167812">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36dc567be04?w=570&h=321&f=jpeg&s=41341">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630c36b89f8e0b3?w=272&h=256&f=png&s=42139">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630c36b8a142675?w=1306&h=694&f=png&s=903357">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630c36b8b22cb8a?w=1013&h=425&f=png&s=671504">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36dc25d26d9?w=960&h=536&f=gif&s=2403604">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/29/16310105352bebea?w=1202&h=729&f=png&s=110025">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36dcd9f3015?w=700&h=394&f=png&s=347898">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36df69a7264?w=570&h=377&f=jpeg&s=20518">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36df6a214f1?w=400&h=297&f=jpeg&s=16062">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36e08f70165">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36e13523c58?w=570&h=321&f=jpeg&s=4166">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36e1bc759a7?w=570&h=321&f=jpeg&s=4657">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36e3a5ea009?w=889&h=170&f=jpeg&s=13744">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36e423d1f74?w=883&h=428&f=jpeg&s=20133">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36e5ba78ef4?w=881&h=651&f=jpeg&s=28315">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36e61223ce1?w=883&h=315&f=png&s=29692">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36e891e8269?w=173&h=120&f=png&s=3029">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36ee1e11257?w=887&h=578&f=png&s=27301">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36ed07e8657?w=571&h=715&f=png&s=112339">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36f313359b6?w=633&h=346&f=png&s=82148">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36f5cdb5875?w=600&h=413&f=png&s=41746">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.114Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ubuntu 配置指南">
+<meta name="twitter:description" content="测试环境：Ubuntu16.04 LTS 安装篇16 Things To Do After Installing Ubuntu 16.04 LTS  安装wps wps下载  安装： sudo dpkg -i wps-office_10.1.0.5707~a21_amd64.deb 如果有依赖故障 修复依赖: sudo apt-get install  -f 之后可以在 模板 文件夹中分别新建一个">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2018/4/28/1630a36d7d2e4150?w=500&h=293&f=jpeg&s=35938">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装篇"><span class="toc-text">安装篇</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一种安装方式"><span class="toc-text">第一种安装方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二种安装方式"><span class="toc-text">第二种安装方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修复篇"><span class="toc-text">修复篇</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#美化篇"><span class="toc-text">美化篇</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#主题"><span class="toc-text">主题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装tweak-tool"><span class="toc-text">安装tweak-tool</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#仿Mac-篇"><span class="toc-text">仿Mac 篇</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Flatabulous-主题篇"><span class="toc-text">Flatabulous 主题篇</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#grub-美化"><span class="toc-text">grub 美化</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#终端篇（可直接复制我的配置文件）"><span class="toc-text">终端篇（可直接复制我的配置文件）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vim篇"><span class="toc-text">Vim篇</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-Ubuntu/Ubuntu 配置笔记" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      Ubuntu 配置指南
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2018.05.01
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/Ubuntu/">Ubuntu</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <p>测试环境：Ubuntu16.04 LTS</p>
+<h2 id="安装篇"><a href="#安装篇" class="headerlink" title="安装篇"></a>安装篇</h2><p><a href="http://www.omgubuntu.co.uk/2016/04/10-things-to-do-after-installing-ubuntu-16-04-lts" target="_blank" rel="noopener">16 Things To Do After Installing Ubuntu 16.04 LTS</a></p>
+<ol>
+<li><p>安装wps</p>
+<p><a href="http://wps-community.org/downloads" target="_blank" rel="noopener">wps下载</a> </p>
+<p>安装： <code>sudo dpkg -i wps-office_10.1.0.5707~a21_amd64.deb</code></p>
+<p>如果有依赖故障 修复依赖: <code>sudo apt-get install  -f</code></p>
+<p>之后可以在 <strong>模板</strong> 文件夹中分别新建一个Excel，Word，PPT模板，这样可以在 右键菜单中直接新建文档。</p>
+<p><strong>WPS字体配置：</strong></p>
+<ol>
+<li><p>下载缺失的字体文件，然后复制到Linux系统中的/usr/share/fonts文件夹中。</p>
+<p>国外下载地址：<a href="https://www.dropbox.com/s/lfy4hvq95ilwyw5/wps_symbol_fonts.zip" target="_blank" rel="noopener">https://www.dropbox.com/s/lfy4hvq95ilwyw5/wps_symbol_fonts.zip</a></p>
+<p>国内下载地址：<a href="https://pan.baidu.com/s/1eS6xIzo" target="_blank" rel="noopener">https://pan.baidu.com/s/1eS6xIzo</a></p>
+</li>
+<li><p>下载完成后，解压并进入目录中，继续执行：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo cp * /usr/share/fonts</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>执行以下命令,生成字体的索引信息：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo mkfontscale</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo mkfontdir</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行fc-cache命令更新字体缓存。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo fc-cache</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启wps即可，字体缺失的提示不再出现。</p>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>Install Linux Graphics Drivers</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36d7d2e4150?w=500&amp;h=293&amp;f=jpeg&amp;s=35938" alt="drivers"></p>
+</li>
+<li><p>Install Media Codecs</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36d7d0e8d3c?w=350&amp;h=200&amp;f=jpeg&amp;s=13841" alt="rythmbox-in-ubuntu"></p>
+<p>Playing MP3s in Rhythmbox</p>
+<p>Legal issues stop Ubuntu from being able to play MP3, MP4 and other media files ‘out of the box’.</p>
+<p>Ubuntu can play your audio and video files, you just have to tell it to do so.</p>
+<p>The easiest way to do this is to check (tick) the ‘<em>Enable Restricted Formats</em>‘ box during installation. This will install all the required multimedia codecs automatically, along with the OS itself.</p>
+<p>If you forgot to do that (or upgrade from an earlier release) you can install the multimedia codecs manually via the Software app:</p>
+<p><a href="apt://ubuntu-restricted-extras" target="_blank" rel="noopener">Install Ubuntu Restricted Extras</a></p>
+</li>
+<li><p>鼠标点击最小化</p>
+<p>对于 unity 桌面</p>
+<p><a href="https://www.omgubuntu.co.uk/wp-content/uploads/2016/04/unity-launcher.gif" target="_blank" rel="noopener"><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36d7d4be846?w=350&amp;h=223&amp;f=gif&amp;s=309176" alt="unity launcher"></a></p>
+<p>Click on an app launcher icon to open an app. Click on the same icon again to minimise the app. Intuitive, right?</p>
+<p>That may be, but it is not the default behaviour in Unity — which can be off-putting to new users. It’s also not obvious how to enable it.</p>
+<p>Run the following command (or install/use Unity Tweak Tool &gt; Unity &gt; Launcher &gt; Minimise):</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">gsettings set org.compiz.unityshell:/org/compiz/profiles/unity/plugins/unityshell/ launcher-minimize-window true</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Adobe Flash on Linux</p>
+<p>Flash sucks, but for some sites you may not have the option of not using it.</p>
+<p><a href="http://www.omgubuntu.co.uk/2012/02/adobe-adandons-flash-on-linux" target="_blank" rel="noopener">Adobe officially stopped supporting Flash on Linux</a> in 2012 and many web browsers are in the process of dropping support for its NPAPI architecture.</p>
+<p>The overall best solution for using Flash on Linux is to download and use Google Chrome. Chrome comes with an<strong>up-to-date version of the Flash plugin</strong> built-in. In fact it’s the only way to get the latest Flash player updates on Linux — and it’s a PPAPI plugin, too.</p>
+<p>But I appreciate that not everyone wants to use Chrome. Some of you may be using a 32-bit version of Ubuntu, which Chrome no longer supports. Whatever the reason you need it, here’s how to get it:</p>
+<p><a href="apt://flashplugin-installer" target="_blank" rel="noopener">Install Flash Player Plugin</a></p>
+<p>If you want to watch Amazon Instant Video, Hulu or any other sites that uses DRM through HAL, <a href="http://www.omgubuntu.co.uk/2015/09/how-to-watch-hulu-on-ubuntu-1404-up" target="_blank" rel="noopener">we’ve got a guide on that.</a></p>
+</li>
+<li><p>垃圾清理软件</p>
+<p><a href="http://www.omgubuntu.co.uk/wp-content/uploads/2016/04/bleachbit-system-cleaner-app-on-ubuntu.jpg" target="_blank" rel="noopener"><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36d7d54079e?w=750&amp;h=392&amp;f=jpeg&amp;s=80231" alt="bleachbit running on ubuntu 16.04"></a></p>
+<p><a href="apt://bleachbit" target="_blank" rel="noopener">Install BleachBit on Ubuntu</a></p>
+</li>
+<li><p>sublime text</p>
+<p><a href="https://www.sublimetext.com/docs/3/linux_repositories.html#apt" target="_blank" rel="noopener">https://www.sublimetext.com/docs/3/linux_repositories.html#apt</a></p>
+</li>
+<li><p>vscode</p>
+<p><a href="https://code.visualstudio.com/download" target="_blank" rel="noopener">https://code.visualstudio.com/download</a></p>
+</li>
+<li><p>搜狗输入法</p>
+<p><a href="https://pinyin.sogou.com/linux/?r=pinyin" target="_blank" rel="noopener">下载地址</a></p>
+</li>
+<li><p>vim</p>
+<p><a href="https://github.com/tofar/vim-zsh-tmux" target="_blank" rel="noopener">https://github.com/tofar/vim-zsh-tmux</a></p>
+</li>
+<li><p>redshift （护眼软件）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install redshift gtk-redshift</span><br></pre></td></tr></table></figure>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36d7d537462?w=750&amp;h=418&amp;f=png&amp;s=338072" alt="img"></p>
+<p><a href="http://jonls.dk/redshift/" target="_blank" rel="noopener">redshift docs</a></p>
+</li>
+<li><p>网易云音乐</p>
+<p><a href="https://music.163.com/#/download" target="_blank" rel="noopener">https://music.163.com/#/download</a></p>
+</li>
+<li><p>postman</p>
+<p><a href="https://blog.bluematador.com/posts/postman-how-to-install-on-ubuntu-1604/" target="_blank" rel="noopener">https://blog.bluematador.com/posts/postman-how-to-install-on-ubuntu-1604/</a> </p>
+</li>
+<li><p>git 、pip、pip3、docker、openresty 。。。</p>
+</li>
+<li><p>安装shadowsocks-qt5</p>
+<h3 id="第一种安装方式"><a href="#第一种安装方式" class="headerlink" title="第一种安装方式"></a>第一种安装方式</h3><p>shadowsocks-qt5 需要通过PPA源安装，仅支持Ubuntu 14.04或更高版本。<br>1、设置 PPA 源并安装 shadowsocks-qt5</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo add-apt-repository ppa:hzwhuang/ss-qt5sudo apt-get updatesudo apt-get install shadowsocks-qt5</span><br></pre></td></tr></table></figure>
+<p>2、安装过程遇到 libappindicator1 依赖问题（dependency problems），而 libappindicator1 又遇到 libindicator7 依赖的解决办法。一并安装 libappindicator1 libindicator7 依赖，再重新安装 shadowsocks-qt5。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get -f install libappindicator1 libindicator7</span><br></pre></td></tr></table></figure>
+<p>3、完成后就可以打开 shadowsocks-qt5 啦</p>
+<h3 id="第二种安装方式"><a href="#第二种安装方式" class="headerlink" title="第二种安装方式"></a>第二种安装方式</h3><p>这上面的呢是使用apt-get直接安装，下面我们介绍第二种使用方式，安装的版本会比上面这样安装的版本高一点。</p>
+<p>由于个别的服务商更换了一些其他的加密方式比如CHACHA20-IETF-POLY1305，这种加密方式只有ShadowSocks-Qt5 V3.0.0才加入，由于apt-get上ss-qt5以及不再更新，我们只能去gayhub想办法咯</p>
+<p>我们去这里下载最新的版本是后缀为.AppImage的文件哦，同学们别下载错啦</p>
+<blockquote>
+<p><a href="https://github.com/shadowsocks/shadowsocks-qt5/releases" target="_blank" rel="noopener">https://github.com/shadowsocks/shadowsocks-qt5/releases</a></p>
+</blockquote>
+<p>下载好之后把IMG放到自己的文件夹里 然后给权限直接运行，代码如下 (我写这篇文章的时候是这个版本号，你们记得换成最新的哦)</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">chmod a+x Shadowsocks-Qt5-3.0.0-x86_64.AppImage./Shadowsocks-Qt5-3.0.0-x86_64.AppImage</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载 SwitchyOmega</p>
+<p><a href="https://github.com/FelisCatus/SwitchyOmega/releases" target="_blank" rel="noopener">https://github.com/FelisCatus/SwitchyOmega/releases</a></p>
+</li>
+</ol>
+<h2 id="修复篇"><a href="#修复篇" class="headerlink" title="修复篇"></a>修复篇</h2><ol>
+<li><p>修复 ubuntu 中检测到系统程序错误的问题</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo rm /var/crash/*</span><br><span class="line">sudo gedit /etc/default/apport</span><br><span class="line"></span><br><span class="line">修改为如下即可：</span><br><span class="line"># 设置0表示禁用Apportw，或者1开启它。</span><br><span class="line"># 你可以用下面的命令暂时关闭它：</span><br><span class="line"># sudo service apport start force_start=1</span><br><span class="line">enabled=1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>卸载libreOffice</p>
+<p>ibreoffice是ubuntu自带的开源office软件，体验效果不如windows上的office，于是选择用WPS来替代。（安装WPS见安装篇）</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get purge libreoffice?</span><br><span class="line">或</span><br><span class="line">sudo aptitude purge libreoffice?</span><br><span class="line">不要漏掉通配符“?”，否则无法清除/卸载全部 LibreOffice 软件包</span><br><span class="line">或</span><br><span class="line">sudo apt-get remove --purge libreoffice*</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除不常用软件</p>
+<p>删除Amazon的链接</p>
+<p><code>sudo apt-get remove unity-webapps-common</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get remove thunderbird totem rhythmbox empathy brasero simple-scan gnome-mahjongg aisleriot </span><br><span class="line">sudo apt-get remove gnome-mines cheese transmission-common gnome-orca webbrowser-app gnome-sudoku  landscape-client-ui-install  </span><br><span class="line">sudo apt-get remove onboard deja-dup</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除Ubuntu Linux旧内核的方法</p>
+<p>用Ubuntu一段时间后，就会发觉由于自动升级，系统里安装了很多内核。像我，竟然安装了下面那么多，这个造成了漫长的启动列表。必须删掉一些不用的。</p>
+<p>首先就是使用如下命令，列出所有安装的内核，下表中，带有image的就是内核文件。从中选择要卸载的包，用apt-get来卸载</p>
+<p><strong>具体如下:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dpkg --get-selections|grep linux</span><br><span class="line">sudo apt-get remove linux-image-2.6.24-16-generic   </span><br><span class="line">sudo apt-get remove linux-headers-2.6.24-16-generic</span><br></pre></td></tr></table></figure>
+<p>查看当前系统使用的内核: <code>uname -a</code></p>
+</li>
+<li><p>Windows 10和Ubuntu 16.04双系统时间错误的调整</p>
+<p><strong>原因：</strong></p>
+<p>​       如果安装了 Windows 和 Linux（比如 Ubuntu）双系统，有时会出现两个系统的时间不一致的情况。这是因为，两个操作系统对电脑硬件时间的定义不一样，<strong>Windows 认为电脑硬件时间是“本地时间”</strong>，因此它启动后直接用该时间作为“系统时间”并显示在桌面右下角的系统托盘里；而<strong>Ubuntu 等 Linux 发行版则认为电脑硬件时间是“全球统一时间”（即 UTC)</strong>，它在启动后在该时间的基础上，再加上电脑设置的时区数（比如我们在中国，它就加上“8”）。根据获得的资料得知，两种模式各有利弊，但是后一种模式在遇到时区转换、夏令时等情况时，通用性更强。</p>
+<p><strong>解决方案：</strong></p>
+<p>​       基于上述原因，协调 Win/Lin 双系统时间一致的方法，就是让 Windows 也和 Linux 一样，将电脑硬件时间看作“全球统一时间”。</p>
+<p><strong>具体：</strong></p>
+<ol>
+<li><p>在win10中打开<strong>regedit</strong> （在小娜下搜索即可）</p>
+</li>
+<li><p>桌面上将出现“注册表编辑器”的窗口，在以下的操作中，将对窗口左侧列表中的 <strong>HKEY_LOCAL_MACHINE</strong> 这一分支进行操作。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36d7df2659b?w=500&amp;h=317&amp;f=jpeg&amp;s=16339" alt="Windows 10和Ubuntu 16.04双系统时间错误的调整"></p>
+</li>
+<li><p>点击展开 HKEY_LOCAL_MACHINE 分支，然后依次导航到以下位置：</p>
+<p><code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation</code></p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36d9d160e0f?w=500&amp;h=311&amp;f=jpeg&amp;s=25363" alt="Windows 10和Ubuntu 16.04双系统时间错误的调整"></p>
+</li>
+<li><p>在右侧空白处单击鼠标右键，然后依次点击“新建”——“QWORD（64位）值”。</p>
+<p>如果安装的是 32 位系统，则需要新建“DWORD（32位）值”。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36d9edaa00f?w=500&amp;h=399&amp;f=jpeg&amp;s=36714" alt="Windows 10和Ubuntu 16.04双系统时间错误的调整"></p>
+</li>
+<li><p>当前位置将会出现一个新建的键值的条目，将其“名称”改为：</p>
+<p><strong>RealTimeIsUniversal</strong></p>
+<p>它的大体意思是，硬件时间被作为全球统一时间。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36d9db7008a?w=497&amp;h=400&amp;f=jpeg&amp;s=36100" alt="Windows 10和Ubuntu 16.04双系统时间错误的调整"></p>
+</li>
+<li><p>然后双击这一条目，弹出“编辑 QWORD（64位）值”的对话框，确保选中了“十六进制”，然后将“数值数据”改为“1”。最后点击“确定”。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36da124a876?w=501&amp;h=380&amp;f=jpeg&amp;s=26981" alt="Windows 10和Ubuntu 16.04双系统时间错误的调整"></p>
+</li>
+</ol>
+</li>
+<li><p>Ubuntu截图快捷键</p>
+<p>无须安装如何软件，直接使用Ubuntu自带的快捷键即可满足基本需求</p>
+</li>
+<li><p><a href="https://linux.cn/article-5603-1.html" target="_blank" rel="noopener">Ubuntu 更新错误修复大全</a></p>
+</li>
+<li><p><a href="http://cheneyph.iteye.com/blog/824746" target="_blank" rel="noopener">Ubuntu的一些命令及查看已安装软件包的命令</a></p>
+</li>
+<li><p><a href="http://www.cnblogs.com/by-1075324834/p/5045096.html" target="_blank" rel="noopener">ubuntu服务器与本地文件传输</a> </p>
+</li>
+<li><p>sudo 命令学习</p>
+<p>执行sudo 的时候会去 <code>/etc/sudoers</code> 文件中的secure_path 中寻找，而不是在root的PATH中</p>
+<p>所以解决方案：</p>
+<ol>
+<li>在secure_path的目录中建立软链接</li>
+<li>添加你的文件的目录到secure_path中</li>
+</ol>
+</li>
+<li><p>sudo openresty -s reload报错</p>
+<p>报错输出：<code>nginx: [error] open() &quot;/usr/local/openresty/nginx/logs/nginx.pid&quot; failed (2: No such file or directory)</code>  或者　<code>nginx: [error] invalid PID number &quot;&quot; in &quot;/usr/local/openresty/nginx/logs/nginx.pid&quot;</code></p>
+<p>原因：暂时没有启动任何server，所以要先用 <em>nginx -p <code>pwd</code>/ -c conf/nginx.conf</em> 手动启动一些server，再执行 <code>sudo openresty -s reload</code> </p>
+</li>
+<li><p>Ubuntu 按 Alt + Tab 切换的时候双重切换问题</p>
+<p>解决：安装 ccsm</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt install compizconfig-settings-manager</span><br></pre></td></tr></table></figure>
+<p>之后在设置中关闭 应用程序奇幻条以及static Application Switch</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/29/1631010591a45936?w=400&amp;h=235&amp;f=png&amp;s=50366" alt="Screenshot.png"></p>
+</li>
+</ol>
+<h2 id="美化篇"><a href="#美化篇" class="headerlink" title="美化篇"></a>美化篇</h2><p>参考：</p>
+<p><strong>flatabulous-theme风格</strong> <a href="http://www.jianshu.com/p/4bd2d9b1af41" target="_blank" rel="noopener">http://www.jianshu.com/p/4bd2d9b1af41</a></p>
+<p><strong>Mac风格</strong> <a href="https://imcn.me/html/y2016/26832.html" target="_blank" rel="noopener">https://imcn.me/html/y2016/26832.html</a></p>
+<h3 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h3><p>美化效果如图：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36da5285f0a?w=792&amp;h=511&amp;f=png&amp;s=167812" alt="Imgur"></p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36dc567be04?w=570&amp;h=321&amp;f=jpeg&amp;s=41341" alt="macbuntu-4"></p>
+<h4 id="安装tweak-tool"><a href="#安装tweak-tool" class="headerlink" title="安装tweak-tool"></a>安装tweak-tool</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install unity-tweak-tool</span><br><span class="line">sudo apt-get install gnome-tweak-tool</span><br></pre></td></tr></table></figure>
+<h4 id="仿Mac-篇"><a href="#仿Mac-篇" class="headerlink" title="仿Mac 篇"></a>仿Mac 篇</h4><p>1、下载 macbuntu 壁纸：</p>
+<p><a href="http://pan.baidu.com/s/1skQCq2T" target="_blank" rel="noopener">Download MacBuntu OS Wallpapers</a></p>
+<p>2、安装 MacBuntu OS Y Theme、Icons 和 cursors：</p>
+<p>采用：Macbuntu-os-unity-classic以及相应的图标和指针</p>
+<p>安装命令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo add-apt-repository ppa:noobslab/macbuntu</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install macbuntu-os-icons-lts-v7</span><br><span class="line">sudo apt-get install macbuntu-os-ithemes-lts-v7</span><br></pre></td></tr></table></figure>
+<p>卸载命令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd /usr/share/icons/mac-cursors &amp;&amp; sudo ./uninstall-mac-cursors.sh</span><br><span class="line">sudo apt-get remove macbuntu-os-icons-lts-v7 macbuntu-os-ithemes-lts-v7</span><br></pre></td></tr></table></figure>
+<p>3、安装 Slingscold（替代Launchpad）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo add-apt-repository ppa:noobslab/macbuntu</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install slingscold</span><br></pre></td></tr></table></figure>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630c36b89f8e0b3?w=272&amp;h=256&amp;f=png&amp;s=42139" alt="仿Mac OS X主题"></p>
+<p>使用效果：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630c36b8a142675?w=1306&amp;h=694&amp;f=png&amp;s=903357" alt="仿Mac OS X主题"></p>
+<p>4、安装Albert Spotlight (替代 Mac Spotlight)</p>
+<p>一个快捷搜索功能：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo add-apt-repository ppa:noobslab/macbuntu</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install albert</span><br></pre></td></tr></table></figure>
+<p>第一次启动需要设置快捷键；效果：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630c36b8b22cb8a?w=1013&amp;h=425&amp;f=png&amp;s=671504" alt="仿Mac OS X主题"></p>
+<p>5、安装 一个 Dock</p>
+<ul>
+<li><p>Cairo-dock (自行配置)</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install cairo-dock</span><br></pre></td></tr></table></figure>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36dc25d26d9?w=960&amp;h=536&amp;f=gif&amp;s=2403604" alt="img"></p>
+<p>配置：（自选）</p>
+<ul>
+<li>去除桌面切换器插件</li>
+<li>停靠左边</li>
+</ul>
+<p>bug修复：</p>
+<ul>
+<li><p>chrome 双图标问题</p>
+<p>如下配置chrome即可：捕捉哪里写：google-chrome 同时 最下面的修改为7.730 即可</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/29/16310105352bebea?w=1202&amp;h=729&amp;f=png&amp;s=110025" alt="img"></p>
+</li>
+</ul>
+</li>
+<li><p>docky</p>
+<p><strong>终端安装命令:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install docky</span><br></pre></td></tr></table></figure>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36dcd9f3015?w=700&amp;h=394&amp;f=png&amp;s=347898" alt="img"></p>
+</li>
+<li><p>Plank Dock</p>
+<p><code>sudo apt-get install plank</code></p>
+<p>安装 Plank 主题：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo add-apt-repository ppa:noobslab/macbuntu</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install macbuntu-os-plank-theme-lts-v7</span><br></pre></td></tr></table></figure>
+<p>安装 Ctrl + Right Click 选择主题。</p>
+<p><a href="https://imcn.me/wp-content/uploads/2016/05/7-dock-2.jpg" target="_blank" rel="noopener"><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36df69a7264?w=570&amp;h=377&amp;f=jpeg&amp;s=20518" alt="7-dock-2"></a></p>
+<p>卸载主题命令：</p>
+<p><code>sudo apt-get autoremove plank macbuntu-os-plank-theme-lts-v7</code></p>
+</li>
+</ul>
+<p>6、将面板上的 ‘Ubuntu Desktop’ 文字替换 ‘Mac’</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &amp;&amp; wget -O Mac.po http://drive.noobslab.com/data/Mac/change-name-on-panel/mac.po</span><br><span class="line">cd /usr/share/locale/zh_CN/LC_MESSAGES; sudo msgfmt -o unity.mo ~/Mac.po;rm ~/Mac.po;cd</span><br></pre></td></tr></table></figure>
+<p>语言上如果是其他语言，将 /zh_CN做相应修改：</p>
+<p>恢复原来的桌面文字命令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &amp;&amp; wget -O Ubuntu.po http://drive.noobslab.com/data/Mac/change-name-on-panel/ubuntu.po</span><br><span class="line">cd /usr/share/locale/zh_CN/LC_MESSAGES; sudo msgfmt -o unity.mo ~/Ubuntu.po;rm ~/Ubuntu.po;cd</span><br></pre></td></tr></table></figure>
+<p>7、启动器上苹果Logo</p>
+<p><a href="https://user-gold-cdn.xitu.io/2018/4/28/1630a36df6a214f1?w=400&amp;h=297&amp;f=jpeg&amp;s=16062" target="_blank" rel="noopener"><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36df6a214f1?w=400&amp;h=297&amp;f=jpeg&amp;s=16062" alt="macbuntu-apple-logo"></a></p>
+<p>命令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">wget -O launcher_bfb.png http://drive.noobslab.com/data/Mac/launcher-logo/apple/launcher_bfb.png</span><br><span class="line">sudo mv launcher_bfb.png /usr/share/unity/icons/</span><br></pre></td></tr></table></figure>
+<p>恢复图标：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">wget -O launcher_bfb.png http://drive.noobslab.com/data/Mac/launcher-logo/ubuntu/launcher_bfb.png</span><br><span class="line">sudo mv launcher_bfb.png /usr/share/unity/icons/</span><br></pre></td></tr></table></figure>
+<p>10、字体</p>
+<ul>
+<li><p>文泉驿字体（推荐）</p>
+<hr>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install fonts-wqy-microhei</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Mac 字体</p>
+<p>配置 Mac 字体</p>
+<p><a href="https://imcn.me/wp-content/uploads/2016/05/mac-fonts.jpg" target="_blank" rel="noopener"><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36e08f70165" alt="mac-fonts"></a></p>
+<p>安装字体命令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">wget -O mac-fonts.zip http://drive.noobslab.com/data/Mac/macfonts.zip</span><br><span class="line">sudo unzip mac-fonts.zip -d /usr/share/fonts; rm mac-fonts.zip</span><br><span class="line">sudo fc-cache -f -v</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>11、修改启动界面：</p>
+<p><a href="https://imcn.me/wp-content/uploads/2016/05/1-bootscreen.jpg" target="_blank" rel="noopener"><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36e13523c58?w=570&amp;h=321&amp;f=jpeg&amp;s=4166" alt="1-bootscreen"></a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo add-apt-repository ppa:noobslab/themes</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install macbuntu-os-bscreen-lts-v7</span><br></pre></td></tr></table></figure>
+<p>修改 /usr/share/plymouth/themes/macbuntu/macbuntu.plymouth</p>
+<p>原来是 /lib 修改为 /usr/share即可</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ImageDir=/usr/share/plymouth/themes/macbuntu</span><br><span class="line">ScriptFile=/usr/share/plymouth/themes/macbuntu/macbuntu.script</span><br></pre></td></tr></table></figure>
+<p>如果你喜欢 MBuntu 启动界面，你想恢复到 Ubuntu ，使用命令：<br><code>sudo apt-get autoremove macbuntu-os-bscreen-lts-v7</code></p>
+<p>12、登陆迎宾界面：</p>
+<p><a href="https://imcn.me/wp-content/uploads/2016/05/macbuntu-10.jpg" target="_blank" rel="noopener"><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36e1bc759a7?w=570&amp;h=321&amp;f=jpeg&amp;s=4657" alt="macbuntu-10"></a></p>
+<p>注意安装这个东东有风险，如果你不是在意，建议不安装，安装这个仅仅适合于 Ubuntu Unity – Lightdm 和 Ubuntu Gnome – gdm，其他桌面环境有风险。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo add-apt-repository ppa:noobslab/themes</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install macbuntu-os-lightdm-lts-v7</span><br></pre></td></tr></table></figure>
+<p>配置/etc/lightdm/lightdm.conf（如果没有就创建自己一个），内容为：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[SeatDefaults]</span><br><span class="line">greeter-session=lightdm-webkit-greeter</span><br></pre></td></tr></table></figure>
+<p>配置/etc/lightdm/lightdm-webkit-greeter.conf，修改这两行为：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">theme-name=macbuntu-lightdm</span><br><span class="line">webkit-theme=macbuntu-lightdm</span><br></pre></td></tr></table></figure>
+<p>卸载恢复命令：</p>
+<p><code>sudo apt-get remove macbuntu-os-lightdm-lts-v7</code></p>
+<h4 id="Flatabulous-主题篇"><a href="#Flatabulous-主题篇" class="headerlink" title="Flatabulous 主题篇"></a>Flatabulous 主题篇</h4><p><strong>一个久负盛名的扁平化主题</strong></p>
+<ol>
+<li>Using the .deb file for Debian, Ubuntu and derivatives (Recommended)</li>
+</ol>
+<p>Download the .deb file from <a href="https://github.com/anmoljagetia/Flatabulous/releases/latest" target="_blank" rel="noopener">here</a>, double click to open with Ubuntu Software Center and click on install. Then, install the theme using ubuntu-tweak.</p>
+<ol start="2">
+<li><p>Using the noobslab PPA</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo add-apt-repository ppa:noobslab/themes</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install flatabulous-theme</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Flat Icons</p>
+<p>For icons, I use the ultra-flat-icons theme. It is available in blue (recommended), orange and mint green colors. To install this, you can run the following commands</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo add-apt-repository ppa:noobslab/icons</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install ultra-flat-icons</span><br></pre></td></tr></table></figure>
+<p>Alternatively, you could also run <code>sudo apt-get install ultra-flat-icons-orange</code> OR <code>sudo apt-get install ultra-flat-icons-green</code>.</p>
+<p>​</p>
+<p>安装完成后，打开unity-tweak-tool软件，修改主题和图标：</p>
+<p>进入Theme，修改为Flatabulous</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36e3a5ea009?w=889&amp;h=170&amp;f=jpeg&amp;s=13744" alt="主题"></p>
+<p>​</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36e423d1f74?w=883&amp;h=428&amp;f=jpeg&amp;s=20133" alt="图标"></p>
+</li>
+<li><p>字体</p>
+<p>ubuntu自带的字体不太好看，所以采用文泉译微米黑字体替代，效果会比较好，毕竟是国产字体！</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install fonts-wqy-microhei1</span><br></pre></td></tr></table></figure>
+<p>然后通过unity-tweak-tool来替换字体：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36e5ba78ef4?w=881&amp;h=651&amp;f=jpeg&amp;s=28315" alt="替换字体"></p>
+</li>
+<li><p>cairo dock</p>
+<p>TODO</p>
+<p>​</p>
+</li>
+</ol>
+<p>主题中搜狗 的图标问题：</p>
+<p>参考：<a href="https://www.jianshu.com/p/e87ea941e432" target="_blank" rel="noopener">Ubuntu技术贴 | Flatabulous主题中显示搜狗拼音托盘图标</a></p>
+<p>制作svg格式的搜狗输入法图标（可在 /usr/share/icons/hicolor/128x128/apps找到png格式的图标），保存为fcitx-sogoupinyin.svg</p>
+<p>不同主题请修改 Ultra-Flat</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo cp fcitx-sogoupinyin.svg /usr/share/icons/Ultra-Flat/apps/scalable1</span><br></pre></td></tr></table></figure>
+<p>如果你安装了Dock栏想隐藏启动器的话：</p>
+<p>在 Unity Tweak Tool 中将启动器 的调用灵敏度设置为 0 ，同时打开自动隐藏</p>
+<p>安装完之后请自行使用tweak tool设置开机自启软件: 如 redshift、Albert、某dock 、shadowsocks</p>
+<h4 id="grub-美化"><a href="#grub-美化" class="headerlink" title="grub 美化"></a>grub 美化</h4><p>主题获取： <a href="https://www.gnome-look.org/browse/cat/109/ord/top/" target="_blank" rel="noopener">https://www.gnome-look.org/browse/cat/109/ord/top/</a></p>
+<p><strong>1.下载相应的主题文件到电脑中</strong></p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36e61223ce1?w=883&amp;h=315&amp;f=png&amp;s=29692" alt="img"><br>然后在<code>~/Downloads/</code>里面可以看到下载的主题<br><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36e891e8269?w=173&amp;h=120&amp;f=png&amp;s=3029" alt="img"><br>然后执行下面的命令</p>
+<blockquote>
+<p>1.现将该压缩包解压，”171217-Breeze-GRUB2.tar.gz”是你下载的压缩包名字</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt; sudo tar zxf 171217-Breeze-GRUB2.tar.gz</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>2.将解压后的文件移动到/boot/grub/themes/ 文件夹中”Breeze-GRUB2”是解压后得到的文件夹</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo mv Breeze-GRUB2/ /boot/grub/themes/</span><br></pre></td></tr></table></figure>
+<p><strong>注意:</strong>如果没有themes文件夹，就直接建一个文件夹</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo mkdir /boot/grub/themes</span><br></pre></td></tr></table></figure>
+<p>如图:<img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36ee1e11257?w=887&amp;h=578&amp;f=png&amp;s=27301" alt="img"></p>
+<p><strong>2.修改GRUB配置文件并且更新</strong></p>
+<p>打开/etc/grub.d/00_header文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo gedit /etc/grub.d/00_header</span><br><span class="line">或者</span><br><span class="line">sudo vim /etc/grub.d/00.header</span><br></pre></td></tr></table></figure>
+<p>在文件中添加一下内容，如图<br><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36ed07e8657?w=571&amp;h=715&amp;f=png&amp;s=112339" alt="img"></p>
+<ul>
+<li>第一行是设置引导界面的字体(可以不设置)</li>
+<li>第二行是你刚才下载的主题的文件路径</li>
+<li>第三行是你屏幕分辨率的大小</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GRUB_FONT=&quot;/boot/grub/fonts/unicode.pf2&quot;</span><br><span class="line">GRUB_THEME=&quot;/boot/grub/themes/poly/theme.txt&quot;</span><br><span class="line">GRUB_GFXMODE=&quot;1366x768*32&quot;</span><br></pre></td></tr></table></figure>
+<p><strong>3.更新grub</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo update-grub</span><br></pre></td></tr></table></figure>
+<p>然后重启电脑即可看到更改成功。</p>
+<h2 id="终端篇（可直接复制我的配置文件）"><a href="#终端篇（可直接复制我的配置文件）" class="headerlink" title="终端篇（可直接复制我的配置文件）"></a>终端篇（可直接复制<a href="https://github.com/tofar/vim-zsh-tmux" target="_blank" rel="noopener">我的配置文件</a>）</h2><ol>
+<li><p>zsh</p>
+<p>终端采用zsh和oh-my-zsh，既美观又简单易用，主要是能提高你的逼格</p>
+<p>zsh: <a href="https://github.com/robbyrussell/oh-my-zsh" target="_blank" rel="noopener">https://github.com/robbyrussell/oh-my-zsh</a></p>
+<p>效果：</p>
+<ol>
+<li><p>安装zsh：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install zsh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载 oh-my-zsh 项目来帮我们配置 zsh</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改主题</p>
+<p><em>Robby’s theme is the default one. It’s not the fanciest one. It’s not the simplest one. It’s just the right one (for him).</em></p>
+<p>Once you find a theme that you’d like to use, you will need to edit the <code>~/.zshrc</code> file. You’ll see an environment variable (all caps) in there that looks like:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ZSH_THEME=&quot;robbyrussell&quot;</span><br></pre></td></tr></table></figure>
+<p>To use a different theme, simply change the value to match the name of your desired theme. For example:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ZSH_THEME=&quot;agnoster&quot; # (this is one of the fancy ones)</span><br><span class="line"># see https://github.com/robbyrussell/oh-my-zsh/wiki/Themes#agnoster</span><br></pre></td></tr></table></figure>
+<p><em>Note: many themes require installing the Powerline Fonts in order to render properly.</em></p>
+<p>Open up a new terminal window and your prompt should look something like this:</p>
+<p><a href="https://user-gold-cdn.xitu.io/2018/4/28/1630a36f313359b6?w=633&amp;h=346&amp;f=png&amp;s=82148" target="_blank" rel="noopener"><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36f313359b6?w=633&amp;h=346&amp;f=png&amp;s=82148" alt="Agnoster theme"></a></p>
+<ol>
+<li>​</li>
+</ol>
+</li>
+<li><p>切换到 zsh 模式</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">chsh -s /bin/zsh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改配色</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/28/1630a36f5cdb5875?w=600&amp;h=413&amp;f=png&amp;s=41746" alt="img"></p>
+<p>其中，文字和背景采用系统主题，透明度设为10%，下面的palette样式采用Tango</p>
+</li>
+</ol>
+</li>
+<li><p>fish</p>
+<p>github: <a href="https://github.com/oh-my-fish/oh-my-fish" target="_blank" rel="noopener">https://github.com/oh-my-fish/oh-my-fish</a></p>
+<ol>
+<li><p>安装fish</p>
+<p>Ubuntu 安装fish 并且设为默认shell</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt install fish</span><br><span class="line">chsh -s $(which fish)</span><br></pre></td></tr></table></figure>
+<p><strong>解释:</strong></p>
+<p>chsh -s 后面加路径 ： 设置当前用户默认shell<br>which fish ：查看fish程序的路径<br>chsh -s $(which fish) : 设置fish为当前用户默认shell</p>
+</li>
+<li><p>安装oh my fish</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">curl -L https://github.com/bpinto/oh-my-fish/raw/master/tools/install.sh | sh</span><br></pre></td></tr></table></figure>
+<p>theme: <a href="https://github.com/oh-my-fish/oh-my-fish/blob/master/docs/Themes.md" target="_blank" rel="noopener">https://github.com/oh-my-fish/oh-my-fish/blob/master/docs/Themes.md</a><br>个人使用： robbyrussell</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="Vim篇"><a href="#Vim篇" class="headerlink" title="Vim篇"></a>Vim篇</h2><p><a href="https://github.com/amix/vimrc" target="_blank" rel="noopener">https://github.com/amix/vimrc</a></p>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/05/01/编程语言/Python/effective python学习笔记/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/05/05/运维/nginx/nginx-设置用户认证/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

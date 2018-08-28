@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>学习笔记4 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="学习笔记," />
+  
+
+  <meta name="description" content="Linux进程管理命令  ps ps [选项]选项：  a：显示一个终端所有进程，除了会话引线  u：显示进程的归属用户及内存的使用情况  x：显示没有控制终端的进程  -l：长格式显示，显示更详细的信息  -e：显示所有进程，和-A作用一致  常用：  ps -ef |grep -列出需要进程 ps -aux -显示进程信息，包括无终端的（x）和针对用户（u）的进程：如USER, PID,%C">
+<meta name="keywords" content="学习笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习笔记4">
+<meta property="og:url" content="http://mu-mo.top/2017/12/10/学习笔记/学习笔记4/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="Linux进程管理命令  ps ps [选项]选项：  a：显示一个终端所有进程，除了会话引线  u：显示进程的归属用户及内存的使用情况  x：显示没有控制终端的进程  -l：长格式显示，显示更详细的信息  -e：显示所有进程，和-A作用一致  常用：  ps -ef |grep -列出需要进程 ps -aux -显示进程信息，包括无终端的（x）和针对用户（u）的进程：如USER, PID,%C">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://www.linuxidc.com/upload/2015_06/150602195793282.png">
+<meta property="og:image" content="http://www.linuxidc.com/upload/2015_06/150602195793284.png">
+<meta property="og:image" content="http://img.blog.csdn.net/20151102221232703">
+<meta property="og:image" content="http://img.blog.csdn.net/20151102222518127">
+<meta property="og:image" content="http://img.blog.csdn.net/20151102224606369">
+<meta property="og:image" content="http://img.blog.csdn.net/20151102224758386">
+<meta property="og:image" content="http://img.blog.csdn.net/20151102225219807">
+<meta property="og:image" content="http://img.blog.csdn.net/20151102225645612">
+<meta property="og:image" content="http://wx1.sinaimg.cn/mw690/7b8d2108gy1fhm4qk0l08j20ji0a53ze.jpg">
+<meta property="og:image" content="http://wx2.sinaimg.cn/mw690/7b8d2108gy1fhm4ql3webj20md08xtcj.jpg">
+<meta property="og:image" content="http://wx2.sinaimg.cn/mw690/7b8d2108gy1fhm4qmboqmj20mb03t74w.jpg">
+<meta property="og:image" content="http://wx3.sinaimg.cn/mw690/7b8d2108gy1fhm4qmforij20eq0adgm6.jpg">
+<meta property="og:image" content="http://wx3.sinaimg.cn/mw690/7b8d2108gy1fhm4qnozsqj20d10a9js3.jpg">
+<meta property="og:image" content="http://wx3.sinaimg.cn/mw690/7b8d2108gy1fhm4qpg9hrj20b006t41x.jpg">
+<meta property="og:image" content="http://wx3.sinaimg.cn/mw690/7b8d2108gy1fhm4qq6btjj20fp06m0sw.jpg">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.122Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="学习笔记4">
+<meta name="twitter:description" content="Linux进程管理命令  ps ps [选项]选项：  a：显示一个终端所有进程，除了会话引线  u：显示进程的归属用户及内存的使用情况  x：显示没有控制终端的进程  -l：长格式显示，显示更详细的信息  -e：显示所有进程，和-A作用一致  常用：  ps -ef |grep -列出需要进程 ps -aux -显示进程信息，包括无终端的（x）和针对用户（u）的进程：如USER, PID,%C">
+<meta name="twitter:image" content="http://www.linuxidc.com/upload/2015_06/150602195793282.png">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#KMeans聚类"><span class="toc-text">KMeans聚类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#可视化数据"><span class="toc-text">可视化数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#降维"><span class="toc-text">降维</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#主成分分析法-Principal-Component-Analysis（PCA"><span class="toc-text">主成分分析法-Principal Component Analysis（PCA)</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-学习笔记/学习笔记4" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      学习笔记4
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2017.12.10
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/学习笔记/">学习笔记</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <ol>
+<li><p>Linux进程管理命令</p>
+<ul>
+<li><p>ps</p>
+<p><strong>ps [选项]</strong><br>选项：</p>
+<ul>
+<li><p>a：显示一个终端所有进程，除了会话引线</p>
+</li>
+<li><p>u：显示进程的归属用户及内存的使用情况</p>
+</li>
+<li><p>x：显示没有控制终端的进程</p>
+</li>
+<li><p>-l：长格式显示，显示更详细的信息</p>
+</li>
+<li><p>-e：显示所有进程，和-A作用一致</p>
+<p><img src="http://www.linuxidc.com/upload/2015_06/150602195793282.png" alt="Output of &quot;ps -a&quot; command"></p>
+<p>常用：</p>
+<ol>
+<li><code>ps -ef |grep -列出需要进程</code></li>
+<li><code>ps -aux -显示进程信息，包括无终端的（x）和针对用户（u）的进程：如USER, PID,%CPU,%MEM等</code></li>
+</ol>
+</li>
+<li><p>pstree</p>
+<p><strong>pstree [选项]</strong><br>选项：</p>
+<ul>
+<li><p>-p:显示进程的PID</p>
+</li>
+<li><p>-u：显示进程的所属用户</p>
+<p><img src="http://www.linuxidc.com/upload/2015_06/150602195793284.png" alt="pstree"></p>
+</li>
+</ul>
+</li>
+<li><p>top</p>
+<p>‘top’是一个更加有用的命令，可以监视系统中不同的进程所使用的资源。它提供<strong>实时的系统状态信息</strong>。显示进程的数据包括 PID、进程属主、优先级、%CPU、%memory等。可以使用这些显示指示出资源使用量。</p>
+<p><strong>top [选项]</strong><br>选项：</p>
+<ul>
+<li>-d秒数：指定top命令每隔几秒更新。默认是3秒</li>
+<li>-b：使用批处理模式输出。一般和“-n”选项合用</li>
+<li>-n次数：指定top命令执行的次数。一般和“-b”选项合用</li>
+</ul>
+</li>
+<li><p>kill</p>
+<p>这个命令用于发送信号来结束进程。如果一个进程没有响应杀死命令，这也许就需要强制杀死，使用-9参数来执行。注意，使用强制杀死的时候一定要小心，因为进程没有时机清理现场，也许写入文件没有完成。如果我们不知道进程PID或者打算用名字杀死进程时候，killall就能派上用场。</p>
+<ol>
+<li><code>kill &lt;pid&gt;</code></li>
+<li><code>kill -9 &lt;pid&gt;</code></li>
+<li><code>killall -9 -杀死所有拥有同样名字的进程</code></li>
+</ol>
+<p>如果你使用kill，你需要知道进程ID号。pkill是类似的命令，但使用模式匹配，如进程名，进程拥有者等。</p>
+<ol>
+<li><code>pkill &lt;进程名&gt;</code></li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>管道通信</p>
+<ul>
+<li><p>无名管道</p>
+<p>无名管道是一种特殊的文件，这就意味着你可以向操作文件一样操作无名管道，无名管道在内核中对应的是一段特殊的内存空间，这段内存空间由操作系统进行管理，对用户是不可见的，在用户空间的应用程序中只能通过系统调用来访问它。在这段内存空间中以循环队列的方式来临时存储一个进程发往另外一个进程的信息，并且在通信完成后就会自动释放相应的空间。</p>
+<p>1、创建无名管道</p>
+<p>创建无名管道需要使用pipe(int _pipedes[2])函数，这个函数的参数是一个含有两个元素的整型数组，如果执行成功，这个整形数组将分别存储无名管道读端的文件描述符和写端的文件描述符，利用这两个读、写文件描述符，我们可以像读写文件一样，操作无名管道的读写。如pipe( )函数调用失败将返回-1。</p>
+<p>2、读写无名管道</p>
+<p>下面的程序是在一个程序中完成，即一个进程既充当读进程又充当写进程。</p>
+</li>
+<li><p>有名管道</p>
+<p>1、创建命名管道</p>
+<p>在编程中，可以使用mkfifo(char *path, _mode_t _mode)函数创建一个命名管道，mkfifo有两个参数，第一个是指定要创建的命名管道的名字，第二个是生成的命名管道文件的模式。</p>
+<p>2、读写命名管道</p>
+<p>和无名管道一样，命名管道的实质仍然是一段内核空间管理的内存，但是在使用write和read之前需要先使用open函数打开命名管道文件。</p>
+</li>
+</ul>
+</li>
+<li><p>Linux信号机制与信号处理</p>
+<p>信号(signal)是Linux进程间通信的一种机制，全称为软中断信号，也被称为软中断。信号本质上是在软件层次上对硬件中断机制的一种模拟。</p>
+<p>与其他进程间通信方式（例如管道、共享内存等）相比，信号所能传递的信息比较粗糙，只是一个整数。但正是由于传递的信息量少，信号也便于管理和使用，可以用于系统管理相关的任务，例如通知进程终结、中止或者恢复等。</p>
+<p>每种信号用一个整型常量宏表示，以SIG开头，比如SIGCHLD、SIGINT等，它们在系统头文件&lt;signal.h&gt;中定义。</p>
+<p>信号由内核(kernel)管理，产生方式多种多样：</p>
+<ul>
+<li>可以由内核自身产生，比如出现硬件错误、内存读取错误，分母为0的除法等，内核需要通知相应进程。</li>
+<li>也可以由其他进程产生并发送给内核，再由内核传递给目标进程。</li>
+</ul>
+<p>信号传递的过程：</p>
+<ul>
+<li>内核中针对每一个进程都有一个表来保存信号。</li>
+<li>当内核需要将信号传递给某个进程时，就在该进程对应的表中写入信号，这样就生成了信号。</li>
+<li>当该进程由用户态陷入内核态，再次切换到用户态之前，会查看表中的信号。如果有信号，进程就会首先执行信号对应的操作，此时叫做执行信号。</li>
+<li>从生成信号到将信号传递给对应进程这段时间，信号处于等待状态。</li>
+<li>我们可以编写代码，让进程阻塞(block)某些信号，也就是让这些信号始终处于等待的状态，直到进程取消阻塞(unblock)或者忽略信号。</li>
+</ul>
+<p>信号的种类：</p>
+<p>| 信号名称    | 数字表示 | 说明                                       |<br>| ——- | —- | —————————————- |<br>| SIGHUP  | 1    | 终端挂起或控制进程终止。当用户退出Shell时，由该进程启动的所有进程都会收到这个信号，默认动作为终止进程。 |<br>| SIGINT  | 2    | 键盘中断。当用户按下&lt;Ctrl+C&gt;组合键时，用户终端向正在运行中的由该终端启动的程序发出此信号。默认动作为终止进程。 |<br>| SIGQUIT | 3    | 键盘退出键被按下。当用户按下&lt;Ctrl+D&gt;或&lt;Ctrl+>组合键时，用户终端向正在运行中的由该终端启动的程序发出此信号。默认动作为退出程序。 |<br>| SIGFPE  | 8    | 发生致命的运算错误时发出。不仅包括浮点运算错误，还包括溢出及除数为0等所有的算法错误。默认动作为终止进程并产生core文件。 |<br>| SIGKILL | 9    | 无条件终止进程。进程接收到该信号会立即终止，不进行清理和暂存工作。该信号不能被忽略、处理和阻塞，它向系统管理员提供了可以杀死任何进程的方法。 |<br>| SIGALRM | 14   | 定时器超时，默认动作为终止进程。                         |<br>| SIGTERM | 15   | 程序结束信号，可以由 kill 命令产生。与SIGKILL不同的是，SIGTERM 信号可以被阻塞和终止，以便程序在退出前可以保存工作或清理临时文件等。 |</p>
+</li>
+<li><p>Linux下C语言遍历目录及文件</p>
+<p>打开目录-》读取-》关闭目录</p>
+<p>相关函数是（函数原形）</p>
+<p>opendir -&gt; readdir -&gt; closedir</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;dirent.h&gt;</span><br><span class="line">DIR *opendir(const char *dirname);</span><br><span class="line">struct dirent *readdir(DIR *dirp);</span><br><span class="line">int closedir(DIR *dirp);</span><br></pre></td></tr></table></figure>
+<p>dirent.h这个头文件，包括了目录的一些函数。</p>
+<p>opendir用于打开目录，是类似于流的那种方式，返回一个指向DIR结构体的指针，他的参数*dirname是一个字符数组或者字符串常量。</p>
+<p>readdir函数用于读取目录，他只有一个参数，这个参数主要是opendir返回的结构体指针。</p>
+<p>dirent的结构如下定义</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> struct dirent &#123;</span><br><span class="line">    long d_ino;    // 该文件的结点数目                 </span><br><span class="line">    off_t d_off;    //  是文件在目录中的编移               </span><br><span class="line">    unsigned short d_reclen;  // 文件的长度 </span><br><span class="line">    unsigned char d_type;  // 文件类型   </span><br><span class="line">    char d_name [NAME_MAX+1];   // 文件名字    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>stat，lstat，fstat1 函数都是获取文件（普通文件，目录，管道，socket，字符，块（）的属性。函数原型#include &lt;sys/stat.h&gt;</p>
+<p>int stat(const char <em>restrict pathname, struct stat </em>restrict buf);提供文件名字，获取文件对应属性。<br>int fstat(int filedes, struct stat *buf);通过文件描述符获取文件对应的属性。</p>
+<p>int lstat(const char <em>restrict pathname, struct stat </em>restrict buf);连接文件描述命，获取文件属性。2 文件对应的属性</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">struct stat &#123;</span><br><span class="line">     mode_t     st_mode;       //文件对应的模式，文件，目录等</span><br><span class="line">     ino_t      st_ino;       //inode节点号</span><br><span class="line">     dev_t      st_dev;        //设备号码</span><br><span class="line">     dev_t      st_rdev;       //特殊设备号码</span><br><span class="line">     nlink_t    st_nlink;      //文件的连接数</span><br><span class="line">     uid_t      st_uid;        //文件所有者</span><br><span class="line">     gid_t      st_gid;        //文件所有者对应的组</span><br><span class="line">     off_t      st_size;       //普通文件，对应的文件字节数</span><br><span class="line">     time_t     st_atime;      //文件最后被访问的时间</span><br><span class="line">     time_t     st_mtime;      //文件内容最后被修改的时间</span><br><span class="line">     time_t     st_ctime;      //文件状态改变时间</span><br><span class="line">     blksize_t st_blksize;    //文件内容对应的块大小</span><br><span class="line">     blkcnt_t   st_blocks;     //伟建内容对应的块数量</span><br><span class="line">   &#125;;</span><br></pre></td></tr></table></figure>
+<p>部分代码: </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DIR *dfd;</span><br><span class="line">   char name[MAX_PATH];</span><br><span class="line">   struct dirent *dp;</span><br><span class="line">   if ((dfd = opendir(pathname)) == NULL) &#123;</span><br><span class="line">       printf(&quot;dir_order: can&apos;t open %s\n %s&quot;, pathname,strerror(errno));</span><br><span class="line">       return;</span><br><span class="line">   &#125;</span><br><span class="line">   while ((dp = readdir(dfd)) != NULL) &#123;</span><br><span class="line">       if (strncmp(dp-&gt;d_name, &quot;.&quot;, 1) == 0)</span><br><span class="line">           continue; /* 跳过当前目录和上一层目录以及隐藏文件*/</span><br><span class="line">       if (strlen(pathname) + strlen(dp-&gt;d_name) + 2 &gt; sizeof(name)) &#123;</span><br><span class="line">           printf(&quot;dir_order: name %s %s too long\n&quot;, pathname, dp-&gt;d_name);</span><br><span class="line">       &#125; else &#123;</span><br><span class="line">           memset(name, 0, sizeof(name));</span><br><span class="line">           sprintf(name, &quot;%s/%s&quot;, pathname, dp-&gt;d_name);</span><br><span class="line">           print_file_info(name);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   closedir(dfd);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">struct stat filestat;</span><br><span class="line"> if (stat(pathname, &amp;filestat) == -1) &#123;</span><br><span class="line">     printf(&quot;cannot read the file %s&quot;, pathname);</span><br><span class="line">     return;</span><br><span class="line">  if ((filestat.st_mode &amp; S_IFMT) == S_IFDIR) &#123;</span><br><span class="line">     printf(&quot;%s st_mode: dir, st_mtime: %s, size: %8ld\n&quot;, pathname, asctime(gmtime(&amp;filestat.st_mtime)), filestat.st_size);</span><br><span class="line">     dir_order(pathname);</span><br><span class="line"> &#125; else &#123;</span><br><span class="line">     printf(&quot;%s st_mode: file, st_mtime: %s, size: %8ld\n&quot;, pathname, asctime(gmtime(&amp;filestat.st_mtime)), filestat.st_size);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>共享内存</p>
+<p>共享内存就是允许两个不相关的进程访问同一个逻辑内存。共享内存是在两个正在运行的进程之间共享和传递数据的一种非常有效的方式。不同进程之间共享的内存通常安排为同一段物理内存。进程可以将同一段共享内存连接到它们自己的地址空间中，所有进程都可以访问共享内存中的地址，就好像它们是由用C语言函数malloc分配的内存一样。而如果某个进程向共享内存写入数据，所做的改动将立即影响到可以访问同一段共享内存的任何其他进程。</p>
+<p>特别提醒：共享内存并未提供同步机制，也就是说，在第一个进程结束对共享内存的写操作之前，并无自动机制可以阻止第二个进程开始对它进行读取。</p>
+<ul>
+<li><p>共享内存的使用</p>
+<p>头文件：<code>sys/shm.h</code></p>
+<ol>
+<li><p>shmget函数</p>
+<p>创建共享内存, 原型 ：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">int shmget(key_t key, size_t size, int shmflg);</span><br></pre></td></tr></table></figure>
+<p>第一个参数，与信号量的semget函数一样，程序需要提供一个参数key（非0整数），它有效地为共享内存段命名，shmget函数成功时返回一个与key相关的共享内存标识符（非负整数），用于后续的共享内存函数。调用失败返回-1.</p>
+<p>不相关的进程可以通过该函数的返回值访问同一共享内存，它代表程序可能要使用的某个资源，程序对所有共享内存的访问都是间接的，程序先通过调用shmget函数并提供一个键，再由系统生成一个相应的共享内存标识符（shmget函数的返回值），只有shmget函数才直接使用信号量键，所有其他的信号量函数使用由semget函数返回的信号量标识符。</p>
+<p>第二个参数，size以字节为单位指定需要共享的内存容量.</p>
+<p>第三个参数，shmflg是权限标志，它的作用与open函数的mode参数一样，如果要想在key标识的共享内存不存在时，创建它的话，可以与IPC_CREAT做或操作。共享内存的权限标志与文件的读写权限一样，举例来说，0644,它表示允许一个进程创建的共享内存被内存创建者所拥有的进程向共享内存读取和写入数据，同时其他用户创建的进程只能读取共享内存。</p>
+</li>
+<li><p>shmat函数</p>
+<p>第一次创建完共享内存时，它还不能被任何进程访问，shmat函数的作用就是用来启动对该共享内存的访问，并把共享内存连接到当前进程的地址空间。它的原型如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">void *shmat(int shm_id, const void *shm_addr, int shmflg);</span><br></pre></td></tr></table></figure>
+<p>第一个参数，shm_id是由shmget函数返回的共享内存标识。</p>
+<p>第二个参数，shm_addr指定共享内存连接到当前进程中的地址位置，通常为空，表示让系统来选择共享内存的地址。</p>
+<p>第三个参数，shm_flg是一组标志位，通常为0。</p>
+<p>调用成功时返回一个指向共享内存第一个字节的指针，如果调用失败返回-1.</p>
+</li>
+<li><p>shmdt函数</p>
+<p>该函数用于将共享内存从当前进程中分离。注意，将共享内存分离并不是删除它，只是使该共享内存对当前进程不再可用。它的原型如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">int shmdt(const void *shmaddr);</span><br></pre></td></tr></table></figure>
+<p>参数shmaddr是shmat函数返回的地址指针，调用成功时返回0，失败时返回-1.</p>
+</li>
+<li><p>shmctl函数</p>
+<p>与信号量的semctl函数一样，用来控制共享内存，它的原型如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">int shmctl(int shm_id, int command, struct shmid_ds *buf);</span><br></pre></td></tr></table></figure>
+<p>第一个参数，shm_id是shmget函数返回的共享内存标识符。</p>
+<p>第二个参数，command是要采取的操作，它可以取下面的三个值 ：</p>
+<p>​    IPC_STAT：把shmid_ds结构中的数据设置为共享内存的当前关联值，即用共享内存的当前关联值覆盖shmid_ds的值。</p>
+<p>​    IPC_SET：如果进程有足够的权限，就把共享内存的当前关联值设置为shmid_ds结构中给出的值</p>
+<p>​    IPC_RMID：删除共享内存段</p>
+<p>第三个参数，buf是一个结构指针，它指向共享内存模式和访问权限的结构。</p>
+<p>shmid_ds结构至少包括以下成员:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">struct shmid_ds  </span><br><span class="line">&#123;  </span><br><span class="line">    uid_t shm_perm.uid;  </span><br><span class="line">    uid_t shm_perm.gid;  </span><br><span class="line">    mode_t shm_perm.mode;  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>共享内存的优缺点</p>
+<ol>
+<li>优点：我们可以看到使用共享内存进行进程间的通信真的是非常方便，而且函数的接口也简单，数据的共享还使进程间的数据不用传送，而是直接访问内存，也加快了程序的效率。同时，它也不像匿名管道那样要求通信的进程有一定的父子关系。</li>
+<li>缺点：共享内存没有提供同步的机制，这使得我们在使用共享内存进行进程间通信时，往往要借助其他的手段来进行进程间的同步工作。</li>
+</ol>
+<p>​</p>
+</li>
+</ul>
+</li>
+<li><p>无监督学习 - 聚类</p>
+<p>聚类是在样本没有标注的情况下，对样本进行特征提取并分类，属于无监督学习的内容。有监督学习和无监督学习的区别就是需要分析处理的数据样本是否事先已经标注。如下图，左边是有监督，右边是无监督： </p>
+<p><img src="http://img.blog.csdn.net/20151102221232703" alt="这里写图片描述"></p>
+<p>应用场景也有所不同。<br>无监督学习主要用于特征提取分类，其应用场景举例：将市场买家特征识别、分类，然后做肖像（profile）；社交网络中哪些人是一个圈子的人；组织计算集群；天文数据分析等等。<br>有监督学习主要用于回归分析和预测，其应用场景举例：自动驾驶、手写体识别等。</p>
+<h3 id="KMeans聚类"><a href="#KMeans聚类" class="headerlink" title="KMeans聚类"></a>KMeans聚类</h3><ul>
+<li><p>基本算法</p>
+<ul>
+<li><p>初始输入： K（聚类中心的数目）、样本集、初始聚类中心点</p>
+</li>
+<li><p>循环迭代：</p>
+<p><img src="http://img.blog.csdn.net/20151102222518127" alt="这里写图片描述"></p>
+<ul>
+<li>对从1到m的所有的样本x(i)，计算哪个中心点μ(k)离自己最近（方差、向量差模长的平方最小），然后令centroid即c(i) = μ(k)。</li>
+<li>更新μ(k)为指定到这个聚类中心的所有样本点的均值点。</li>
+<li>整个循环迭代直到聚类中心稳定为止。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>代价函数</p>
+<p>样本点与聚类中心的方差和的一半： </p>
+<p><img src="http://img.blog.csdn.net/20151102224606369" alt="这里写图片描述"></p>
+</li>
+<li><p>如何选择聚类中心初始点</p>
+<p>聚类中心点选取不好，可能会导致局部最优。如下图：</p>
+<p><img src="http://img.blog.csdn.net/20151102224758386" alt="这里写图片描述"></p>
+<p>一般为了避免出现局部最优，只能随机选取聚类中心，重复基本算法，最终通过代价函数来评价，选取代价函数最小的一种聚类。</p>
+</li>
+<li><p>如何选择聚类点的数目</p>
+<p>直观上，如果聚类点的数目K很大，等于总样本数m，且让每个聚类点最终都分别与一个样本点重合，则代价函数为0；但是如果K很小，则容易代价函数过大。所以有一种拐点检测，如下图左侧：</p>
+<p><img src="http://img.blog.csdn.net/20151102225219807" alt="这里写图片描述"></p>
+<p>但是经常遇到的实际情况是聚类点不明晰，代价函数随着聚类点的增加，如上图右侧。</p>
+<p>基本上是人工，具体看需要达到什么效果。因为面对大部分样本集时，并没有特别明显的特征聚类，或者可能有多种选择。例如下图分别对应有特征明显的聚类、没有时的两种选择： </p>
+<p><img src="http://img.blog.csdn.net/20151102225645612" alt="这里写图片描述"></p>
+</li>
+</ul>
+</li>
+<li><p>无监督学习 - 维度约减</p>
+<p>通过数据压缩以减少数据占有内存的大小，为算法运算提高速度，将数据可视化等。</p>
+</li>
+</ol>
+<p>   从二维/2D降到一维/1D到底意味着什么？通过样本涂上不同的颜色，在这个例子中降低维度的意思指找到这样一条线，基本所有点都落在这个方向上然后把所有的数据映射到这条线上，这样做之后就可以直接测量这条线上每个样本的位置，现在把这个新特征叫做z1，要确定这条线上的位置只需要一个数字，这就是说新特征变量z1能够表示这条绿线上每一个点的位置。</p>
+<p>   <img src="http://wx1.sinaimg.cn/mw690/7b8d2108gy1fhm4qk0l08j20ji0a53ze.jpg" alt="1.jpg"></p>
+<pre><code>更具体地，之前我们有一个样本x(1)，比如这是第一个样本x(1)，为了表示原本的x(1)，需要一个二维数字或者一个二维特征向量，但是现在可以只用z(1)来表示第一个样本x(1)，以此类推到m个样本上。
+
+一个3D缩减为2D的例子，如下：左边是原始数据集，中间是投影到2D的数据集，右边是以z1和z2为坐标轴的2D数据集。我们来更详细地看一下左侧，这是原始数据集（3D点云），开始它的坐标轴是x1,x2,x3。所以这是一个3D的点云，但是大部分数据都落在某个2D平面上或者说距离某个2D平面不远。
+</code></pre><p>   <img src="http://wx2.sinaimg.cn/mw690/7b8d2108gy1fhm4ql3webj20md08xtcj.jpg" alt="2.jpg"></p>
+<p>   接着如中间的图片一样，把它们投影到2D平面，现在只需要两个数z1和z2来表示点在平面上的位置，如右侧的图像，这就是把数据从三维降到二维的过程降到二维的过程，这就是维数约减以及如何使用它来压缩数据。</p>
+<h4 id="可视化数据"><a href="#可视化数据" class="headerlink" title="可视化数据"></a>可视化数据</h4><p>   除了压缩数据，可视化数据对于机器学习的应用帮助也很大，可以提高开发高效学习算法的效率，而前提要求我们必须很好地理解数据。</p>
+<pre><code>假如我们收集了大量的关于全世界不同国家的统计数据集，第一个特征x1是国内生产总值，x2是每人占有的GDP，x3人类发展指数，x4预期寿命，x5x6等。像这里这样的数据对于每个国家可能有50个特征，我们有这样的众多国家的数据集，那么有没有办法使得我们能更好地来理解数据？
+
+这里给出了一张有数字的表格，你怎样将这些数据可视化？如果有50个特征绘制一幅50维度的图是异常困难的，那有没有观察数据的好办法呢？
+</code></pre><p>   <img src="http://wx2.sinaimg.cn/mw690/7b8d2108gy1fhm4qmboqmj20mb03t74w.jpg" alt="3.0.jpg"></p>
+<h4 id="降维"><a href="#降维" class="headerlink" title="降维"></a>降维</h4><p>   我们使用特征向量x(i)来表示每个国家，x(i)有着50个维度。例如，加拿大这个国家的特征用50个数字来代表，我们要能提出一种不同的特征表示方法，使用一个二维的向量z来代替x。</p>
+<p>   <img src="http://wx3.sinaimg.cn/mw690/7b8d2108gy1fhm4qmforij20eq0adgm6.jpg" alt="3.jpg"></p>
+<p>   在这种情况下我们可以使用一对数字z1和z2，从某种程度来说这两个数总结了50个数，也许我们可以使用这两个数来绘制出这些国家的二维图。使用这样的方法尝试去理解二维空间下不同国家在不同特征的差异更容易。所以，这里将数据降维从50维度降维到2维度，这样就可以绘制出2D的图像。</p>
+<pre><code>仔细观察降维算法的输出结果，它通常不能赋予你想要的这些二维新特征一个物理含义，在这里每个国家用一个点z(i)表示，z(i)是一个二维数据，或许会发现例如那条水平轴即z1轴大致对应了国家总面积或者一个国家的总体经济活动情况，然而纵轴即z2的数据或许对应着人均GDP或是人均幸福感。
+</code></pre><p>   <img src="http://wx3.sinaimg.cn/mw690/7b8d2108gy1fhm4qnozsqj20d10a9js3.jpg" alt="4.jpg"></p>
+<p>   可以发现对于50个特征，到最后主要是这2个维度的特征来进行表示。上图中，像美国有着相当大的总GDP以及相对的高人均GDP，像新加坡这样的国家生产总值并不算高，但人均幸福度很高。</p>
+<h4 id="主成分分析法-Principal-Component-Analysis（PCA"><a href="#主成分分析法-Principal-Component-Analysis（PCA" class="headerlink" title="主成分分析法-Principal Component Analysis（PCA)"></a>主成分分析法-Principal Component Analysis（PCA)</h4><p>如果有下图所示的一些三维数据点，那么我们想要做的是寻找两个向量，用红线画出来， 寻找两个向量从原点延伸出来，这是u(1)这是第二个向量u(2)，这两个向量一起定义了一个平面或者说定义了一个二维面。因此PCA做的就是寻找一条直线或者平面诸如此类等等对数据进行投影来最小化平方投影90度的或者正交的投影误差。</p>
+<p><img src="http://wx3.sinaimg.cn/mw690/7b8d2108gy1fhm4qpg9hrj20b006t41x.jpg" alt="6.jpg"></p>
+<p>   <strong>PCA 并不是线性回归</strong></p>
+<p> 尽管看上去有一些相似但是它们确实是两种不同的算法，如下图左侧，要在给定某个输入特征x的情况下预测某个变量y的数值，故对于线性回归我们想做的是拟合一条直线来最小化点和直线之间的平方误差。所以我们要最小化的是这些蓝线幅值的平方，注意所画的这些蓝色的垂直线，这是垂直距离，它是某个点与通过假设的得到的其<strong>预测值</strong>之间的y轴方向上的距离。</p>
+<p><img src="http://wx3.sinaimg.cn/mw690/7b8d2108gy1fhm4qq6btjj20fp06m0sw.jpg" alt="7.jpg"></p>
+<p> 与此想反，如上图右侧，PCA要做的是最小化这些蓝色直线的幅值，这实际上是最短的直角距离，也就是点x跟直线之间的最短距离。</p>
+<p> 更一般的是当你做线性回归的时候有一个特别的变量y，我们将要预测的线性回归就是用x的所有的值来预测y。然而，在PCA中没有这么一个特别的或者特殊的变量y，我们所拥有的是特征x1，x2等一直到xn所有的这些特征都是被同样地对待因此它们中没有一个是特殊的。</p>
+<p>   <strong>PCA算法实现</strong></p>
+<p>   PCA 执行前必须对数据集进行与处理，从而对数据进行有效地降维。</p>
+<ol>
+<li><p>数据预处理<br>对数据做规范化处理</p>
+<p>​</p>
+<p>当特征值的范围相差很大时，有必要做归一化处理</p>
+<p>​</p>
+</li>
+<li><p>PCA 算法</p>
+</li>
+</ol>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/11/29/任务发布/第一期任务/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/12/16/任务发布/第二期任务/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

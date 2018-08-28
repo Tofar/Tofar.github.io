@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>学习笔记5 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="学习笔记," />
+  
+
+  <meta name="description" content="Linux多线程同步机制 - 信号量 信号量函数定义如下：include &amp;lt;sys/sem.h&amp;gt;int semctl(int sem_id, int sem_num, int command, …);int semget(key_t key, int num_sems, int sem_flags);int semop(int sem_id, struct sembuf *sem_o">
+<meta name="keywords" content="学习笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习笔记5">
+<meta property="og:url" content="http://mu-mo.top/2017/12/24/学习笔记/学习笔记5/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="Linux多线程同步机制 - 信号量 信号量函数定义如下：include &amp;lt;sys/sem.h&amp;gt;int semctl(int sem_id, int sem_num, int command, …);int semget(key_t key, int num_sems, int sem_flags);int semop(int sem_id, struct sembuf *sem_o">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://cdn.liaoxuefeng.com/cdn/files/attachments/0014079993639301a4130bf23574d3586f91928c4f6d6e3000">
+<meta property="og:image" content="https://cdn.liaoxuefeng.com/cdn/files/attachments/00140800242227674f8f0eed1a64b9e95f2ab9752755e23000">
+<meta property="og:image" content="https://cdn.liaoxuefeng.com/cdn/files/attachments/001408003582561ea3bdf0296fe49e29a7c20f52ded48a1000">
+<meta property="og:image" content="https://cdn.liaoxuefeng.com/cdn/files/attachments/0014080077329276557d648f58540f48d04e58520504665000">
+<meta property="og:image" content="https://cdn.liaoxuefeng.com/cdn/files/attachments/001408019030110a0be121000cc46139f7a72982b19daf3000">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000010312474">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.122Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="学习笔记5">
+<meta name="twitter:description" content="Linux多线程同步机制 - 信号量 信号量函数定义如下：include &amp;lt;sys/sem.h&amp;gt;int semctl(int sem_id, int sem_num, int command, …);int semget(key_t key, int num_sems, int sem_flags);int semop(int sem_id, struct sembuf *sem_o">
+<meta name="twitter:image" content="https://cdn.liaoxuefeng.com/cdn/files/attachments/0014079993639301a4130bf23574d3586f91928c4f6d6e3000">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#发送HTML邮件"><span class="toc-text">发送HTML邮件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发送附件"><span class="toc-text">发送附件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发送图片"><span class="toc-text">发送图片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#同时支持HTML和Plain格式"><span class="toc-text">同时支持HTML和Plain格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#加密SMTP"><span class="toc-text">加密SMTP</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-学习笔记/学习笔记5" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      学习笔记5
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2017.12.24
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/学习笔记/">学习笔记</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <ol>
+<li><p>Linux多线程同步机制 - 信号量</p>
+<p>信号量函数定义如下：<br>include &lt;sys/sem.h&gt;<br>int semctl(int sem_id, int sem_num, int command, …);<br>int semget(key_t key, int num_sems, int sem_flags);<br>int semop(int sem_id, struct sembuf *sem_ops, size_t num_sem_ops);</p>
+<p>事实上，为了获得我们特定操作所需要的#define定义，我们需要在包含sys/sem.h文件之前通常需要包含sys/types.h与sys/ipc.h文件。而在某些情况下，这并不是必须的。</p>
+<p>因为我们会依次了解每一个函数，记住，这些函数的设计是用于操作信号量值数组的，从而会使用其操作向比单个信号量所需要的操作更为复杂。</p>
+<p>注意，key的作用类似于一个文件名，因为他表示程序也许会使用或是合作所用的资源。相类似的，由semget所返回的并且为其他的共享内存函数所用的标 识符与由fopen函数所返回 的FILE *十分相似，因为他被进程用来访问共享文件。而且与文件类似，不同的进程会有不同的信号量标识符，尽管他们指向相同的信号量。key与标识符的用法对于在 这里所讨论的所有IPC程序都是通用的，尽管每一个程序会使用独立的key与标识符。</p>
+<p><strong>semget</strong> </p>
+<p>semget函数创建一个新的信号量或是获得一个已存在的信号量键值。</p>
+<p>int semget(key_t key, int num_sems, int sem_flags);</p>
+<p>第一个参数key是一个用来允许不相关的进程访问相同信号量的整数值。所有的信号量是为不同的程序通过提供一个key来间接访问的，对于每一个信号量系统 生成一个信号量标识符。信号量键值只可以由semget获得，所有其他的信号量函数所用的信号量标识符都是由semget所返回的。</p>
+<p>还有一个特殊的信号量key值，IPC_PRIVATE(通常为0)，其作用是创建一个只有创建进程可以访问的信号量。这通常并没有有用的目的，而幸运的是，因为在某些Linux系统上，手册页将IPC_PRIVATE并没有阻止其他的进程访问信号量作为一个bug列出。</p>
+<p>num_sems参数是所需要的信号量数目。这个值通常总是1。</p>
+<p>sem_flags参数是一个标记集合，与open函数的标记十分类似。低九位是信号的权限，其作用与文件权限类似。另外，这些标记可以与 IPC_CREAT进行或操作来创建新的信号量。设置IPC_CREAT标记并且指定一个已经存在的信号量键值并不是一个错误。如果不需 要，IPC_CREAT标记只是被简单的忽略。我们可以使用IPC_CREAT与IPC_EXCL的组合来保证我们可以获得一个新的，唯一的信号量。如果 这个信号量已经存在，则会返回一个错误。</p>
+<p>如果成功，semget函数会返回一个正数；这是用于其他信号量函数的标识符。如果失败，则会返回-1。</p>
+<p><strong>semop</strong> </p>
+<p>函数semop用来改变信号量的值：</p>
+<p>int semop(int sem_id, struct sembuf *sem_ops, size_t num_sem_ops);</p>
+<p>第一个参数，sem_id，是由semget函数所返回的信号量标识符。第二个参数，sem_ops，是一个指向结构数组的指针，其中的每一个结构至少包含下列成员：</p>
+<p>struct sembuf {<br>​    short sem_num;<br>​    short sem_op;<br>​    short sem_flg;<br>}</p>
+<p>第一个成员，sem_num，是信号量数目，通常为0，除非我们正在使用一个信号量数组。sem_op成员是信号量的变化量值。（我们可以以任何量改变信 号量值，而不只是1）通常情况下中使用两个值，-1是我们的P操作，用来等待一个信号量变得可用，而+1是我们的V操作，用来通知一个信号量可用。</p>
+<p>最后一个成员，sem_flg，通常设置为SEM_UNDO。这会使得操作系统跟踪当前进程对信号量所做的改变，而且如果进程终止而没有释放这个信号量， 如果信号量为这个进程所占有，这个标记可以使得操作系统自动释放这个信号量。将sem_flg设置为SEM_UNDO是一个好习惯，除非我们需要不同的行 为。如果我们确实变我们需要一个不同的值而不是SEM_UNDO，一致性是十分重要的，否则我们就会变得十分迷惑，当我们的进程退出时，内核是否会尝试清 理我们的信号量。</p>
+<p>semop的所用动作会同时作用，从而避免多个信号量的使用所引起的竞争条件。我们可以在手册页中了解关于semop处理更为详细的信息。</p>
+<p><strong>semctl</strong> </p>
+<p>semctl函数允许信号量信息的直接控制：</p>
+<p>int semctl(int sem_id, int sem_num, int command, …);</p>
+<p>第一个参数，sem_id，是由semget所获得的信号量标识符。sem_num参数是信号量数目。当我们使用信号量数组时会用到这个参数。通常，如果 这是第一个且是唯一的一个信号量，这个值为0。command参数是要执行的动作，而如果提供了额外的参数，则是union semun，根据X/OPEN规范，这个参数至少包括下列参数：</p>
+<p>union semun {<br>​    int val;<br>​    struct semid_ds <em>buf;<br>​    unsigned short </em>array;<br>}</p>
+<p>许多版本的Linux在头文件(通常为sem.h)中定义了semun联合，尽管X/Open确认说我们必须定义我们自己的联合。如果我们发现我们确实需 要定义我们自己的联合，我们可以查看semctl手册页了解定义。如果有这样的情况，建议使用手册页中提供的定义，尽管这个定义与上面的有区别。</p>
+<p>有多个不同的command值可以用于semctl。在这里我们描述两个会经常用到的值。要了解semctl功能的详细信息，我们应该查看手册页。</p>
+<p>这两个通常的command值为：</p>
+<p>SETVAL：用于初始化信号量为一个已知的值。所需要的值作为联合semun的val成员来传递。在信号量第一次使用之前需要设置信号量。<br>IPC_RMID：当信号量不再需要时用于删除一个信号量标识。</p>
+<p>semctl函数依据command参数会返回不同的值。对于SETVAL与IPC_RMID，如果成功则会返回0，否则会返回-1。</p>
+</li>
+<li><p>线程操作</p>
+<p>踩坑：由于pthread 库不是 Linux 系统默认的库，连接时需要使用静态库 libpthread.a，所以在使用pthread_create()创建线程，以及调用 pthread_atfork()函数建立fork处理程序时，在编译中要加 -lpthread参数。</p>
+<p>例如：<code>gcc thread.c -o thread -lpthread</code></p>
+<p>​</p>
+<p>头文件：pthread.h</p>
+<ul>
+<li>pthread_create()</li>
+</ul>
+<p>功能：创建线程</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">int pthread_create(pthread_t *restrict tidp, //返回线程的ID</span><br><span class="line">                    const pthread_attr_t *restrict attr, //线程属性，默认为NULL</span><br><span class="line">                    void *(*start_rtn)(void), //线程函数入口地址</span><br><span class="line">                    void *restrict arg); //参数</span><br></pre></td></tr></table></figure>
+<ul>
+<li>pthread_join()</li>
+</ul>
+<p>功能：以阻塞的方式等待thread指定的线程结束。当函数返回时，被等待线程的资源被收回。如果进程已经结束，那么该函数会立即返回。并且thread指定的线程必须是joinable的。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">int pthread_join(pthread_t thread, void **retval);</span><br></pre></td></tr></table></figure>
+<p>参数：<br>thread: 线程标识符，即线程ID，标识唯一线程。<br>retval: 用户定义的指针，用来存储被等待线程的返回值。<br>返回值 ： 0代表成功，失败返回的则是错误号。</p>
+</li>
+<li><p>flask-mail</p>
+<ul>
+<li><p>安装 Flask-Mail</p>
+<p>   <code>pip install Flask-Mail</code></p>
+<p>   <strong>Flask-Mail</strong> 使用标准的 Flask 配置 API 进行配置。</p>
+<ul>
+<li><strong>MAIL_SERVER</strong> : 默认为 <strong>‘localhost’</strong></li>
+<li><strong>MAIL_PORT</strong> : 默认为 <strong>25</strong></li>
+<li><strong>MAIL_USE_TLS</strong> : 默认为 <strong>False</strong></li>
+<li><strong>MAIL_USE_SSL</strong> : 默认为 <strong>False</strong></li>
+<li><strong>MAIL_DEBUG</strong> : 默认为 <strong>app.debug</strong></li>
+<li><strong>MAIL_USERNAME</strong> : 默认为 <strong>None</strong></li>
+<li><strong>MAIL_PASSWORD</strong> : 默认为 <strong>None</strong></li>
+<li><strong>MAIL_DEFAULT_SENDER</strong> : 默认为 <strong>None</strong></li>
+<li><strong>MAIL_MAX_EMAILS</strong> : 默认为 <strong>None</strong></li>
+<li><strong>MAIL_SUPPRESS_SEND</strong> : 默认为 <strong>app.testing</strong></li>
+<li><strong>MAIL_ASCII_ATTACHMENTS</strong> : 默认为 <strong>False</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li><p><code>Mail</code> 实例进行管理</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">from flask import Flask</span><br><span class="line">from flask_mail import Mail</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">mail = Mail(app)</span><br></pre></td></tr></table></figure>
+<p>  或者你也可以在应用程序配置的时候设置你的 Mail 实例，通过使用 init_app 方法:</p>
+  <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mail = Mail()</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">mail.init_app(app)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>发送邮件</p>
+<p>为了能够发送邮件，首先需要创建一个 <code>Message</code> 实例:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">from flask_mail import Message</span><br><span class="line"></span><br><span class="line">@app.route(&quot;/&quot;)</span><br><span class="line">def index():</span><br><span class="line"></span><br><span class="line">    msg = Message(&quot;Hello&quot;,</span><br><span class="line">                  sender=&quot;from@example.com&quot;,</span><br><span class="line">                  recipients=[&quot;to@example.com&quot;])</span><br></pre></td></tr></table></figure>
+<p>你能够设置一个或者多个收件人:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">msg.recipients = [&quot;you@example.com&quot;]</span><br><span class="line">msg.add_recipient(&quot;somebodyelse@example.com&quot;)</span><br></pre></td></tr></table></figure>
+<p>如果你设置了 <code>MAIL_DEFAULT_SENDER</code>，就不必再次填写发件人，默认情况下将会使用配置项的发件人:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">msg = Message(&quot;Hello&quot;,</span><br><span class="line">              recipients=[&quot;to@example.com&quot;])</span><br></pre></td></tr></table></figure>
+<p>如果 <code>sender</code> 是一个二元组，它将会被分成姓名和邮件地址:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">msg = Message(&quot;Hello&quot;,</span><br><span class="line">              sender=(&quot;Me&quot;, &quot;me@example.com&quot;))</span><br><span class="line"></span><br><span class="line">assert msg.sender == &quot;Me &lt;me@example.com&gt;&quot;</span><br></pre></td></tr></table></figure>
+<p>邮件内容可以包含主体以及/或者 HTML:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">msg.body = &quot;testing&quot;</span><br><span class="line">msg.html = &quot;&lt;b&gt;testing&lt;/b&gt;&quot;</span><br></pre></td></tr></table></figure>
+<p>最后，发送邮件的时候请使用 Flask 应用设置的 <code>Mail</code> 实例:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mail.send(msg)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>大量邮件</p>
+<p>通常在一个 Web 应用中每一个请求会同时发送一封或者两封邮件。在某些特定的场景下，有可能会发送数十或者数百封邮件，不过这种发送工作会给交离线任务或者脚本执行。</p>
+<p>在这种情况下发送邮件的代码会有些不同:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">with mail.connect() as conn:</span><br><span class="line">    for user in users:</span><br><span class="line">        message = &apos;...&apos;</span><br><span class="line">        subject = &quot;hello, %s&quot; % user.name</span><br><span class="line">        msg = Message(recipients=[user.email],</span><br><span class="line">                      body=message,</span><br><span class="line">                      subject=subject)</span><br><span class="line"></span><br><span class="line">        conn.send(msg)</span><br></pre></td></tr></table></figure>
+<p>与电子邮件服务器的连接会一直保持活动状态直到所有的邮件都已经发送完成后才会关闭（断开）。</p>
+<p>有些邮件服务器会限制一次连接中的发送邮件的上限。你可以设置重连前的发送邮件的最大数，通过配置 <strong>MAIL_MAX_EMAILS</strong> 。</p>
+</li>
+<li><p>附件</p>
+<p>在邮件中添加附件同样非常简单:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">with app.open_resource(&quot;image.png&quot;) as fp:</span><br><span class="line">    msg.attach(&quot;image.png&quot;, &quot;image/png&quot;, fp.read())</span><br></pre></td></tr></table></figure>
+<p>具体细节请参看 <a href="http://www.pythondoc.com/flask-mail/index.html#api" target="_blank" rel="noopener">API</a> 。</p>
+<p>如果 <code>MAIL_ASCII_ATTACHMENTS</code> 设置成 <strong>True</strong> 的话，文件名将会转换成 ASCII 的。 当文件名是以 UTF-8 编码的时候，使用邮件转发的时候会修改邮件内容并且混淆 Content-Disposition 描述，这个时候 <code>MAIL_ASCII_ATTACHMENTS</code> 配置项是十分有用的。转换成 ASCII 的基本方式就是对 non-ASCII 字符的去除。任何一个 unicode 字符能够被 NFKD 分解成一个或者多个 ASCII 字符。</p>
+</li>
+</ul>
+<ol start="4">
+<li><p>SMTP发送邮件</p>
+<p>SMTP是发送邮件的协议，Python内置对SMTP的支持，可以发送纯文本邮件、HTML邮件以及带附件的邮件。</p>
+<p>Python对SMTP支持有<code>smtplib</code>和<code>email</code>两个模块，<code>email</code>负责构造邮件，<code>smtplib</code>负责发送邮件。</p>
+<p>首先，我们来构造一个最简单的纯文本邮件：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">from email.mime.text import MIMEText</span><br><span class="line">msg = MIMEText(&apos;hello, send by Python...&apos;, &apos;plain&apos;, &apos;utf-8&apos;)</span><br></pre></td></tr></table></figure>
+<p>注意到构造<code>MIMEText</code>对象时，第一个参数就是邮件正文，第二个参数是MIME的subtype，传入<code>&#39;plain&#39;</code>，最终的MIME就是<code>&#39;text/plain&#39;</code>，最后一定要用<code>utf-8</code>编码保证多语言兼容性。</p>
+<p>然后，通过SMTP发出去：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 输入Email地址和口令:</span><br><span class="line">from_addr = raw_input(&apos;From: &apos;)</span><br><span class="line">password = raw_input(&apos;Password: &apos;)</span><br><span class="line"># 输入SMTP服务器地址:</span><br><span class="line">smtp_server = raw_input(&apos;SMTP server: &apos;)</span><br><span class="line"># 输入收件人地址:</span><br><span class="line">to_addr = raw_input(&apos;To: &apos;)</span><br><span class="line"></span><br><span class="line">import smtplib</span><br><span class="line">server = smtplib.SMTP(smtp_server, 25) # SMTP协议默认端口是25</span><br><span class="line">server.set_debuglevel(1)</span><br><span class="line">server.login(from_addr, password)</span><br><span class="line">server.sendmail(from_addr, [to_addr], msg.as_string())</span><br><span class="line">server.quit()</span><br></pre></td></tr></table></figure>
+<p>我们用<code>set_debuglevel(1)</code>就可以打印出和SMTP服务器交互的所有信息。SMTP协议就是简单的文本命令和响应。<code>login()</code>方法用来登录SMTP服务器，<code>sendmail()</code>方法就是发邮件，由于可以一次发给多个人，所以传入一个<code>list</code>，邮件正文是一个<code>str</code>，<code>as_string()</code>把<code>MIMEText</code>对象变成<code>str</code>。</p>
+<p>如果一切顺利，就可以在收件人信箱中收到我们刚发送的Email：</p>
+<p><img src="https://cdn.liaoxuefeng.com/cdn/files/attachments/0014079993639301a4130bf23574d3586f91928c4f6d6e3000" alt="send-mail"></p>
+<p>仔细观察，发现如下问题：</p>
+<ol>
+<li>邮件没有主题；</li>
+<li>收件人的名字没有显示为友好的名字，比如<code>Mr Green &lt;green@example.com&gt;</code>；</li>
+<li>明明收到了邮件，却提示不在收件人中。</li>
+</ol>
+<p>这是因为邮件主题、如何显示发件人、收件人等信息并不是通过SMTP协议发给MTA，而是包含在发给MTA的文本中的，所以，我们必须把<code>From</code>、<code>To</code>和<code>Subject</code>添加到<code>MIMEText</code>中，才是一封完整的邮件：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line">from email import encoders</span><br><span class="line">from email.header import Header</span><br><span class="line">from email.mime.text import MIMEText</span><br><span class="line">from email.utils import parseaddr, formataddr</span><br><span class="line">import smtplib</span><br><span class="line"></span><br><span class="line">def _format_addr(s):</span><br><span class="line">    name, addr = parseaddr(s)</span><br><span class="line">    return formataddr(( \</span><br><span class="line">        Header(name, &apos;utf-8&apos;).encode(), \</span><br><span class="line">        addr.encode(&apos;utf-8&apos;) if isinstance(addr, unicode) else addr))</span><br><span class="line"></span><br><span class="line">from_addr = raw_input(&apos;From: &apos;)</span><br><span class="line">password = raw_input(&apos;Password: &apos;)</span><br><span class="line">to_addr = raw_input(&apos;To: &apos;)</span><br><span class="line">smtp_server = raw_input(&apos;SMTP server: &apos;)</span><br><span class="line"></span><br><span class="line">msg = MIMEText(&apos;hello, send by Python...&apos;, &apos;plain&apos;, &apos;utf-8&apos;)</span><br><span class="line">msg[&apos;From&apos;] = _format_addr(u&apos;Python爱好者 &lt;%s&gt;&apos; % from_addr)</span><br><span class="line">msg[&apos;To&apos;] = _format_addr(u&apos;管理员 &lt;%s&gt;&apos; % to_addr)</span><br><span class="line">msg[&apos;Subject&apos;] = Header(u&apos;来自SMTP的问候……&apos;, &apos;utf-8&apos;).encode()</span><br><span class="line"></span><br><span class="line">server = smtplib.SMTP(smtp_server, 25)</span><br><span class="line">server.set_debuglevel(1)</span><br><span class="line">server.login(from_addr, password)</span><br><span class="line">server.sendmail(from_addr, [to_addr], msg.as_string())</span><br><span class="line">server.quit()</span><br></pre></td></tr></table></figure>
+<p>我们编写了一个函数<code>_format_addr()</code>来格式化一个邮件地址。注意不能简单地传入<code>name &lt;addr@example.com&gt;</code>，因为如果包含中文，需要通过<code>Header</code>对象进行编码。</p>
+<p><code>msg[&#39;To&#39;]</code>接收的是字符串而不是list，如果有多个邮件地址，用<code>,</code>分隔即可。</p>
+<p>再发送一遍邮件，就可以在收件人邮箱中看到正确的标题、发件人和收件人：</p>
+<p><img src="https://cdn.liaoxuefeng.com/cdn/files/attachments/00140800242227674f8f0eed1a64b9e95f2ab9752755e23000" alt="mail-with-header"></p>
+<p>你看到的收件人的名字很可能不是我们传入的<code>管理员</code>，因为很多邮件服务商在显示邮件时，会把收件人名字自动替换为用户注册的名字，但是其他收件人名字的显示不受影响。</p>
+<p>如果我们查看Email的原始内容，可以看到如下经过编码的邮件头：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">From: =?utf-8?b?UHl0aG9u54ix5aW96ICF?= &lt;xxxxxx@163.com&gt;</span><br><span class="line">To: =?utf-8?b?566h55CG5ZGY?= &lt;xxxxxx@qq.com&gt;</span><br><span class="line">Subject: =?utf-8?b?5p2l6IeqU01UUOeahOmXruWAmeKApuKApg==?=</span><br></pre></td></tr></table></figure>
+<p>这就是经过<code>Header</code>对象编码的文本，包含utf-8编码信息和Base64编码的文本。如果我们自己来手动构造这样的编码文本，显然比较复杂。</p>
+<h3 id="发送HTML邮件"><a href="#发送HTML邮件" class="headerlink" title="发送HTML邮件"></a>发送HTML邮件</h3><p>如果我们要发送HTML邮件，而不是普通的纯文本文件怎么办？方法很简单，在构造<code>MIMEText</code>对象时，把HTML字符串传进去，再把第二个参数由<code>plain</code>变为<code>html</code>就可以了：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">msg = MIMEText(&apos;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello&lt;/h1&gt;&apos; +</span><br><span class="line">    &apos;&lt;p&gt;send by &lt;a href=&quot;http://www.python.org&quot;&gt;Python&lt;/a&gt;...&lt;/p&gt;&apos; +</span><br><span class="line">    &apos;&lt;/body&gt;&lt;/html&gt;&apos;, &apos;html&apos;, &apos;utf-8&apos;)</span><br></pre></td></tr></table></figure>
+<p>再发送一遍邮件，你将看到以HTML显示的邮件：</p>
+<p><img src="https://cdn.liaoxuefeng.com/cdn/files/attachments/001408003582561ea3bdf0296fe49e29a7c20f52ded48a1000" alt="html-mail"></p>
+<h3 id="发送附件"><a href="#发送附件" class="headerlink" title="发送附件"></a>发送附件</h3><p>如果Email中要加上附件怎么办？带附件的邮件可以看做包含若干部分的邮件：文本和各个附件本身，所以，可以构造一个<code>MIMEMultipart</code>对象代表邮件本身，然后往里面加上一个<code>MIMEText</code>作为邮件正文，再继续往里面加上表示附件的<code>MIMEBase</code>对象即可：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 邮件对象:</span><br><span class="line">msg = MIMEMultipart()</span><br><span class="line">msg[&apos;From&apos;] = _format_addr(u&apos;Python爱好者 &lt;%s&gt;&apos; % from_addr)</span><br><span class="line">msg[&apos;To&apos;] = _format_addr(u&apos;管理员 &lt;%s&gt;&apos; % to_addr)</span><br><span class="line">msg[&apos;Subject&apos;] = Header(u&apos;来自SMTP的问候……&apos;, &apos;utf-8&apos;).encode()</span><br><span class="line"></span><br><span class="line"># 邮件正文是MIMEText:</span><br><span class="line">msg.attach(MIMEText(&apos;send with file...&apos;, &apos;plain&apos;, &apos;utf-8&apos;))</span><br><span class="line"></span><br><span class="line"># 添加附件就是加上一个MIMEBase，从本地读取一个图片:</span><br><span class="line">with open(&apos;/Users/michael/Downloads/test.png&apos;, &apos;rb&apos;) as f:</span><br><span class="line">    # 设置附件的MIME和文件名，这里是png类型:</span><br><span class="line">    mime = MIMEBase(&apos;image&apos;, &apos;png&apos;, filename=&apos;test.png&apos;)</span><br><span class="line">    # 加上必要的头信息:</span><br><span class="line">    mime.add_header(&apos;Content-Disposition&apos;, &apos;attachment&apos;, filename=&apos;test.png&apos;)</span><br><span class="line">    mime.add_header(&apos;Content-ID&apos;, &apos;&lt;0&gt;&apos;)</span><br><span class="line">    mime.add_header(&apos;X-Attachment-Id&apos;, &apos;0&apos;)</span><br><span class="line">    # 把附件的内容读进来:</span><br><span class="line">    mime.set_payload(f.read())</span><br><span class="line">    # 用Base64编码:</span><br><span class="line">    encoders.encode_base64(mime)</span><br><span class="line">    # 添加到MIMEMultipart:</span><br><span class="line">    msg.attach(mime)</span><br></pre></td></tr></table></figure>
+<p>然后，按正常发送流程把<code>msg</code>（注意类型已变为<code>MIMEMultipart</code>）发送出去，就可以收到如下带附件的邮件：</p>
+<p><img src="https://cdn.liaoxuefeng.com/cdn/files/attachments/0014080077329276557d648f58540f48d04e58520504665000" alt="mimemultipart"></p>
+<h3 id="发送图片"><a href="#发送图片" class="headerlink" title="发送图片"></a>发送图片</h3><p>如果要把一个图片嵌入到邮件正文中怎么做？直接在HTML邮件中链接图片地址行不行？答案是，大部分邮件服务商都会自动屏蔽带有外链的图片，因为不知道这些链接是否指向恶意网站。</p>
+<p>要把图片嵌入到邮件正文中，我们只需按照发送附件的方式，先把邮件作为附件添加进去，然后，在HTML中通过引用<code>src=&quot;cid:0&quot;</code>就可以把附件作为图片嵌入了。如果有多个图片，给它们依次编号，然后引用不同的<code>cid:x</code>即可。</p>
+<p>把上面代码加入<code>MIMEMultipart</code>的<code>MIMEText</code>从<code>plain</code>改为<code>html</code>，然后在适当的位置引用图片：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">msg.attach(MIMEText(&apos;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello&lt;/h1&gt;&apos; +</span><br><span class="line">    &apos;&lt;p&gt;&lt;img src=&quot;cid:0&quot;&gt;&lt;/p&gt;&apos; +</span><br><span class="line">    &apos;&lt;/body&gt;&lt;/html&gt;&apos;, &apos;html&apos;, &apos;utf-8&apos;))</span><br></pre></td></tr></table></figure>
+<p>再次发送，就可以看到图片直接嵌入到邮件正文的效果：</p>
+<p><img src="https://cdn.liaoxuefeng.com/cdn/files/attachments/001408019030110a0be121000cc46139f7a72982b19daf3000" alt="email-inline-image"></p>
+<h3 id="同时支持HTML和Plain格式"><a href="#同时支持HTML和Plain格式" class="headerlink" title="同时支持HTML和Plain格式"></a>同时支持HTML和Plain格式</h3><p>如果我们发送HTML邮件，收件人通过浏览器或者Outlook之类的软件是可以正常浏览邮件内容的，但是，如果收件人使用的设备太古老，查看不了HTML邮件怎么办？</p>
+<p>办法是在发送HTML的同时再附加一个纯文本，如果收件人无法查看HTML格式的邮件，就可以自动降级查看纯文本邮件。</p>
+<p>利用<code>MIMEMultipart</code>就可以组合一个HTML和Plain，要注意指定subtype是<code>alternative</code>：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">msg = MIMEMultipart(&apos;alternative&apos;)</span><br><span class="line">msg[&apos;From&apos;] = ...</span><br><span class="line">msg[&apos;To&apos;] = ...</span><br><span class="line">msg[&apos;Subject&apos;] = ...</span><br><span class="line"></span><br><span class="line">msg.attach(MIMEText(&apos;hello&apos;, &apos;plain&apos;, &apos;utf-8&apos;))</span><br><span class="line">msg.attach(MIMEText(&apos;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&apos;, &apos;html&apos;, &apos;utf-8&apos;))</span><br><span class="line"># 正常发送msg对象...</span><br></pre></td></tr></table></figure>
+<h3 id="加密SMTP"><a href="#加密SMTP" class="headerlink" title="加密SMTP"></a>加密SMTP</h3><p>使用标准的25端口连接SMTP服务器时，使用的是明文传输，发送邮件的整个过程可能会被窃听。要更安全地发送邮件，可以加密SMTP会话，实际上就是先创建SSL安全连接，然后再使用SMTP协议发送邮件。</p>
+<p>某些邮件服务商，例如Gmail，提供的SMTP服务必须要加密传输。我们来看看如何通过Gmail提供的安全SMTP发送邮件。</p>
+<p>必须知道，Gmail的SMTP端口是587，因此，修改代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">smtp_server = &apos;smtp.gmail.com&apos;</span><br><span class="line">smtp_port = 587</span><br><span class="line">server = smtplib.SMTP(smtp_server, smtp_port)</span><br><span class="line">server.starttls()</span><br><span class="line"># 剩下的代码和前面的一模一样:</span><br><span class="line">server.set_debuglevel(1)</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>只需要在创建<code>SMTP</code>对象后，立刻调用<code>starttls()</code>方法，就创建了安全连接。后面的代码和前面的发送邮件代码完全一样。</p>
+<p>如果因为网络问题无法连接Gmail的SMTP服务器，请相信我们的代码是没有问题的，你需要对你的网络设置做必要的调整。</p>
+</li>
+<li><p>jwt</p>
+<p>JWT是Auth0提出的通过对JSON进行加密签名来实现授权验证的方案，编码之后的JWT看起来是这样的一串字符：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ</span><br></pre></td></tr></table></figure>
+<p>由 <code>.</code> 分为三段，通过解码可以得到：</p>
+<ol>
+<li>头部（Header）</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// 包括类别（typ）、加密算法（alg）；</span><br><span class="line">&#123;</span><br><span class="line">  &quot;alg&quot;: &quot;HS256&quot;,</span><br><span class="line">  &quot;typ&quot;: &quot;JWT&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>jwt的头部包含两部分信息：</p>
+<ul>
+<li>声明类型，这里是jwt</li>
+<li>声明加密的算法 通常直接使用 HMAC SHA256</li>
+</ul>
+<p>然后将头部进行base64加密（该加密是可以对称解密的)，构成了第一部分。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>载荷（payload）</li>
+</ol>
+<p>载荷就是存放有效信息的地方。这些有效信息包含三个部分：</p>
+<ul>
+<li>标准中注册声明</li>
+<li>公共的声名</li>
+<li>私有的声明</li>
+</ul>
+<p><code>公共的声明 ：</code><br>公共的声明可以添加任何的信息，一般添加用户的相关信息或其他业务需要的必要信息.但不建议添加敏感信息，因为该部分在客户端可解密。</p>
+<p><code>私有的声明 ：</code><br>私有声明是提供者和消费者所共同定义的声明，一般不建议存放敏感信息，因为base64是对称解密的，意味着该部分信息可以归类为明文信息。</p>
+<p>下面是一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// 包括需要传递的用户信息；</span><br><span class="line">&#123; &quot;iss&quot;: &quot;Online JWT Builder&quot;, </span><br><span class="line">  &quot;iat&quot;: 1416797419, </span><br><span class="line">  &quot;exp&quot;: 1448333419, </span><br><span class="line">  &quot;aud&quot;: &quot;www.gusibi.com&quot;, </span><br><span class="line">  &quot;sub&quot;: &quot;uid&quot;, </span><br><span class="line">  &quot;nickname&quot;: &quot;goodspeed&quot;, </span><br><span class="line">  &quot;username&quot;: &quot;goodspeed&quot;, </span><br><span class="line">  &quot;scopes&quot;: [ &quot;admin&quot;, &quot;user&quot; ] </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>iss: 该JWT的签发者，是否使用是可选的；</li>
+<li>sub: 该JWT所面向的用户，是否使用是可选的；</li>
+<li>aud: 接收该JWT的一方，是否使用是可选的；</li>
+<li>exp(expires): 什么时候过期，这里是一个Unix时间戳，是否使用是可选的；</li>
+<li>iat(issued at): 在什么时候签发的(UNIX时间)，是否使用是可选的；</li>
+</ul>
+<p>其他还有：</p>
+<ul>
+<li>nbf (Not Before)：如果当前时间在nbf里的时间之前，则Token不被接受；一般都会留一些余地，比如几分钟；，是否使用是可选的；</li>
+<li>jti: jwt的唯一身份标识，主要用来作为一次性token，从而回避重放攻击。</li>
+</ul>
+<p>将上面的JSON对象进行<code>base64编码</code>可以得到下面的字符串。这个字符串我们将它称作JWT的Payload（载荷）。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE0MTY3OTc0MTksImV4cCI6MTQ0ODMzMzQxOSwiYXVkIjoid3d3Lmd1c2liaS5jb20iLCJzdWIiOiIwMTIzNDU2Nzg5Iiwibmlja25hbWUiOiJnb29kc3BlZWQiLCJ1c2VybmFtZSI6Imdvb2RzcGVlZCIsInNjb3BlcyI6WyJhZG1pbiIsInVzZXIiXX0</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>信息会暴露</code>：由于这里用的是可逆的base64 编码，所以第二部分的数据实际上是明文的。我们应该避免在这里存放不能公开的隐私信息。</p>
+</blockquote>
+<ol start="3">
+<li>签名（signature）</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// 根据alg算法与私有秘钥进行加密得到的签名字串；</span><br><span class="line">// 这一段是最重要的敏感信息，只能在服务端解密；</span><br><span class="line">HMACSHA256(  </span><br><span class="line">    base64UrlEncode(header) + &quot;.&quot; +</span><br><span class="line">    base64UrlEncode(payload),</span><br><span class="line">    SECREATE_KEY</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>jwt的第三部分是一个签证信息，这个签证信息由三部分组成：</p>
+<ul>
+<li>header (base64后的)</li>
+<li>payload (base64后的)</li>
+<li>secret</li>
+</ul>
+<p>将上面的两个编码后的字符串都用句号.连接在一起（头部在前），就形成了:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKb2huIFd1IEpXVCIsImlhdCI6MTQ0MTU5MzUwMiwiZXhwIjoxNDQxNTk0NzIyLCJhdWQiOiJ3d3cuZXhhbXBsZS5jb20iLCJzdWIiOiJqcm9ja2V0QGV4YW1wbGUuY29tIiwiZnJvbV91c2VyIjoiQiIsInRhcmdldF91c2VyIjoiQSJ9</span><br></pre></td></tr></table></figure>
+<p>最后，我们将上面拼接完的字符串用HS256算法进行加密。在加密的时候，我们还需要提供一个密钥（secret）。如果我们用 <code>secret</code> 作为密钥的话，那么就可以得到我们加密后的内容:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pq5IDv-yaktw6XEa5GEv07SzS9ehe6AcVSdTj0Ini4o</span><br></pre></td></tr></table></figure>
+<p>将这三部分用.连接成一个完整的字符串,构成了最终的jwt:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE0MTY3OTc0MTksImV4cCI6MTQ0ODMzMzQxOSwiYXVkIjoid3d3Lmd1c2liaS5jb20iLCJzdWIiOiIwMTIzNDU2Nzg5Iiwibmlja25hbWUiOiJnb29kc3BlZWQiLCJ1c2VybmFtZSI6Imdvb2RzcGVlZCIsInNjb3BlcyI6WyJhZG1pbiIsInVzZXIiXX0.pq5IDv-yaktw6XEa5GEv07SzS9ehe6AcVSdTj0Ini4o</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>签名的目的</code>：签名实际上是对头部以及载荷内容进行签名。所以，如果有人对头部以及载荷的内容解码之后进行修改，再进行编码的话，那么新的头部和载荷的签名和之前的签名就将是不一样的。而且，如果不知道服务器加密的时候用的密钥的话，得出来的签名也一定会是不一样的。<br>这样就能保证token不会被篡改。</p>
+</blockquote>
+<p>token 生成好之后，接下来就可以用token来和服务器进行通讯了。</p>
+<p>下图是client 使用 JWT 与server 交互过程:</p>
+<p><img src="https://segmentfault.com/img/remote/1460000010312474" alt="img"></p>
+<p>这里在第三步我们得到 JWT 之后，需要将JWT存放在 client，之后的每次需要认证的请求都要把JWT发送过来。（请求时可以放到 header 的 Authorization ）</p>
+<ol start="4">
+<li>JWT 使用场景</li>
+</ol>
+<p>JWT的主要优势在于使用无状态、可扩展的方式处理应用中的用户会话。服务端可以通过内嵌的声明信息，很容易地获取用户的会话信息，而不需要去访问用户或会话的数据库。在一个分布式的面向服务的框架中，这一点非常有用。</p>
+<p>但是，如果系统中需要使用黑名单实现长期有效的token刷新机制，这种无状态的优势就不明显了。</p>
+<p>优点:</p>
+<ul>
+<li>快速开发</li>
+<li>不需要cookie</li>
+<li>JSON在移动端的广泛应用</li>
+<li>不依赖于社交登录</li>
+<li>相对简单的概念理解</li>
+</ul>
+<p>缺点:</p>
+<ul>
+<li>Token有长度限制</li>
+<li>Token不能撤销</li>
+<li>需要token有失效时间限制(exp)</li>
+</ul>
+</li>
+<li><p>pop3收取邮件</p>
+<p>   python的poplib也针对这些命令分别提供了对应的方法,上面在第二列里已经标出来。</p>
+<p>​</p>
+<p>收取邮件的过程一般是：</p>
+<ol>
+<li>连接pop3服务器 (poplib.POP3.<strong>init</strong> 或者poplib.POP3_SSL.<strong>init</strong>)</li>
+<li>发送用户名和密码进行验证 (poplib.POP3.user  poplib.POP3.pass_)</li>
+<li>获取邮箱中信件信息 (poplib.POP3.stat)</li>
+<li>收取邮件 (poplib.POP3.retr)</li>
+<li>删除邮件 (poplib.POP3.dele)</li>
+<li>退出 (poplib.POP3.quit)</li>
+</ol>
+<p>官方文档：</p>
+<ul>
+<li><p><code>POP3.set_debuglevel</code>(<em>level</em>)</p>
+<p>Set the instance’s debugging level. This controls the amount of debugging output printed. The default, <code>0</code>, produces no debugging output. A value of<code>1</code> produces a moderate amount of debugging output, generally a single line per request. A value of <code>2</code> or higher produces the maximum amount of debugging output, logging each line sent and received on the control connection.</p>
+</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li><p><code>POP3.getwelcome</code>()</p>
+<p>Returns the greeting string sent by the POP3 server.</p>
+</li>
+</ul>
+<ul>
+<li><p><code>POP3.user</code>(<em>username</em>)</p>
+<p>Send user command, response should indicate that a password is required.</p>
+</li>
+</ul>
+<ul>
+<li><p><code>POP3.pass_</code>(<em>password</em>)</p>
+<p>Send password, response includes message count and mailbox size. Note: the mailbox on the server is locked until <code>quit()</code> is called.</p>
+</li>
+</ul>
+<ul>
+<li><p><code>POP3.apop</code>(<em>user</em>, <em>secret</em>)</p>
+<p>Use the more secure APOP authentication to log into the POP3 server.</p>
+</li>
+</ul>
+<ul>
+<li><p><code>POP3.rpop</code>(<em>user</em>)</p>
+<p>Use RPOP authentication (similar to UNIX r-commands) to log into POP3 server.</p>
+</li>
+</ul>
+<ul>
+<li><p><code>POP3.stat</code>()</p>
+<p>Get mailbox status. The result is a tuple of 2 integers: <code>(message count, mailbox size)</code>.</p>
+</li>
+</ul>
+<ul>
+<li><p><code>POP3.list</code>([<em>which</em>])</p>
+<p>Request message list, result is in the form <code>(response, [&#39;mesg_num octets&#39;, ...], octets)</code>. If <em>which</em> is set, it is the message to list.</p>
+</li>
+</ul>
+<ul>
+<li><p><code>POP3.retr</code>(<em>which</em>)</p>
+<p>Retrieve whole message number <em>which</em>, and set its seen flag. Result is in form <code>(response, [&#39;line&#39;, ...], octets)</code>.</p>
+</li>
+</ul>
+<ul>
+<li><p><code>POP3.dele</code>(<em>which</em>)</p>
+<p>Flag message number <em>which</em> for deletion. On most servers deletions are not actually performed until QUIT (the major exception is Eudora QPOP, which deliberately violates the RFCs by doing pending deletes on any disconnect).</p>
+</li>
+</ul>
+<ul>
+<li><p><code>POP3.rset</code>()</p>
+<p>Remove any deletion marks for the mailbox.</p>
+</li>
+</ul>
+<ul>
+<li><p><code>POP3.noop</code>()</p>
+<p>Do nothing. Might be used as a keep-alive.</p>
+</li>
+</ul>
+<ul>
+<li><p><code>POP3.quit</code>()</p>
+<p>Signoff: commit changes, unlock mailbox, drop connection.</p>
+</li>
+</ul>
+<ul>
+<li><p><code>POP3.top</code>(<em>which</em>, <em>howmuch</em>)</p>
+<p>Retrieves the message header plus <em>howmuch</em> lines of the message after the header of message number <em>which</em>. Result is in form <code>(response,[&#39;line&#39;, ...], octets)</code>.The POP3 TOP command this method uses, unlike the RETR command, doesn’t set the message’s seen flag; unfortunately, TOP is poorly specified in the RFCs and is frequently broken in off-brand servers. Test this method by hand against the POP3 servers you will use before trusting it.</p>
+</li>
+</ul>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/12/21/编程语言/Golang/golang-新人入门配置学习/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/12/25/数据结构/游标实现链表及二叉树和BST树/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

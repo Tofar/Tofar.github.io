@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>python logging 模块学习 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Python - 学习笔记,logging," />
+  
+
+  <meta name="description" content="转自 关于 logging 的一些琐事 1. 为什么logging.info()默认不输出因为默认生成的 root logger 的 level 是 logging.WARNING，低于该级别的就不输出了。可以进行如下设置来输出： &amp;gt;&amp;gt;&amp;gt; import logging&amp;gt;&amp;gt;&amp;gt; logging.info(&amp;apos;test&amp;apos;)&amp;gt;&amp;gt;&amp;gt; r">
+<meta name="keywords" content="Python - 学习笔记,logging">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python logging 模块学习">
+<meta property="og:url" content="http://mu-mo.top/2018/04/24/编程语言/Python/python logging模块学习/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="转自 关于 logging 的一些琐事 1. 为什么logging.info()默认不输出因为默认生成的 root logger 的 level 是 logging.WARNING，低于该级别的就不输出了。可以进行如下设置来输出： &amp;gt;&amp;gt;&amp;gt; import logging&amp;gt;&amp;gt;&amp;gt; logging.info(&amp;apos;test&amp;apos;)&amp;gt;&amp;gt;&amp;gt; r">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.130Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python logging 模块学习">
+<meta name="twitter:description" content="转自 关于 logging 的一些琐事 1. 为什么logging.info()默认不输出因为默认生成的 root logger 的 level 是 logging.WARNING，低于该级别的就不输出了。可以进行如下设置来输出： &amp;gt;&amp;gt;&amp;gt; import logging&amp;gt;&amp;gt;&amp;gt; logging.info(&amp;apos;test&amp;apos;)&amp;gt;&amp;gt;&amp;gt; r">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-为什么logging-info-默认不输出"><span class="toc-text">1. 为什么logging.info()默认不输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-如何指定输出格式"><span class="toc-text">2. 如何指定输出格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-为什么我重定向了stdout却看不到输出"><span class="toc-text">3. 为什么我重定向了stdout却看不到输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-如何将日志输出到文件"><span class="toc-text">4. 如何将日志输出到文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-捕捉了一个异常，如何输出执行堆栈？"><span class="toc-text">5. 捕捉了一个异常，如何输出执行堆栈？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-如何针对不同的模块，输出到不同的日志"><span class="toc-text">6. 如何针对不同的模块，输出到不同的日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-如何指定某些日志不输出"><span class="toc-text">7. 如何指定某些日志不输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-大文件分割"><span class="toc-text">8. 大文件分割</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-编程语言/Python/python logging模块学习" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      python logging 模块学习
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2018.04.24
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/Python/">Python</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <p><strong>转自</strong> <a href="http://www.keakon.net/2013/02/21/%E5%85%B3%E4%BA%8Elogging%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%90%E4%BA%8B" target="_blank" rel="noopener">关于 logging 的一些琐事</a></p>
+<h3 id="1-为什么logging-info-默认不输出"><a href="#1-为什么logging-info-默认不输出" class="headerlink" title="1. 为什么logging.info()默认不输出"></a>1. 为什么logging.info()默认不输出</h3><p>因为默认生成的 root logger 的 level 是 logging.WARNING，低于该级别的就不输出了。可以进行如下设置来输出：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; import logging</span><br><span class="line">&gt;&gt;&gt; logging.info(&apos;test&apos;)</span><br><span class="line">&gt;&gt;&gt; root_logger = logging.getLogger()  # 或使用未公开的 logging.root</span><br><span class="line">&gt;&gt;&gt; root_logger.level</span><br><span class="line">30</span><br><span class="line">&gt;&gt;&gt; logging.getLevelName(30)</span><br><span class="line">&apos;WARNING&apos;</span><br><span class="line">&gt;&gt;&gt; root_logger.level = logging.NOTSET</span><br><span class="line">&gt;&gt;&gt; logging.info(&apos;test&apos;)</span><br><span class="line">INFO:root:test</span><br></pre></td></tr></table></figure>
+<p>如果还没配置 handler 的话，可以用 logging.basicConfig() 来配置：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; root_logger.handlers</span><br><span class="line">[]</span><br><span class="line">&gt;&gt;&gt; logging.basicConfig(level=logging.NOTSET)</span><br><span class="line">&gt;&gt;&gt; root_logger.handlers</span><br><span class="line">[&lt;logging.StreamHandler object at 0x108becd10&gt;]</span><br><span class="line">&gt;&gt;&gt; logging.info(&apos;test&apos;)</span><br><span class="line">INFO:root:test</span><br></pre></td></tr></table></figure>
+<h3 id="2-如何指定输出格式"><a href="#2-如何指定输出格式" class="headerlink" title="2. 如何指定输出格式"></a>2. 如何指定输出格式</h3><p>给 logger 的 handler 设置一个 logging.Formatter 对象：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; root_logger.handlers[0].formatter.format</span><br><span class="line">&lt;bound method Formatter.format of &lt;logging.Formatter object at 0x10c062d90&gt;&gt;</span><br><span class="line">&gt;&gt;&gt; root_logger.handlers[0].formatter.datefmt</span><br><span class="line">&gt;&gt;&gt; root_logger.handlers[0].formatter._fmt</span><br><span class="line">&apos;%(levelname)s:%(name)s:%(message)s&apos;</span><br><span class="line">&gt;&gt;&gt; LOGGING_FORMAT = &apos;[%(levelname)1.1s %(asctime)s %(module)s:%(lineno)d] %(message)s&apos;</span><br><span class="line">&gt;&gt;&gt; DATE_FORMAT = &apos;%y%m%d %H:%M:%S&apos;</span><br><span class="line">&gt;&gt;&gt; formatter = logging.Formatter(LOGGING_FORMAT, DATE_FORMAT)</span><br><span class="line">&gt;&gt;&gt; root_logger.handlers[0].formatter = formatter</span><br><span class="line">&gt;&gt;&gt; logging.info(&apos;test&apos;)</span><br><span class="line">[I 130221 01:58:28 &lt;stdin&gt;:1] test</span><br></pre></td></tr></table></figure>
+<p>如果还没配置 handler 的话，可以用 logging.basicConfig() 来配置：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">logging.basicConfig(</span><br><span class="line">    level=logging.NOTSET,</span><br><span class="line">    format=LOGGING_FORMAT,</span><br><span class="line">    datefmt=DATE_FORMAT</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>详细的格式介绍就查看<a href="http://docs.python.org/2/library/logging.html#logrecord-attributes" target="_blank" rel="noopener">文档</a>吧。</p>
+<h3 id="3-为什么我重定向了stdout却看不到输出"><a href="#3-为什么我重定向了stdout却看不到输出" class="headerlink" title="3. 为什么我重定向了stdout却看不到输出"></a>3. 为什么我重定向了stdout却看不到输出</h3><p>因为默认生成的 root logger 的 handler 的 stream 是 stderr，不是 stdout：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; root_logger.handlers[0].stream</span><br><span class="line">&lt;open file &apos;&lt;stderr&gt;&apos;, mode &apos;w&apos; at 0x1089cb270&gt;</span><br></pre></td></tr></table></figure>
+<p>可以如下分别配置：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">stdout_handler = logging.StreamHandler(sys.__stdout__)</span><br><span class="line">stdout_handler.level = logging.DEBUG</span><br><span class="line">stdout_handler.formatter = formatter</span><br><span class="line">root_logger.addHandler(stdout_handler)</span><br><span class="line"></span><br><span class="line">stderr_handler = logging.StreamHandler(sys.__stderr__)</span><br><span class="line">stderr_handler.level = logging.WARNING</span><br><span class="line">stderr_handler.formatter = formatter</span><br><span class="line">root_logger.addHandler(stderr_handler)</span><br></pre></td></tr></table></figure>
+<h3 id="4-如何将日志输出到文件"><a href="#4-如何将日志输出到文件" class="headerlink" title="4. 如何将日志输出到文件"></a>4. 如何将日志输出到文件</h3><p>使用 logging.FileHandler()：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">handler = logging.FileHandler(&apos;log/test.log&apos;)</span><br><span class="line">root_logger.addHandler(handler)</span><br></pre></td></tr></table></figure>
+<p>其中文件名可以使用相对路径，但要保证文件夹存在。默认的文件打开方式是 append。 如果还没配置 handler 的话，可以用 logging.basicConfig() 来配置：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">logging.basicConfig(</span><br><span class="line">    level=logging.NOTSET,</span><br><span class="line">    format=LOGGING_FORMAT,</span><br><span class="line">    datefmt=DATE_FORMAT,</span><br><span class="line">    filename=&apos;log/test.log&apos;,</span><br><span class="line">    filemode=&apos;a&apos;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="5-捕捉了一个异常，如何输出执行堆栈？"><a href="#5-捕捉了一个异常，如何输出执行堆栈？" class="headerlink" title="5. 捕捉了一个异常，如何输出执行堆栈？"></a>5. 捕捉了一个异常，如何输出执行堆栈？</h3><p>使用 logging.exception()，或在调用 logging.debug() 等方法时加上 exc_info=True 参数。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; try:</span><br><span class="line">...     0 / 0</span><br><span class="line">... except:</span><br><span class="line">...     logging.exception(&apos;Catch an exception.&apos;)</span><br><span class="line">...     print &apos;-&apos; * 10</span><br><span class="line">...     logging.warning(&apos;Catch an exception.&apos;, exc_info=True)</span><br><span class="line">... </span><br><span class="line">ERROR:root:Catch an exception.</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 2, in &lt;module&gt;</span><br><span class="line">ZeroDivisionError: integer division or modulo by zero</span><br><span class="line">----------</span><br><span class="line">WARNING:root:Catch an exception.</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 2, in &lt;module&gt;</span><br><span class="line">ZeroDivisionError: integer division or modulo by zero</span><br></pre></td></tr></table></figure>
+<h3 id="6-如何针对不同的模块，输出到不同的日志"><a href="#6-如何针对不同的模块，输出到不同的日志" class="headerlink" title="6. 如何针对不同的模块，输出到不同的日志"></a>6. 如何针对不同的模块，输出到不同的日志</h3><p>可以创建多个 logger：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">console_handler = logging.StreamHandler(sys. __stdout__)</span><br><span class="line">console_handler.level = logging.DEBUG</span><br><span class="line">console_logger = logging.getLogger(&apos;test&apos;)</span><br><span class="line">console_logger.addHandler(console_handler)</span><br><span class="line"></span><br><span class="line">file_handler = logging.FileHandler(&apos;log/test.log&apos;)</span><br><span class="line">file_handler.level = logging.WARNING</span><br><span class="line">file_logger = logging.getLogger(&apos;test.file&apos;)</span><br><span class="line">file_logger.addHandler(file_handler)</span><br><span class="line"></span><br><span class="line">console_logger.error(&apos;test&apos;)</span><br><span class="line">file_logger.error(&apos;test&apos;)</span><br><span class="line"></span><br><span class="line">console_logger.parent is root_logger</span><br><span class="line">file_logger.parent is console_logger</span><br><span class="line">console_logger.getChild(&apos;file&apos;) is file_logger</span><br></pre></td></tr></table></figure>
+<p>每个 logger 都有个名字，以 ‘.’ 来划分继承关系。名字为空的就是 root_logger，console_logger 的名字是 ‘test’，因此 root_logger 是 console_logger 的 parent；而 file_logger 的名字是 ‘test.file’，因此 console_logger 是 file_logger 的 parent。 如果 logger 的 propagate 属性为 True（默认值），则它的记录也会传到父 logger。因此，file_logger 在记录到文件的同时，也会在 stdout 输出日志。 建议每个模块都用自己的 logger。</p>
+<h3 id="7-如何指定某些日志不输出"><a href="#7-如何指定某些日志不输出" class="headerlink" title="7. 如何指定某些日志不输出"></a>7. 如何指定某些日志不输出</h3><p>使用 logging.Filter 来过滤记录：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mport logging</span><br><span class="line">import random</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class OddFilter(logging.Filter):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.count = 0</span><br><span class="line"></span><br><span class="line">    def filter(self, record):</span><br><span class="line">        self.count += 1</span><br><span class="line">        if record.args[0] &amp; 1:</span><br><span class="line">            record.count = self.count  # 给 record 增加了 count 属性</span><br><span class="line">            return True  # 为 True 的记录才输出</span><br><span class="line">        return False</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">root_logger = logging.getLogger()</span><br><span class="line">logging.basicConfig(level=logging.NOTSET, format=&apos;%(message)s (total: %(count)d)&apos;)  # 可以使用 record.count 来格式化</span><br><span class="line">root_logger.level = logging.NOTSET</span><br><span class="line">root_logger.addFilter(OddFilter())</span><br><span class="line"></span><br><span class="line">for i in xrange(100):</span><br><span class="line">    logging.error(&apos;number: %d&apos;, random.randint(0, 1000))</span><br></pre></td></tr></table></figure>
+<h3 id="8-大文件分割"><a href="#8-大文件分割" class="headerlink" title="8. 大文件分割"></a>8. 大文件分割</h3><p>可以使用 logging.handlers.RotatingFileHandler 和 logging.handlers.TimedRotatingFileHandler。前者按文件大小来分割，后者按时间来分割。 它们会在达到分割条件时（文件达到指定大小或达到指定时间），把当前的日志重命名为备份文件，然后再打开新文件来记录。 值得一提的是，如果备份文件名已存在，就会被删除。所以在多进程时不建议使用。我是将日志输出到 stdout 和 stderr，再用 supervisor 来分割日志。 此外还有一些没考虑到的特殊情况，建议使用前读读源码，然后自行实现。</p>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/04/13/数据结构/红黑树/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/04/29/运维/nginx/nginx 实践/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

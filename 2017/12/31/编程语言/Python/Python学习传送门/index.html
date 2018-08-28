@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Python 学习传送门 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Python,portal,start," />
+  
+
+  <meta name="description" content="欢迎大家来补充，各种笔记、教程、电子书、精华帖子啥的都行 Python 学习教程： 廖雪峰的Python3教程 廖雪峰的Python2教程  Python3入门指南-官方中文 Python2入门指南-官方中文  Python 代码规范(Google 开源项目风格指南)   Python Web框架教程： Flask中文教程  民主楼-flask 内含 flask 的各中链接   uWSGI 和 N">
+<meta name="keywords" content="Python,portal,start">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 学习传送门">
+<meta property="og:url" content="http://mu-mo.top/2017/12/31/编程语言/Python/Python学习传送门/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="欢迎大家来补充，各种笔记、教程、电子书、精华帖子啥的都行 Python 学习教程： 廖雪峰的Python3教程 廖雪峰的Python2教程  Python3入门指南-官方中文 Python2入门指南-官方中文  Python 代码规范(Google 开源项目风格指南)   Python Web框架教程： Flask中文教程  民主楼-flask 内含 flask 的各中链接   uWSGI 和 N">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.126Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python 学习传送门">
+<meta name="twitter:description" content="欢迎大家来补充，各种笔记、教程、电子书、精华帖子啥的都行 Python 学习教程： 廖雪峰的Python3教程 廖雪峰的Python2教程  Python3入门指南-官方中文 Python2入门指南-官方中文  Python 代码规范(Google 开源项目风格指南)   Python Web框架教程： Flask中文教程  民主楼-flask 内含 flask 的各中链接   uWSGI 和 N">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Python-学习教程："><span class="toc-text">Python 学习教程：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Python-Web框架教程："><span class="toc-text">Python Web框架教程：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#uWSGI-和-Nginx"><span class="toc-text">uWSGI 和 Nginx:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#前后端认证加密："><span class="toc-text">前后端认证加密：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#书籍推荐："><span class="toc-text">书籍推荐：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实战："><span class="toc-text">实战：</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-编程语言/Python/Python学习传送门" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      Python 学习传送门
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2017.12.31
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/Python/">Python</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <p><strong>欢迎大家来补充，各种笔记、教程、电子书、精华帖子啥的都行</strong></p>
+<h4 id="Python-学习教程："><a href="#Python-学习教程：" class="headerlink" title="Python 学习教程："></a>Python 学习教程：</h4><ul>
+<li><p><a href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000" target="_blank" rel="noopener">廖雪峰的Python3教程</a></p>
+<p><a href="https://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000" target="_blank" rel="noopener">廖雪峰的Python2教程</a></p>
+</li>
+<li><p><a href="http://www.pythondoc.com/pythontutorial3/" target="_blank" rel="noopener">Python3入门指南-官方中文</a></p>
+<p><a href="http://www.pythondoc.com/pythontutorial27/index.html" target="_blank" rel="noopener">Python2入门指南-官方中文</a></p>
+</li>
+<li><p><a href="http://zh-google-styleguide.readthedocs.io/en/latest/google-python-styleguide/python_style_rules/" target="_blank" rel="noopener">Python 代码规范(Google 开源项目风格指南)</a></p>
+</li>
+</ul>
+<h4 id="Python-Web框架教程："><a href="#Python-Web框架教程：" class="headerlink" title="Python Web框架教程："></a>Python Web框架教程：</h4><ul>
+<li><p><a href="http://docs.jinkan.org/docs/flask/" target="_blank" rel="noopener">Flask中文教程</a></p>
+</li>
+<li><p><a href="http://minzhulou.com/doc" target="_blank" rel="noopener">民主楼-flask</a></p>
+<p>内含 flask 的各中链接</p>
+</li>
+</ul>
+<h4 id="uWSGI-和-Nginx"><a href="#uWSGI-和-Nginx" class="headerlink" title="uWSGI 和 Nginx:"></a>uWSGI 和 Nginx:</h4><ul>
+<li><a href="http://uwsgi-docs.readthedocs.io/en/latest/WSGIquickstart.html" target="_blank" rel="noopener">Quickstart for Python/WSGI applications</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2016-06/132690.htm" target="_blank" rel="noopener">Flask+uWSGI+Nginx+Ubuntu部署教程</a></li>
+<li><a href="https://showzeng.itscoder.com/nginx/2016/10/03/use-nginx-to-deploy-static-pages-easily.html" target="_blank" rel="noopener">使用 Nginx 部署静态页面</a></li>
+</ul>
+<h4 id="前后端认证加密："><a href="#前后端认证加密：" class="headerlink" title="前后端认证加密："></a>前后端认证加密：</h4><ul>
+<li><a href="https://segmentfault.com/a/1190000010312468" target="_blank" rel="noopener">理解JWT（JSON Web Token）认证及python实践</a></li>
+</ul>
+<h4 id="书籍推荐："><a href="#书籍推荐：" class="headerlink" title="书籍推荐："></a>书籍推荐：</h4><ul>
+<li><p><a href="https://zhiguangxiong.gitbooks.io/python/content/di-2-zhang-lie-biao-he-yuan-zu/tong-yong-xu-lie-cao-zuo.html" target="_blank" rel="noopener">Python 基础教程</a></p>
+</li>
+<li><p><a href="https://bop.mol.uno/" target="_blank" rel="noopener">简明Python教程</a></p>
+</li>
+<li><p><a href="https://guoruibiao.gitbooks.io/effective-python/content/" target="_blank" rel="noopener">Effective Python 中文版</a></p>
+<p><a href="https://hacktec.gitbooks.io/effective-python/content/en/" target="_blank" rel="noopener">Effective Python 原版</a></p>
+</li>
+</ul>
+<h4 id="实战："><a href="#实战：" class="headerlink" title="实战："></a>实战：</h4><ul>
+<li><p><a href="https://github.com/Coordinate36/pyWebScaffold" target="_blank" rel="noopener">pyWebScaffold</a></p>
+<p>框架组件：flask、MySQL、redis、JWT、docker、uWSGI、Nginx</p>
+</li>
+</ul>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/12/31/工具/Sublime-配置/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/01/01/任务发布/第三期任务/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

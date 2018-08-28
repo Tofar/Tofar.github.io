@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Ubuntu 日常笔记 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Ubuntu,daily,note," />
+  
+
+  <meta name="description" content="删除Ubuntu Linux旧内核的方法 用Ubuntu一段时间后，就会发觉由于自动升级，系统里安装了很多内核。像我，竟然安装了下面那么多，这个造成了漫长的启动列表。必须删掉一些不用的。 首先就是使用如下命令，列出所有安装的内核，下表中，带有image的就是内核文件。从中选择要卸载的包，用apt-get来卸载 具体如下: dpkg --get-selections|grep linuxsudo">
+<meta name="keywords" content="Ubuntu,daily,note">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu 日常笔记">
+<meta property="og:url" content="http://mu-mo.top/2017/12/17/Ubuntu/Ubuntu日常笔记/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="删除Ubuntu Linux旧内核的方法 用Ubuntu一段时间后，就会发觉由于自动升级，系统里安装了很多内核。像我，竟然安装了下面那么多，这个造成了漫长的启动列表。必须删掉一些不用的。 首先就是使用如下命令，列出所有安装的内核，下表中，带有image的就是内核文件。从中选择要卸载的包，用apt-get来卸载 具体如下: dpkg --get-selections|grep linuxsudo">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-88169d13dc26e4e4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-d2f54cd798f01115.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-647b4a79e89f0d4f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-2b6fd89a4536d2e0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-5b52a3899cdd1c11.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.114Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ubuntu 日常笔记">
+<meta name="twitter:description" content="删除Ubuntu Linux旧内核的方法 用Ubuntu一段时间后，就会发觉由于自动升级，系统里安装了很多内核。像我，竟然安装了下面那么多，这个造成了漫长的启动列表。必须删掉一些不用的。 首先就是使用如下命令，列出所有安装的内核，下表中，带有image的就是内核文件。从中选择要卸载的包，用apt-get来卸载 具体如下: dpkg --get-selections|grep linuxsudo">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7109326-88169d13dc26e4e4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-Ubuntu/Ubuntu日常笔记" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      Ubuntu 日常笔记
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2017.12.17
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/Ubuntu/">Ubuntu</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <ol>
+<li><p>删除Ubuntu Linux旧内核的方法</p>
+<p>用Ubuntu一段时间后，就会发觉由于自动升级，系统里安装了很多内核。像我，竟然安装了下面那么多，这个造成了漫长的启动列表。必须删掉一些不用的。</p>
+<p>首先就是使用如下命令，列出所有安装的内核，下表中，带有image的就是内核文件。从中选择要卸载的包，用apt-get来卸载</p>
+<p><strong>具体如下:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dpkg --get-selections|grep linux</span><br><span class="line">sudo apt-get remove linux-image-2.6.24-16-generic   </span><br><span class="line">sudo apt-get remove linux-headers-2.6.24-16-generic</span><br></pre></td></tr></table></figure>
+<p>查看当前系统使用的内核: <code>uname -a</code></p>
+</li>
+<li><p>Windows 10和Ubuntu 16.04双系统时间错误的调整</p>
+<p><strong>原因：</strong></p>
+<p>​       如果安装了 Windows 和 Linux（比如 Ubuntu）双系统，有时会出现两个系统的时间不一致的情况。这是因为，两个操作系统对电脑硬件时间的定义不一样，<strong>Windows 认为电脑硬件时间是“本地时间”</strong>，因此它启动后直接用该时间作为“系统时间”并显示在桌面右下角的系统托盘里；而<strong>Ubuntu 等 Linux 发行版则认为电脑硬件时间是“全球统一时间”（即 UTC)</strong>，它在启动后在该时间的基础上，再加上电脑设置的时区数（比如我们在中国，它就加上“8”）。根据获得的资料得知，两种模式各有利弊，但是后一种模式在遇到时区转换、夏令时等情况时，通用性更强。</p>
+<p><strong>解决方案：</strong></p>
+<p>​       基于上述原因，协调 Win/Lin 双系统时间一致的方法，就是让 Windows 也和 Linux 一样，将电脑硬件时间看作“全球统一时间”。</p>
+<p><strong>具体：</strong></p>
+<ol>
+<li><p>在win10中打开<strong>regedit</strong> （在小娜下搜索即可）</p>
+</li>
+<li><p>桌面上将出现“注册表编辑器”的窗口，在以下的操作中，将对窗口左侧列表中的 <strong>HKEY_LOCAL_MACHINE</strong> 这一分支进行操作。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-88169d13dc26e4e4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Windows 10和Ubuntu 16.04双系统时间错误的调整"></p>
+</li>
+<li><p>点击展开 HKEY_LOCAL_MACHINE 分支，然后依次导航到以下位置：</p>
+<p><code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation</code></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-d2f54cd798f01115.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Windows 10和Ubuntu 16.04双系统时间错误的调整"></p>
+</li>
+<li><p>在右侧空白处单击鼠标右键，然后依次点击“新建”——“QWORD（64位）值”。</p>
+<p>如果安装的是 32 位系统，则需要新建“DWORD（32位）值”。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-647b4a79e89f0d4f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Windows 10和Ubuntu 16.04双系统时间错误的调整"></p>
+</li>
+<li><p>当前位置将会出现一个新建的键值的条目，将其“名称”改为：</p>
+<p><strong>RealTimeIsUniversal</strong></p>
+<p>它的大体意思是，硬件时间被作为全球统一时间。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-2b6fd89a4536d2e0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Windows 10和Ubuntu 16.04双系统时间错误的调整"></p>
+</li>
+<li><p>然后双击这一条目，弹出“编辑 QWORD（64位）值”的对话框，确保选中了“十六进制”，然后将“数值数据”改为“1”。最后点击“确定”。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-5b52a3899cdd1c11.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Windows 10和Ubuntu 16.04双系统时间错误的调整"></p>
+</li>
+</ol>
+</li>
+<li><p>Ubuntu截图快捷键</p>
+<p>无须安装如何软件，直接使用Ubuntu自带的快捷键即可满足基本需求</p>
+<p>[图片上传失败…(image-e8273-1513497539752)]</p>
+</li>
+<li><p><a href="https://linux.cn/article-5603-1.html" target="_blank" rel="noopener">Ubuntu 更新错误修复大全</a></p>
+</li>
+<li><p><a href="http://cheneyph.iteye.com/blog/824746" target="_blank" rel="noopener">的一些命令及查看已安装软件包的命令</a></p>
+</li>
+<li><p><a href="http://www.cnblogs.com/by-1075324834/p/5045096.html" target="_blank" rel="noopener">ubuntu服务器与本地文件传输</a> </p>
+</li>
+<li><p>sudo 命令学习</p>
+<p>执行sudo 的时候会去 <code>/etc/sudoers</code> 文件中的secure_path 中寻找，而不是在root的PATH中</p>
+<p>所以解决方案：</p>
+<ol>
+<li>在secure_path的目录中建立软链接</li>
+<li>添加你的文件的目录到secure_path中</li>
+</ol>
+</li>
+<li><p>sudo openresty -s reload报错</p>
+<p>报错输出：<code>nginx: [error] open() &quot;/usr/local/openresty/nginx/logs/nginx.pid&quot; failed (2: No such file or directory)</code>  或者　<code>nginx: [error] invalid PID number &quot;&quot; in &quot;/usr/local/openresty/nginx/logs/nginx.pid&quot;</code></p>
+<p>原因：暂时没有启动任何server，所以要先用 <em>nginx -p <code>pwd</code>/ -c conf/nginx.conf</em> 手动启动一些server，再执行 <code>sudo openresty -s reload</code></p>
+</li>
+</ol>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/12/17/Ubuntu/Ubuntu美化笔记/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/12/21/编程语言/Golang/golang-新人入门配置学习/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

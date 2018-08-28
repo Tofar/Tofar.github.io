@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>HEXO 建站指南 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="hexo," />
+  
+
+  <meta name="description" content="系统配置：Ubuntu 一、配置ssh 本地生成密钥对ssh-keygen -t rsa -C &amp;quot;你的邮件地址&amp;quot;，注意命令中的大小写不要搞混。按提示指定保存文件夹，不设置密码。 添加公钥到Github   根据上一步的提示，找到公钥文件（默认为id_rsa.pub），用编辑器打开，全选并复制。 登录Github，右上角 头像 -&amp;gt; Settings —&amp;gt; SSH k">
+<meta name="keywords" content="hexo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HEXO 建站指南">
+<meta property="og:url" content="http://mu-mo.top/2018/01/30/工具/HEXO建站指南/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="系统配置：Ubuntu 一、配置ssh 本地生成密钥对ssh-keygen -t rsa -C &amp;quot;你的邮件地址&amp;quot;，注意命令中的大小写不要搞混。按提示指定保存文件夹，不设置密码。 添加公钥到Github   根据上一步的提示，找到公钥文件（默认为id_rsa.pub），用编辑器打开，全选并复制。 登录Github，右上角 头像 -&amp;gt; Settings —&amp;gt; SSH k">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://d33wubrfki0l68.cloudfront.net/e10acad8d86b468d0c61ffbdb18c58513f7cad82/9e1c1/imgs/opinion/hexo-first-time.png">
+<meta property="og:image" content="https://cdn.rawgit.com/qanno/qanno.github.io/master/images/hexo-localsearch.gif">
+<meta property="og:image" content="http://7xo8t2.com1.z0.glb.clouddn.com/img/Hexo%203.1.1%20%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/%E4%B8%83%E7%89%9B%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E6%A1%86.png">
+<meta property="og:image" content="http://7xo8t2.com1.z0.glb.clouddn.com/img/Hexo%203.1.1%20%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/%E4%B8%83%E7%89%9B%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E5%90%8E.png">
+<meta property="og:image" content="http://7xo8t2.com1.z0.glb.clouddn.com/img/Hexo%203.1.1%20%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/%E4%B8%83%E7%89%9B%E5%9B%BE%E7%89%87%E5%A4%96%E9%93%BE.png">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.126Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HEXO 建站指南">
+<meta name="twitter:description" content="系统配置：Ubuntu 一、配置ssh 本地生成密钥对ssh-keygen -t rsa -C &amp;quot;你的邮件地址&amp;quot;，注意命令中的大小写不要搞混。按提示指定保存文件夹，不设置密码。 添加公钥到Github   根据上一步的提示，找到公钥文件（默认为id_rsa.pub），用编辑器打开，全选并复制。 登录Github，右上角 头像 -&amp;gt; Settings —&amp;gt; SSH k">
+<meta name="twitter:image" content="https://d33wubrfki0l68.cloudfront.net/e10acad8d86b468d0c61ffbdb18c58513f7cad82/9e1c1/imgs/opinion/hexo-first-time.png">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、配置ssh"><span class="toc-text">一、配置ssh</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、环境准备"><span class="toc-text">二、环境准备</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-安装node-js"><span class="toc-text">1. 安装node.js</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-安装-HEXO"><span class="toc-text">2. 安装 HEXO</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、开始搭建"><span class="toc-text">三、开始搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-建立-your-name-github-io-仓库-和-blog仓库"><span class="toc-text">1. 建立 your_name.github.io 仓库 和 blog仓库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-博客初始化"><span class="toc-text">2. 博客初始化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-HEXO-详解"><span class="toc-text">3. HEXO 详解</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-常用命令"><span class="toc-text">1. 常用命令</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-发文章"><span class="toc-text">2. 发文章</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-新建标签页面"><span class="toc-text">3.  新建标签页面</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#4-新建目录页面"><span class="toc-text">4. 新建目录页面</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#5-添加about页面"><span class="toc-text">5. 添加about页面</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#6-添加搜索页面"><span class="toc-text">6. 添加搜索页面</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-配置"><span class="toc-text">4. 配置</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-简单配置"><span class="toc-text">1. 简单配置</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-deploy"><span class="toc-text">2. deploy</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-添加评论功能"><span class="toc-text">3. 添加评论功能</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#6-更换主题"><span class="toc-text">6. 更换主题</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#7-绑定独立域名"><span class="toc-text">7. 绑定独立域名</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#8-设置阅读全文"><span class="toc-text">8. 设置阅读全文</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#8-字体配置"><span class="toc-text">8. 字体配置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-更多配置"><span class="toc-text">5. 更多配置</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-更改上一篇，下一篇的顺序"><span class="toc-text">1. 更改上一篇，下一篇的顺序</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-移动端显示-back-to-top-按钮和侧栏"><span class="toc-text">2. 移动端显示 back-to-top 按钮和侧栏</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-侧边栏社交链接"><span class="toc-text">3.  侧边栏社交链接</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-工具/HEXO建站指南" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      HEXO 建站指南
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2018.01.30
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/工具/">工具</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <p>系统配置：Ubuntu</p>
+<h2 id="一、配置ssh"><a href="#一、配置ssh" class="headerlink" title="一、配置ssh"></a>一、配置ssh</h2><ul>
+<li><strong>本地生成密钥对</strong><br><code>ssh-keygen -t rsa -C &quot;你的邮件地址&quot;</code>，注意命令中的大小写不要搞混。按提示指定保存文件夹，不设置密码。</li>
+<li><strong>添加公钥到Github</strong></li>
+</ul>
+<ol>
+<li>根据上一步的提示，找到公钥文件（默认为id_rsa.pub），用编辑器打开，全选并复制。</li>
+<li>登录Github，右上角 头像 -&gt; <code>Settings</code> —&gt; <code>SSH keys</code> —&gt; <code>Add SSH</code> key。把公钥粘贴到key中，填好title并点击 Add key。</li>
+<li>git bash中输入命令<code>ssh -T git@github.com</code>，选yes，等待片刻可看到成功提示。</li>
+</ol>
+<ul>
+<li><strong>修改本地的ssh remote url，不用https协议，改用git协议</strong></li>
+</ul>
+<ol>
+<li>Github仓库中获取ssh协议相应的url</li>
+<li>本地仓库执行命令<code>git remote set-url origin SSH对应的url</code>，配置完后可用<code>git remote -v</code>查看结果</li>
+</ol>
+<p>这样<code>git push</code>或<code>hexo d</code>时不再需要输入账号密码。</p>
+<h2 id="二、环境准备"><a href="#二、环境准备" class="headerlink" title="二、环境准备"></a>二、环境准备</h2><h4 id="1-安装node-js"><a href="#1-安装node-js" class="headerlink" title="1. 安装node.js"></a>1. 安装node.js</h4><ul>
+<li><p>下载源码，<a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">官网下载地址</a> ，选择source code下载即可，但是下载速度感人，这里贡献一下我的 <a href="https://pan.baidu.com/s/1kVVLSAb" target="_blank" rel="noopener">百度网盘nodejs</a></p>
+</li>
+<li><p>环境配置</p>
+<p>将源码解压之后 mv 到/usr/local/node (经过改名)，输入<code>gedit ~/.bashrc</code> ，在最后两行加上</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export NODE_HOME=/usr/local/node  # 你的node安装目录</span><br><span class="line">export PATH=$PATH:$NODE_HOME/bin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>检测</p>
+<p>在bash下输入 <code>source ~/.bashrc</code> ，之后输入 <code>node -v</code> ，如果显示你的node 版本则表示安装成功</p>
+</li>
+</ul>
+<h4 id="2-安装-HEXO"><a href="#2-安装-HEXO" class="headerlink" title="2. 安装 HEXO"></a>2. 安装 HEXO</h4><p>命令：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">npm install hexo --save</span><br></pre></td></tr></table></figure>
+<h2 id="三、开始搭建"><a href="#三、开始搭建" class="headerlink" title="三、开始搭建"></a>三、开始搭建</h2><h4 id="1-建立-your-name-github-io-仓库-和-blog仓库"><a href="#1-建立-your-name-github-io-仓库-和-blog仓库" class="headerlink" title="1. 建立 your_name.github.io 仓库 和 blog仓库"></a>1. 建立 your_name.github.io 仓库 和 blog仓库</h4><p>   将your_name改成你的github账号名字就行了</p>
+<p>   注：blog 是为了方便放博客</p>
+<h4 id="2-博客初始化"><a href="#2-博客初始化" class="headerlink" title="2. 博客初始化"></a>2. 博客初始化</h4><ul>
+<li><p>将 blog clone下来</p>
+<p>命令： <code>git clone git@github.com:your_name/blog.git</code></p>
+</li>
+<li><p>cd 进去之后，初始化</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo init</span><br><span class="line">npm install</span><br><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+<p>在浏览器中打开<code>http://localhost:4000/</code>，你将会看到：</p>
+<p><img src="https://d33wubrfki0l68.cloudfront.net/e10acad8d86b468d0c61ffbdb18c58513f7cad82/9e1c1/imgs/opinion/hexo-first-time.png" alt="hexo初体验"></p>
+</li>
+</ul>
+<h4 id="3-HEXO-详解"><a href="#3-HEXO-详解" class="headerlink" title="3. HEXO 详解"></a>3. HEXO 详解</h4><h6 id="1-常用命令"><a href="#1-常用命令" class="headerlink" title="1. 常用命令"></a>1. 常用命令</h6><ul>
+<li><p>hexo generate (hexo g) 生成静态文件，会在当前目录下生成一个新的叫做public的文件夹</p>
+</li>
+<li><p>hexo server (hexo s) 启动本地web服务，用于博客的预览</p>
+</li>
+<li><p>hexo deploy (hexo d) 部署播客到远端（比如github等平台）</p>
+</li>
+<li><p>hexo new (hexo n) 新建文章和页面</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo new "postName" #新建文章</span><br><span class="line">hexo new page "pageName" #新建页面</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>常用组合：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo d -g #生成部署</span><br><span class="line">hexo s -g #生成预览</span><br></pre></td></tr></table></figure>
+<h6 id="2-发文章"><a href="#2-发文章" class="headerlink" title="2. 发文章"></a>2. 发文章</h6><ul>
+<li><p>直接创建</p>
+<p>在 <strong>source/_posts/</strong>下新建一个<code>.md</code>文件，头部加上类似以下内容（格式）</p>
+<figure class="highlight md"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: hexo 建站指南</span><br><span class="line">data: 2018-1-31 12:48:25</span><br><span class="line">tags:</span><br><span class="line"><span class="code">	- hexo</span></span><br><span class="line">categories:</span><br><span class="line"><span class="code">	- 其他</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>命令方式</p>
+<p>命令： <code>hexo new hello</code></p>
+<p>之后编辑 hello.md 即可</p>
+</li>
+</ul>
+<h6 id="3-新建标签页面"><a href="#3-新建标签页面" class="headerlink" title="3.  新建标签页面"></a>3.  新建标签页面</h6><ul>
+<li><p>两个确认</p>
+<ul>
+<li>确认站点配置文件有</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">tag_dir: tags</span><br></pre></td></tr></table></figure>
+<ul>
+<li>确认主题配置文件有</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">tags: tags</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>新建tags页面</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure>
+<p>此时会在<code>source/</code>下生成<code>tags/index.md</code>文件</p>
+</li>
+</ul>
+<ul>
+<li>修改 source/tags/index.md</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">title: tags</span><br><span class="line">date: 2018-1-31 16:49:50</span><br><span class="line">type: &quot;tags&quot;        &lt;!-- 必须 --&gt;</span><br><span class="line">comments: false     &lt;!-- 必须 --&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里 date 会自动生成</p>
+</blockquote>
+<ul>
+<li><p>在文章中添加tags</p>
+<p>在文章<code>xx.md</code>中添加：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">tags:</span><br><span class="line">	- Tag1</span><br><span class="line">	- Tag2</span><br></pre></td></tr></table></figure>
+<p>多个Tag可按上面的格式添加。</p>
+<p>其文件头部类似：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">title:</span><br><span class="line">date: 2018-1-31 10:44:25</span><br><span class="line">tags:</span><br><span class="line">	- Tag1</span><br><span class="line">	- Tag2</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h6 id="4-新建目录页面"><a href="#4-新建目录页面" class="headerlink" title="4. 新建目录页面"></a>4. 新建目录页面</h6><ul>
+<li><p>两个确认</p>
+<ul>
+<li>确认站点配置文件打开了</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">category_dir: categories</span><br></pre></td></tr></table></figure>
+<ul>
+<li>确认主题配置文件打开了</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">categories: /categories</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>新建categories文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo new page categories</span><br></pre></td></tr></table></figure>
+<p>此时会在<code>source</code>目录下生成<code>categories/index.md</code>文件</p>
+</li>
+</ul>
+<ul>
+<li><p>修改categories/index.md</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">title: categories</span><br><span class="line">date: 2018-1-31 16:49:50</span><br><span class="line">type: &quot;categories&quot;     &lt;!-- 必须 --&gt;</span><br><span class="line">comments: false        &lt;!-- 必须 --&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里 date 会自动生成</p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li><p>在文章中添加categories</p>
+<p>在文章xx.md中添加：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">categories:</span><br><span class="line">	- cate</span><br></pre></td></tr></table></figure>
+<p>其文件头部类似：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">title: TagEditText</span><br><span class="line">date: 2018-1-31 10:44:25</span><br><span class="line">categories:</span><br><span class="line">	- cate</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h6 id="5-添加about页面"><a href="#5-添加about页面" class="headerlink" title="5. 添加about页面"></a>5. 添加about页面</h6><p>命令： <code>hexo new page &quot;about&quot;</code></p>
+<p>之后在\source\about\index.md目录下会生成一个index.md文件，打开输入个人信息即可</p>
+<h6 id="6-添加搜索页面"><a href="#6-添加搜索页面" class="headerlink" title="6. 添加搜索页面"></a>6. 添加搜索页面</h6><p>注明：此处以next主题为例</p>
+<ul>
+<li><p>命令：<code>npm install hexo-generator-search --save</code></p>
+</li>
+<li><p>在博客根目录下的 _config.yml 中添加如下配置：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: all</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li><strong>path</strong> - file path. Default is <code>search.xml</code> .</li>
+<li>field - the search scope you want to search, you can chose:<ul>
+<li><strong>post</strong> (Default) - will only covers all the posts of your blog.</li>
+<li><strong>page</strong> - will only covers all the pages of your blog.</li>
+<li><strong>all</strong> - will covers all the posts and pages of your blog.</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<p>更多配置说明可到插件页面查看：<a href="https://github.com/PaicHyperionDev/hexo-generator-search" target="_blank" rel="noopener">hexo-generator-search</a></p>
+<ul>
+<li><p>在 themes/next/layout/_partials/search 目录下修改 localsearch.swig 文件</p>
+<p>原始文件内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">    var search_path = &quot;&lt;%= config.search.path %&gt;&quot;;</span><br><span class="line">    if (search_path.length == 0) &#123;</span><br><span class="line">    	search_path = &quot;search.xml&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    var path = &quot;&lt;%= config.root %&gt;&quot; + search_path;</span><br><span class="line">    searchFunc(path, &apos;local-search-input&apos;, &apos;local-search-result&apos;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>修改后的文件内容为:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;div class=&quot;popup&quot;&gt;</span><br><span class="line"> &lt;span class=&quot;search-icon fa fa-search&quot;&gt;&lt;/span&gt;</span><br><span class="line"> &lt;input type=&quot;text&quot; id=&quot;local-search-input&quot; placeholder=&quot;search my blog...&quot;&gt;</span><br><span class="line"> &lt;div id=&quot;local-search-result&quot;&gt;&lt;/div&gt;</span><br><span class="line"> &lt;span class=&quot;popup-btn-close&quot;&gt;close&lt;/span&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>注：部分主题中此处已经配置好了，无需更改</p>
+</li>
+<li><p>效果演示</p>
+<p>主题： next</p>
+<p><img src="https://cdn.rawgit.com/qanno/qanno.github.io/master/images/hexo-localsearch.gif" alt="hexo-theme-next 本地搜索效果演示"></p>
+<p>​                                     <em>hexo-theme-next 本地搜索效果演示</em></p>
+</li>
+</ul>
+<h4 id="4-配置"><a href="#4-配置" class="headerlink" title="4. 配置"></a>4. 配置</h4><h6 id="1-简单配置"><a href="#1-简单配置" class="headerlink" title="1. 简单配置"></a>1. 简单配置</h6><p>网站的设置大部分都在 <strong>_config.yml</strong> 文件中，详细配置可以查看<a href="https://hexo.io/zh-cn/docs/configuration.html" target="_blank" rel="noopener">官方文档</a></p>
+<p>下面只列出简单常用配置</p>
+<ul>
+<li><strong>title</strong> -&gt; 网站标题</li>
+<li><strong>subtitle</strong> -&gt; 网站副标题</li>
+<li><strong>description</strong> -&gt; 网站描述</li>
+<li><strong>author</strong> -&gt; 您的名字</li>
+<li><strong>language</strong> -&gt; 网站使用的语言</li>
+</ul>
+<p>注意：<strong>进行配置时，需要在冒号:后加一个英文空格</strong></p>
+<h6 id="2-deploy"><a href="#2-deploy" class="headerlink" title="2. deploy"></a>2. deploy</h6><p>输入命令： <code>npm install hexo-deployer-git --save</code></p>
+<p>在博客根目录下的<code>_config.yml</code>文件，末尾添加如下信息：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https://hexo.io/docs/deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: git@github.com:your_name/your_name.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p>然后执行命令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+<p>即可部署到github上</p>
+<h6 id="3-添加评论功能"><a href="#3-添加评论功能" class="headerlink" title="3. 添加评论功能"></a>3. 添加评论功能</h6><ul>
+<li><p>注册 <a href="https://link.jianshu.com/?t=https://disqus.com/" target="_blank" rel="noopener">Disqus</a> 账号</p>
+</li>
+<li><p>配置 Disqus</p>
+<p>登录后，点击首页的 GET STARTED 按钮，之后选择 I want to install Disqus on my site 选项，完成相关配置</p>
+<blockquote>
+<p>Websit Name 就是 short name 自己填写，但是要求全网唯一，设定后不可改变，比如我的是 wangkunlin，这个在配置 Hexo 的时候需要用到<br>Category 选择种类，可以随便选<br>Language 语言选 Chinese 或者 English<br>然后点 Create Site 等待界面跳转<br>接下来在页面的左侧点击 Configure Disqus</p>
+<p>​</p>
+<p>在 Website URL 那里填写自己的博客地址，Description 可以不写，然后点 Complete Setup，Disqus 基本的设置已经完成</p>
+</blockquote>
+</li>
+<li><p>配置 HEXO</p>
+<p>在博客根目录下的_config.yml 中添加如下信息：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Disqus</span><br><span class="line">disqus:</span><br><span class="line">  enable: true</span><br><span class="line">  shortname: your_count</span><br><span class="line">  count: true</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改相应文件</p>
+<p>进入 theme 你的主题目录，找到 comment.ejs，我的是在blog/themes/next/layout/_partials/comments.swig，不同主题请自行查找，替换为下面的内容</p>
+<p>注：部分主题无需修改，已修改好</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;% if (page.comments)&#123; %&gt;</span><br><span class="line">&lt;section id=&quot;comment&quot;&gt;</span><br><span class="line">  &lt;% if(config.disqus_shortname) &#123; %&gt;</span><br><span class="line">  &lt;div id=&quot;disqus_thread&quot;&gt;</span><br><span class="line">    &lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;//disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">  &lt;% &#125; %&gt;</span><br><span class="line">&lt;/section&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>######　5. 使用图床</p>
+<p>博客中的图片文件可以直接放在source文件夹下，但是访问速度较慢，把图片放在国内的图床上是个更好的选择。</p>
+<p>这里选用: <a href="https://portal.qiniu.com/signup?code=3lgo2c4fgwv9u" target="_blank" rel="noopener">七牛云存储</a></p>
+<p>免费用户实名审核之后，可以获取10GB永久免费存储空间、每月10GB下载流量、每月10万次Put请求、每月100万次Get请求，做图床绰绰有余。</p>
+<p>注册账号，新建空间，我的新空间名是<code>blog</code>，专门用来放置博客上引用的资源。</p>
+<p>进入空间后点击「内容管理」，再点击「上传」：<br><a href="http://7xo8t2.com1.z0.glb.clouddn.com/img/Hexo%203.1.1%20%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/%E4%B8%83%E7%89%9B%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E6%A1%86.png" target="_blank" rel="noopener"><img src="http://7xo8t2.com1.z0.glb.clouddn.com/img/Hexo%203.1.1%20%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/%E4%B8%83%E7%89%9B%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E6%A1%86.png" alt="img"></a></p>
+<p>七牛空间没有文件夹的概念，但是允许为文件添加带斜杠<code>/</code>的前缀，用来给资源分类。这里我设置前缀为<code>img/Hexo 3.1.1 静态博客搭建指南/</code>。上传了一张图片：<br><a href="http://7xo8t2.com1.z0.glb.clouddn.com/img/Hexo%203.1.1%20%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/%E4%B8%83%E7%89%9B%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E5%90%8E.png" target="_blank" rel="noopener"><img src="http://7xo8t2.com1.z0.glb.clouddn.com/img/Hexo%203.1.1%20%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/%E4%B8%83%E7%89%9B%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E5%90%8E.png" alt="img"></a></p>
+<p>在右侧可以找到外链，复制地址：<br><a href="http://7xo8t2.com1.z0.glb.clouddn.com/img/Hexo%203.1.1%20%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/%E4%B8%83%E7%89%9B%E5%9B%BE%E7%89%87%E5%A4%96%E9%93%BE.png" target="_blank" rel="noopener"><img src="http://7xo8t2.com1.z0.glb.clouddn.com/img/Hexo%203.1.1%20%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/%E4%B8%83%E7%89%9B%E5%9B%BE%E7%89%87%E5%A4%96%E9%93%BE.png" alt="img"></a></p>
+<p>Markdown 插入图片的语法为：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">![](图片网址)</span><br></pre></td></tr></table></figure>
+<p>上传图片 -&gt; 获取外链 -&gt; 写入Markdown，就这么简单！</p>
+<p>由于七牛防盗链的白名单无法添加<code>localhost</code>，暂时不设置防盗链，否则<code>hexo s</code>调试的时候，看不到图片。</p>
+<p>以上操作每插入一张图片就要做一次，相当繁琐，于是写了个脚本简化，详见这篇文章<a href="http://lovenight.github.io/2015/11/17/%E6%8B%96%E6%9B%B3%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%88%B0%E4%B8%83%E7%89%9B%E7%9A%84%E8%84%9A%E6%9C%AC/" target="_blank" rel="noopener">《拖曳文件上传到七牛的Python脚本》</a></p>
+<h6 id="6-更换主题"><a href="#6-更换主题" class="headerlink" title="6. 更换主题"></a>6. 更换主题</h6><p>这里我选用了<a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">Next</a> 主题，更多主题请前往 <a href="https://hexo.io/themes/" target="_blank" rel="noopener">HEXO</a> 官网</p>
+<ul>
+<li><p>安装：在博客根目录下执行<code>git clone https://github.com/iissnan/hexo-theme-next.git themes/next</code>  ，或者自行前往 github 上下载，然后mv至博客相关位置</p>
+</li>
+<li><p>启用：修改博客根目录下的<code>_config.yml</code>配置文件中的<code>theme</code>属性，将其设置为<code>next</code></p>
+</li>
+<li><p>修改 主题的_config.yml</p>
+<ul>
+<li><p>修改 scheme</p>
+<p>如：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Schemes</span><br><span class="line"># scheme: Muse</span><br><span class="line">scheme: Mist</span><br><span class="line"># scheme: Pisces</span><br><span class="line"># scheme: Gemini</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="7-绑定独立域名"><a href="#7-绑定独立域名" class="headerlink" title="7. 绑定独立域名"></a>7. 绑定独立域名</h6><ul>
+<li><a href="https://wanwang.aliyun.com/" target="_blank" rel="noopener">购买域名</a></li>
+<li>设置域名解析，添加一个 CNAME记录，指向你的github.io页面</li>
+<li>在source目录下，添加CNAME文件（没有后缀）,在文件里面写上你的域名（只能写一个）</li>
+</ul>
+<h6 id="8-设置阅读全文"><a href="#8-设置阅读全文" class="headerlink" title="8. 设置阅读全文"></a>8. 设置阅读全文</h6><p>效果请看 <a href="http://tofar.github.io" target="_blank" rel="noopener">tofar</a></p>
+<ul>
+<li><p>方法一：在文章中使用<code>&lt; !--more--&gt;</code> 手动进行截断</p>
+<p>这种方法可以根据文章的内容，自己在合适的位置添加 <code>&lt; !--more--&gt;</code> 标签，使用灵活，也是Hexo推荐的方法。</p>
+</li>
+<li><p>方法二：在文章中的<code>front-matter</code>中添加description</p>
+<p>提供文章摘录这种方式只会在首页列表中显示文章的摘要内容，进入文章详情后不会再显示。</p>
+</li>
+<li><p>自动形成摘要，在<strong>主题配置文件</strong>中添加</p>
+<ol>
+<li>默认截取的长度为 150 字符，可以根据需要自行设定</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">auto_excerpt:</span><br><span class="line">  enable: true</span><br><span class="line">  length: 150</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h6 id="8-字体配置"><a href="#8-字体配置" class="headerlink" title="8. 字体配置"></a>8. 字体配置</h6><ul>
+<li><p>修改字体大小</p>
+<p>文件位置：～blog/themes/next/source/css/_variables/base.styl</p>
+<p><code>font-size-base           = 16px</code></p>
+</li>
+<li><p>配置文件位置：blog/themes/next/source/css/_variables/base.styl</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// Font families.</span><br><span class="line">$font-family-chinese      = -apple-system, BlinkMacSystemFont, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Heiti SC&quot;, &quot;STHeiti&quot;, &quot;Source Han Sans SC&quot;, &quot;Noto Sans CJK SC&quot;, &quot;WenQuanYi Micro Hei&quot;, &quot;Droid Sans Fallback&quot;, &quot;Microsoft YaHei&quot;, source-han-sans-simplified-c</span><br><span class="line">$font-family-base         = $font-family-chinese, sans-serif</span><br><span class="line">$font-family-base         = get_font_family(&apos;global&apos;), $font-family-chinese, sans-serif if get_font_family(&apos;global&apos;)</span><br><span class="line">$font-family-logo         = $font-family-base</span><br><span class="line">$font-family-logo         = get_font_family(&apos;logo&apos;), $font-family-base if get_font_family(&apos;logo&apos;)</span><br><span class="line">$font-family-headings     = $font-family-base</span><br><span class="line">$font-family-headings     = get_font_family(&apos;headings&apos;), $font-family-base if get_font_family(&apos;headings&apos;)</span><br><span class="line">$font-family-posts        = $font-family-base</span><br><span class="line">$font-family-posts        = get_font_family(&apos;posts&apos;), $font-family-base if get_font_family(&apos;posts&apos;)</span><br><span class="line">$font-family-monospace    = $font-family-chinese, monospace</span><br><span class="line">$font-family-monospace    = Menlo, Monaco, Consolas, get_font_family(&apos;codes&apos;), $font-family-chinese, monospace if get_font_family(&apos;codes&apos;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>主题配置文件：blog/themes/next/_config.yml</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">font:</span><br><span class="line">  enable: true</span><br><span class="line">  # Uri of fonts host. E.g. //fonts.googleapis.com (Default)</span><br><span class="line">  # 亲测这个可用，如果不可用，自己搜索 [Google 字体 国内镜像]，找个能用的就行</span><br><span class="line">  host: https://fonts.cat.net</span><br><span class="line">  # Global font settings used on &lt;body&gt; element.</span><br><span class="line">  global:</span><br><span class="line">    # external: true will load this font family from host.</span><br><span class="line">    external: true</span><br><span class="line">    family: Lato</span><br><span class="line">  # Font settings for Headlines (h1, h2, h3, h4, h5, h6)</span><br><span class="line">  # Fallback to `global` font settings.</span><br><span class="line">  headings:</span><br><span class="line">    external: true</span><br><span class="line">    family: Roboto Slab</span><br><span class="line">  # Font settings for posts</span><br><span class="line">  # Fallback to `global` font settings.</span><br><span class="line">  posts:</span><br><span class="line">    external: true</span><br><span class="line">    family:</span><br><span class="line">  # Font settings for Logo</span><br><span class="line">  # Fallback to `global` font settings.</span><br><span class="line">  # The `size` option use `px` as unit</span><br><span class="line">  logo:</span><br><span class="line">    external: true</span><br><span class="line">    family:</span><br><span class="line">    size:</span><br><span class="line">  # Font settings for &lt;code&gt; and code blocks.</span><br><span class="line">  codes:</span><br><span class="line">    external: true</span><br><span class="line">    family: Roboto Mono</span><br><span class="line">    size:</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="5-更多配置"><a href="#5-更多配置" class="headerlink" title="5. 更多配置"></a>5. 更多配置</h4><h6 id="1-更改上一篇，下一篇的顺序"><a href="#1-更改上一篇，下一篇的顺序" class="headerlink" title="1. 更改上一篇，下一篇的顺序"></a>1. 更改上一篇，下一篇的顺序</h6><p>进入一篇文章，在文章底部，有上下篇的链接（&lt; &gt;），但是点 &gt; 发现进入的是页面中的的上面那篇文章，与操作习惯不符，别扭。</p>
+<p>我猜这是从时间角度设计的，&gt; 英语叫 next ，而 next 是更新的。不过别扭就改成习惯的好了，从空间位置角度设计。<a href="https://reuixiy.github.io/technology/computer/computer-aided-art/2017/06/09/hexo-next-optimization.html#fn:1" target="_blank" rel="noopener">1</a></p>
+<p>方法就是修改文件：</p>
+<p><strong>注意下面文件中的加减</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">文件位置：~/blog/themes/next/layout/_macro/post.swig</span><br><span class="line"></span><br><span class="line">&#123;% if not is_index and (post.prev or post.next) %&#125;</span><br><span class="line">  &lt;div class=&quot;post-nav&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;post-nav-next post-nav-item&quot;&gt;</span><br><span class="line">-      &#123;% if post.next %&#125;</span><br><span class="line">+      &#123;% if post.prev %&#125;</span><br><span class="line">-        &lt;a href=&quot;&#123;&#123; url_for(post.next.path) &#125;&#125;&quot; rel=&quot;next&quot; title=&quot;&#123;&#123; post.next.title &#125;&#125;&quot;&gt;</span><br><span class="line">+        &lt;a href=&quot;&#123;&#123; url_for(post.prev.path) &#125;&#125;&quot; rel=&quot;prev&quot; title=&quot;&#123;&#123; post.prev.title &#125;&#125;&quot;&gt;</span><br><span class="line">-          &lt;i class=&quot;fa fa-chevron-left&quot;&gt;&lt;/i&gt; &#123;&#123; post.next.title &#125;&#125;</span><br><span class="line">+          &lt;i class=&quot;fa fa-chevron-left&quot;&gt;&lt;/i&gt; &#123;&#123; post.prev.title &#125;&#125;</span><br><span class="line">        &lt;/a&gt;</span><br><span class="line">      &#123;% endif %&#125;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;span class=&quot;post-nav-divider&quot;&gt;&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div class=&quot;post-nav-prev post-nav-item&quot;&gt;</span><br><span class="line">-      &#123;% if post.prev %&#125;</span><br><span class="line">+      &#123;% if post.next %&#125;</span><br><span class="line">-        &lt;a href=&quot;&#123;&#123; url_for(post.prev.path) &#125;&#125;&quot; rel=&quot;prev&quot; title=&quot;&#123;&#123; post.prev.title &#125;&#125;&quot;&gt;</span><br><span class="line">+        &lt;a href=&quot;&#123;&#123; url_for(post.next.path) &#125;&#125;&quot; rel=&quot;next&quot; title=&quot;&#123;&#123; post.next.title &#125;&#125;&quot;&gt;</span><br><span class="line">-          &#123;&#123; post.prev.title &#125;&#125; &lt;i class=&quot;fa fa-chevron-right&quot;&gt;&lt;/i&gt;</span><br><span class="line">+          &#123;&#123; post.next.title &#125;&#125; &lt;i class=&quot;fa fa-chevron-right&quot;&gt;&lt;/i&gt;</span><br><span class="line">        &lt;/a&gt;</span><br><span class="line">      &#123;% endif %&#125;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="2-移动端显示-back-to-top-按钮和侧栏"><a href="#2-移动端显示-back-to-top-按钮和侧栏" class="headerlink" title="2. 移动端显示 back-to-top 按钮和侧栏"></a>2. 移动端显示 back-to-top 按钮和侧栏</h6><p>前提: 主题的设计模版是 Muse 或 Mist</p>
+<p>文件位置：主题_config.yml</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Enable sidebar on narrow view (only for Muse | Mist).</span><br><span class="line">  onmobile: true</span><br></pre></td></tr></table></figure>
+<h6 id="3-侧边栏社交链接"><a href="#3-侧边栏社交链接" class="headerlink" title="3.  侧边栏社交链接"></a>3.  侧边栏社交链接</h6>
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/01/27/随笔/前后端分离实践有感（转）/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/01/30/Ubuntu/Ubuntu wifi问题记录/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

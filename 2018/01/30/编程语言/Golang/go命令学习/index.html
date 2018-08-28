@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>golang 命令学习笔记 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="golang,command," />
+  
+
+  <meta name="description" content="主要来源：《Go Web编程》 1、go build作用：compile packages and dependencies 注：在包的编译过程中，若有必要，会同时编译与之相关联的包。 示例：  编译多个Go源码文件 go build logging/base.go logging/console_logger.go  编译包 默认为当前文件夹的包 go build logging">
+<meta name="keywords" content="golang,command">
+<meta property="og:type" content="article">
+<meta property="og:title" content="golang 命令学习笔记">
+<meta property="og:url" content="http://mu-mo.top/2018/01/30/编程语言/Golang/go命令学习/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="主要来源：《Go Web编程》 1、go build作用：compile packages and dependencies 注：在包的编译过程中，若有必要，会同时编译与之相关联的包。 示例：  编译多个Go源码文件 go build logging/base.go logging/console_logger.go  编译包 默认为当前文件夹的包 go build logging">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/1/29/1613fd8563ee04dc?w=1892&h=890&f=png&s=114245">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.126Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="golang 命令学习笔记">
+<meta name="twitter:description" content="主要来源：《Go Web编程》 1、go build作用：compile packages and dependencies 注：在包的编译过程中，若有必要，会同时编译与之相关联的包。 示例：  编译多个Go源码文件 go build logging/base.go logging/console_logger.go  编译包 默认为当前文件夹的包 go build logging">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2018/1/29/1613fd8563ee04dc?w=1892&h=890&f=png&s=114245">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、go-build"><span class="toc-text">1、go build</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、go-clean"><span class="toc-text">2、go clean</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、gofmt"><span class="toc-text">3、gofmt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、go-get"><span class="toc-text">4、go get</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5、go-install"><span class="toc-text">5、go install</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6、go-test"><span class="toc-text">6、go test</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#常用参数："><span class="toc-text">常用参数：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Tips"><span class="toc-text">Tips</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7、go-tool"><span class="toc-text">7、go tool</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8、go-generate"><span class="toc-text">8、go generate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9、godoc"><span class="toc-text">9、godoc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10、其它命令"><span class="toc-text">10、其它命令</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-编程语言/Golang/go命令学习" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      golang 命令学习笔记
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2018.01.30
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/golang/">golang</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <p>主要来源：<a href="https://astaxie.gitbooks.io/build-web-application-with-golang/zh/01.3.html" target="_blank" rel="noopener">《Go Web编程》</a></p>
+<h3 id="1、go-build"><a href="#1、go-build" class="headerlink" title="1、go build"></a>1、go build</h3><p>作用：compile packages and dependencies</p>
+<p>注：在包的编译过程中，若有必要，会同时编译与之相关联的包。</p>
+<p>示例：</p>
+<ul>
+<li><p>编译多个Go源码文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">go build logging/base.go logging/console_logger.go</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译包</p>
+<p>默认为当前文件夹的包</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">go build logging        // 从GOPAT开始寻找</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>标记名称</th>
+<th>标记描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-a</td>
+<td>强行对所有涉及到的代码包（包含标准库中的代码包）进行重新构建，即使它们已经是最新的了。</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>打印编译期间所用到的其它命令，但是并不真正执行它们。</td>
+</tr>
+<tr>
+<td>-p n</td>
+<td>指定编译过程中执行各任务的并行数量（确切地说应该是并发数量）。在默认情况下，该数量等于CPU的逻辑核数。但是在<code>darwin/arm</code>平台（即iPhone和iPad所用的平台）下，该数量默认是<code>1</code>。</td>
+</tr>
+<tr>
+<td>-race</td>
+<td>开启竞态条件的检测。不过此标记目前仅在<code>linux/amd64</code>、<code>freebsd/amd64</code>、<code>darwin/amd64</code>和<code>windows/amd64</code>平台下受到支持。</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>打印出那些被编译的代码包的名字。</td>
+</tr>
+<tr>
+<td>-work</td>
+<td>打印出编译时生成的临时工作目录的路径，并在编译结束时保留它。在默认情况下，编译结束时会删除该目录。</td>
+</tr>
+<tr>
+<td>-x</td>
+<td>打印编译期间所用到的其它命令。注意它与<code>-n</code>标记的区别。</td>
+</tr>
+</tbody>
+</table>
+<p>参数的介绍</p>
+<ul>
+<li><code>-o</code> 指定输出的文件名，可以带上路径，例如 <code>go build -o a/b/c</code></li>
+<li><code>-i</code> 安装相应的包，编译 +<code>go install</code></li>
+<li><code>-a</code> 更新全部已经是最新的包的，但是对标准包不适用</li>
+<li><code>-n</code> 把需要执行的编译命令打印出来，但是不执行，这样就可以很容易的知道底层是如何运行的</li>
+<li><code>-p n</code> 指定可以并行可运行的编译数目，默认是CPU数目</li>
+<li><code>-race</code> 开启编译的时候自动检测数据竞争的情况，目前只支持64位的机器</li>
+<li><code>-v</code> 打印出来我们正在编译的包名</li>
+<li><code>-work</code> 打印出来编译时候的临时文件夹名称，并且如果已经存在的话就不要删除</li>
+<li><code>-x</code> 打印出来执行的命令，其实就是和<code>-n</code>的结果类似，只是这个会执行</li>
+<li>———————————————–分割线———————————————————</li>
+<li><code>-ccflags &#39;arg list&#39;</code> 传递参数给5c, 6c, 8c 调用</li>
+<li><code>-compiler name</code> 指定相应的编译器，gccgo还是gc</li>
+<li><code>-gccgoflags &#39;arg list&#39;</code> 传递参数给gccgo编译连接调用</li>
+<li><code>-gcflags &#39;arg list&#39;</code> 传递参数给5g, 6g, 8g 调用</li>
+<li><code>-installsuffix suffix</code> 为了和默认的安装包区别开来，采用这个前缀来重新安装那些依赖的包，<code>-race</code>的时候默认已经是<code>-installsuffix race</code>,大家可以通过<code>-n</code>命令来验证</li>
+<li><code>-ldflags &#39;flag list&#39;</code> 传递参数给5l, 6l, 8l 调用</li>
+<li><code>-tags &#39;tag list&#39;</code> 设置在编译的时候可以适配的那些tag，详细的tag限制参考里面的 <a href="http://golang.org/pkg/go/build/" target="_blank" rel="noopener">Build Constraints</a></li>
+</ul>
+<h3 id="2、go-clean"><a href="#2、go-clean" class="headerlink" title="2、go clean"></a>2、go clean</h3><p>这个命令是用来移除当前源码包和关联源码包里面编译生成的文件。这些文件包括</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">_obj/            旧的object目录，由Makefiles遗留</span><br><span class="line">_test/           旧的test目录，由Makefiles遗留</span><br><span class="line">_testmain.go     旧的gotest文件，由Makefiles遗留</span><br><span class="line">test.out         旧的test记录，由Makefiles遗留</span><br><span class="line">build.out        旧的test记录，由Makefiles遗留</span><br><span class="line">*.[568ao]        object文件，由Makefiles遗留</span><br><span class="line"></span><br><span class="line">DIR(.exe)        由go build产生</span><br><span class="line">DIR.test(.exe)   由go test -c产生</span><br><span class="line">MAINFILE(.exe)   由go build MAINFILE.go产生</span><br><span class="line">*.so             由 SWIG 产生</span><br></pre></td></tr></table></figure>
+<p>我一般都是利用这个命令清除编译文件，然后github递交源码，在本机测试的时候这些编译文件都是和系统相关的，但是对于源码管理来说没必要。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ go clean -i -n</span><br><span class="line">cd /Users/astaxie/develop/gopath/src/mathapp</span><br><span class="line">rm -f mathapp mathapp.exe mathapp.test mathapp.test.exe app app.exe</span><br><span class="line">rm -f /Users/astaxie/develop/gopath/bin/mathapp</span><br></pre></td></tr></table></figure>
+<p>参数介绍</p>
+<ul>
+<li><code>-i</code> 清除关联的安装的包和可运行文件，也就是通过go install安装的文件</li>
+<li><code>-n</code> 把需要执行的清除命令打印出来，但是不执行，这样就可以很容易的知道底层是如何运行的</li>
+<li><code>-r</code> 循环的清除在import中引入的包</li>
+<li><code>-x</code> 打印出来执行的详细命令，其实就是<code>-n</code>打印的执行版本</li>
+</ul>
+<h3 id="3、gofmt"><a href="#3、gofmt" class="headerlink" title="3、gofmt"></a>3、gofmt</h3><p>gofmt -w -l src，可以格式化整个项目。</p>
+<p>gofmt的参数介绍</p>
+<ul>
+<li><code>-l</code> 显示那些需要格式化的文件</li>
+<li><code>-w</code> 把改写后的内容直接写入到文件中，而不是作为结果打印到标准输出。</li>
+<li><code>-r</code> 添加形如“a[b:len(a)] -&gt; a[b:]”的重写规则，方便我们做批量替换</li>
+<li><code>-s</code> 简化文件中的代码</li>
+<li><code>-d</code> 显示格式化前后的diff而不是写入文件，默认是false</li>
+<li><code>-e</code> 打印所有的语法错误到标准输出。如果不使用此标记，则只会打印不同行的前10个错误。</li>
+<li><code>-cpuprofile</code> 支持调试模式，写入相应的cpufile到指定的文件</li>
+</ul>
+<h3 id="4、go-get"><a href="#4、go-get" class="headerlink" title="4、go get"></a>4、go get</h3><p>这个命令是用来动态获取远程代码包的，目前支持的有BitBucket、GitHub、Google Code和Launchpad。这个命令在内部实际上分成了两步操作：第一步是下载源码包，第二步是执行<code>go install</code>。下载源码包的go工具会自动根据不同的域名调用不同的源码工具，对应关系如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">BitBucket (Mercurial Git)</span><br><span class="line">GitHub (Git)</span><br><span class="line">Google Code Project Hosting (Git, Mercurial, Subversion)</span><br><span class="line">Launchpad (Bazaar)</span><br></pre></td></tr></table></figure>
+<p>所以为了<code>go get</code> 能正常工作，你必须确保安装了合适的源码管理工具，并同时把这些命令加入你的PATH中。其实<code>go get</code>支持自定义域名的功能，具体参见<code>go help remote</code>。</p>
+<p>参数介绍：</p>
+<ul>
+<li><code>-d</code> 只下载不安装</li>
+<li><code>-f</code> 只有在你包含了<code>-u</code>参数的时候才有效，不让<code>-u</code>去验证import中的每一个都已经获取了，这对于本地fork的包特别有用</li>
+<li><code>-fix</code> 在获取源码之后先运行fix，然后再去做其他的事情</li>
+<li><code>-t</code> 同时也下载需要为运行测试所需要的包</li>
+<li><code>-u</code> 强制使用网络去更新包和它的依赖包</li>
+<li><code>-v</code> 显示执行的命令</li>
+</ul>
+<h3 id="5、go-install"><a href="#5、go-install" class="headerlink" title="5、go install"></a>5、go install</h3><p>这个命令在内部实际上分成了两步操作：第一步是生成结果文件(可执行文件或者.a包)，第二步会把编译好的结果移到<code>$GOPATH/pkg</code>或者<code>$GOPATH/bin</code>。</p>
+<p>参数支持<code>go build</code>的编译参数。大家只要记住一个参数<code>-v</code>就好了，这个随时随地的可以查看底层的执行信息。</p>
+<h3 id="6、go-test"><a href="#6、go-test" class="headerlink" title="6、go test"></a>6、go test</h3><p>遵循原则：</p>
+<ul>
+<li>文件名必须以<code>_test.go</code>结尾</li>
+<li>文件必须<code>import &quot;testing&quot;</code>这个 <strong>testing</strong> 包</li>
+<li>所有的测试用例函数名必须以<code>Test</code>开头</li>
+<li>测试函数格式：<code>func TestXxx (t *testing.T)</code>,<code>Xxx</code>部分可以为任意的字母数字的组合，但是首字母必须是大写字母[A-Z]，例如<code>Testintdiv</code>是错误的函数名。</li>
+<li>函数中通过调用<code>testing.T</code>的<code>Error</code>, <code>Errorf</code>, <code>FailNow</code>, <code>Fatal</code>, <code>FatalIf</code>方法来表明测试未通过，调用<code>Log</code>方法用来记录测试的信息。</li>
+</ul>
+<p>默认的情况下，不需要任何的参数，它会自动把你源码包下面所有test文件测试完毕，当然你也可以带上参数，详情请参考<code>go help testflag</code></p>
+<h4 id="常用参数："><a href="#常用参数：" class="headerlink" title="常用参数："></a>常用参数：</h4><ul>
+<li><p><code>-bench regexp</code> 执行相应的压力测试</p>
+<ul>
+<li><p>压力测试用例必须遵循如下格式，其中XXX可以是任意字母数字的组合，但是首字母不能是小写字母</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">func BenchmarkXXX(b *testing.B) &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>go test</code>不会默认执行压力测试的函数，如果要执行压力测试需要带上参数 <code>-bench</code></p>
+</li>
+</ul>
+<p>执行所有测试, 使用 <code>-bench .</code> or <code>-bench=.</code></p>
+</li>
+<li><p><code>-cover</code> 开启测试覆盖率 </p>
+<p>如：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Abs</span><span class="params">(a <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> a &gt; <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> a * (<span class="number">-1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TestAbs</span><span class="params">(t *testing.T)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> Abs(<span class="number">5</span>) != <span class="number">5</span> &#123;</span><br><span class="line">        t.Fatal(<span class="string">"abs error, except:5, result:"</span>, Abs(<span class="number">5</span>))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这时go test -cover 会显示 <code>coverage: 50.0% of statements</code></p>
+<p>从覆盖率来看，单元测试没有覆盖全部的代码，我们可以通过如下命令将cover的详细信息保存到cover.out中。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">go test -cover -coverprofile=cover.out -covermode=count</span><br><span class="line">注：</span><br><span class="line">-cover 允许代码分析</span><br><span class="line">-covermode 代码分析模式（set：是否执行；count：执行次数；atomic：次数，并发执行）</span><br><span class="line">-coverprofile 输出结果文件</span><br></pre></td></tr></table></figure>
+<p>之后通过</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">go tool cover -func=cover.out</span><br></pre></td></tr></table></figure>
+<p>查看每个方法的覆盖率。<br>运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">util/compute.go:7:      Sum            100.0%</span><br><span class="line">util/compute.go:15:     Abs            66.7%</span><br><span class="line">total:                  (statements)   85.7%</span><br></pre></td></tr></table></figure>
+<p>这里发现是Abs方法没有覆盖完全，因为我们的用例只用到了正数的那个分支。<br>还可以使用html的方式查看具体的覆盖情况。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">go tool cover -html=cover.out</span><br></pre></td></tr></table></figure>
+<p>会默认打开浏览器，将覆盖情况显示到页面中：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/1/29/1613fd8563ee04dc?w=1892&amp;h=890&amp;f=png&amp;s=114245" alt="img"></p>
+</li>
+<li><p><code>-run regexp</code> 只运行regexp匹配的函数，例如 <code>-run=Array</code> 那么就执行包含有Array开头的函数</p>
+</li>
+<li><p><code>-v</code> 显示测试的详细命令</p>
+</li>
+</ul>
+<h4 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h4><ol>
+<li><p>测试单个文件</p>
+<p><code>go test -v hello_test.go hello.go</code> </p>
+<p>注意此处，如果要测试某一个文件，需要把测试文件与原文件都列出来</p>
+</li>
+<li><p>测试一个函数</p>
+<p><code>go test -run TestSum</code></p>
+<p>此处可以使用正则匹配，例如 Sum 会匹配到所有包含Sum的函数</p>
+</li>
+</ol>
+<h3 id="7、go-tool"><a href="#7、go-tool" class="headerlink" title="7、go tool"></a>7、go tool</h3><p><code>go tool</code>下面下载聚集了很多命令，这里我们只介绍两个，fix和vet</p>
+<ul>
+<li><code>go tool fix .</code> 用来修复以前老版本的代码到新版本，例如go1之前老版本的代码转化到go1,例如API的变化</li>
+<li><code>go tool vet directory|files</code> 用来分析当前目录的代码是否都是正确的代码,例如是不是调用fmt.Printf里面的参数不正确，例如函数里面提前return了然后出现了无用代码之类的。</li>
+</ul>
+<h3 id="8、go-generate"><a href="#8、go-generate" class="headerlink" title="8、go generate"></a>8、go generate</h3><p>这个命令是从Go1.4开始才设计的，用于在编译前自动化生成某类代码。<code>go generate</code>和<code>go build</code>是完全不一样的命令，通过分析源码中特殊的注释，然后执行相应的命令。这些命令都是很明确的，没有任何的依赖在里面。而且大家在用这个之前心里面一定要有一个理念，这个<code>go generate</code>是给你用的，不是给使用你这个包的人用的，是方便你来生成一些代码的。</p>
+<p>这里我们来举一个简单的例子，例如我们经常会使用<code>yacc</code>来生成代码，那么我们常用这样的命令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">go tool yacc -o gopher.go -p parser gopher.y</span><br></pre></td></tr></table></figure>
+<p>-o 指定了输出的文件名， -p指定了package的名称，这是一个单独的命令，如果我们想让<code>go generate</code>来触发这个命令，那么就可以在当然目录的任意一个<code>xxx.go</code>文件里面的任意位置增加一行如下的注释：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//go:generate go tool yacc -o gopher.go -p parser gopher.y</span><br></pre></td></tr></table></figure>
+<p>这里我们注意了，<code>//go:generate</code>是没有任何空格的，这其实就是一个固定的格式，在扫描源码文件的时候就是根据这个来判断的。</p>
+<p>所以我们可以通过如下的命令来生成，编译，测试。如果<code>gopher.y</code>文件有修改，那么就重新执行<code>go generate</code>重新生成文件就好。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ go generate</span><br><span class="line">$ go build</span><br><span class="line">$ go test</span><br></pre></td></tr></table></figure>
+<h3 id="9、godoc"><a href="#9、godoc" class="headerlink" title="9、godoc"></a>9、godoc</h3><p>在Go1.2版本之前还支持<code>go doc</code>命令，但是之后全部移到了godoc这个命令下，需要这样安装<code>go get golang.org/x/tools/cmd/godoc</code></p>
+<p>很多人说go不需要任何的第三方文档，例如chm手册之类的（其实我已经做了一个了，<a href="https://github.com/astaxie/godoc" target="_blank" rel="noopener">chm手册</a>），因为它内部就有一个很强大的文档工具。</p>
+<p>如何查看相应package的文档呢？ 例如builtin包，那么执行<code>godoc builtin</code> 如果是http包，那么执行<code>godoc net/http</code> 查看某一个包里面的函数，那么执行<code>godoc fmt Printf</code> 也可以查看相应的代码，执行<code>godoc -src fmt Printf</code></p>
+<p>通过命令在命令行执行 godoc -http=:端口号 比如<code>godoc -http=:8080</code>。然后在浏览器中打开<code>127.0.0.1:8080</code>，你将会看到一个golang.org的本地copy版本，通过它你可以查询pkg文档等其它内容。如果你设置了GOPATH，在pkg分类下，不但会列出标准包的文档，还会列出你本地<code>GOPATH</code>中所有项目的相关文档，这对于经常被墙的用户来说是一个不错的选择。</p>
+<h3 id="10、其它命令"><a href="#10、其它命令" class="headerlink" title="10、其它命令"></a>10、其它命令</h3><p>go还提供了其它很多的工具，例如下面的这些工具</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">go version 查看go当前的版本</span><br><span class="line">go env 查看当前go的环境变量</span><br><span class="line">go list 列出当前全部安装的package</span><br><span class="line">go run 编译并运行Go程序</span><br></pre></td></tr></table></figure>
+<p>以上这些工具还有很多参数没有一一介绍，用户可以使用<code>go help 命令</code>获取更详细的帮助信息。</p>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/01/30/Ubuntu/Ubuntu wifi问题记录/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/01/30/编程语言/Golang/go 类型别名与类型声明的区别/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

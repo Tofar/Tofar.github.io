@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>红黑树 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="数据结构,红黑树," />
+  
+
+  <meta name="description" content="注：本文对网上一些博客进行详细与修正，并给出C语言实现 红黑树是平衡二叉查找树的一种。为了深入理解红黑树，我们需要从二叉查找树开始讲起。 BST二叉查找树（Binary Search Tree，简称BST）是一棵二叉树，它的左子节点的值比父节点的值要小，右节点的值要比父节点的值大。它的高度决定了它的查找效率。 在理想的情况下，二叉查找树增删查改的时间复杂度为O(logN)（其中N为节点数），最坏的">
+<meta name="keywords" content="数据结构,红黑树">
+<meta property="og:type" content="article">
+<meta property="og:title" content="红黑树">
+<meta property="og:url" content="http://mu-mo.top/2018/04/13/数据结构/红黑树/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="注：本文对网上一些博客进行详细与修正，并给出C语言实现 红黑树是平衡二叉查找树的一种。为了深入理解红黑树，我们需要从二叉查找树开始讲起。 BST二叉查找树（Binary Search Tree，简称BST）是一棵二叉树，它的左子节点的值比父节点的值要小，右节点的值要比父节点的值大。它的高度决定了它的查找效率。 在理想的情况下，二叉查找树增删查改的时间复杂度为O(logN)（其中N为节点数），最坏的">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/14/162c43b082751906?w=492&h=294&f=png&s=32276">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/14/162c43b0826825af?w=840&h=399&f=png&s=78045">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/14/162c43b0c10ef333?w=450&h=217&f=png&s=12834">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/14/162c43b0c0445656?w=612&h=241&f=png&s=30878">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/14/162c43b0b1633a30">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/14/162c43b0b1633a30">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/14/162c43b08528d4df?w=847&h=348&f=png&s=62719">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/14/162c43b0b6f63e8d?w=453&h=218&f=png&s=25637">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/14/162c43b0be8979dd?w=546&h=247&f=png&s=38620">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/7/162a00075de35231?w=350&h=135&f=png&s=5375">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/14/162c43b0f3dc03ab?w=536&h=239&f=png&s=38928">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/14/162c43b0bf54506e?w=546&h=246&f=png&s=36773">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/12/162b8e49d39b5753?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/12/162b8e69e9ae5b80?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.126Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="红黑树">
+<meta name="twitter:description" content="注：本文对网上一些博客进行详细与修正，并给出C语言实现 红黑树是平衡二叉查找树的一种。为了深入理解红黑树，我们需要从二叉查找树开始讲起。 BST二叉查找树（Binary Search Tree，简称BST）是一棵二叉树，它的左子节点的值比父节点的值要小，右节点的值要比父节点的值大。它的高度决定了它的查找效率。 在理想的情况下，二叉查找树增删查改的时间复杂度为O(logN)（其中N为节点数），最坏的">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2018/4/14/162c43b082751906?w=492&h=294&f=png&s=32276">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#BST"><span class="toc-text">BST</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查找"><span class="toc-text">查找</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插入"><span class="toc-text">插入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除"><span class="toc-text">删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BST存在的问题"><span class="toc-text">BST存在的问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#红黑树"><span class="toc-text">红黑树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义"><span class="toc-text">定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#旋转"><span class="toc-text">旋转</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#旋转规则："><span class="toc-text">旋转规则：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#左旋：（node即为右图中的P"><span class="toc-text">左旋：（node即为右图中的P)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#右旋：（node即为左图中的Q"><span class="toc-text">右旋：（node即为左图中的Q)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查找-1"><span class="toc-text">查找</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插入-1"><span class="toc-text">插入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#无须修复："><span class="toc-text">无须修复：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#需要修复："><span class="toc-text">需要修复：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#case-1"><span class="toc-text">case 1</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#case-2"><span class="toc-text">case 2</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#case-3"><span class="toc-text">case 3</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除-1"><span class="toc-text">删除</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#case-1-1"><span class="toc-text">case 1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#case-2-1"><span class="toc-text">case 2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#case-3-1"><span class="toc-text">case 3</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#case-4"><span class="toc-text">case 4</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RBTree的C语言实现"><span class="toc-text">RBTree的C语言实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-数据结构/红黑树" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      红黑树
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2018.04.13
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/数据结构/">数据结构</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <p>注：本文对网上一些博客进行详细与修正，并给出C语言实现</p>
+<p>红黑树是平衡二叉查找树的一种。为了深入理解红黑树，我们需要从二叉查找树开始讲起。</p>
+<h2 id="BST"><a href="#BST" class="headerlink" title="BST"></a>BST</h2><p>二叉查找树（Binary Search Tree，简称BST）是一棵二叉树，它的左子节点的值比父节点的值要小，右节点的值要比父节点的值大。它的高度决定了它的查找效率。</p>
+<p>在理想的情况下，二叉查找树增删查改的时间复杂度为O(logN)（其中N为节点数），最坏的情况下为O(N)。当它的高度为logN+1时，我们就说二叉查找树是平衡的。<br><img src="https://user-gold-cdn.xitu.io/2018/4/14/162c43b082751906?w=492&amp;h=294&amp;f=png&amp;s=32276" alt="BST"></p>
+<h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><p>当BST查找的时候，先与当前节点进行比较：</p>
+<ul>
+<li>如果相等的话就返回当前节点；</li>
+<li>如果少于当前节点则继续查找当前节点的左节点；</li>
+<li>如果大于当前节点则继续查找当前节点的右节点。</li>
+</ul>
+<p>直到当前节点指针为空或者查找到对应的节点，程序查找结束。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//查找某一个值</span></span><br><span class="line"><span class="function">BiTNode <span class="title">SearchValue</span><span class="params">(BiTNode root, <span class="keyword">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root == <span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">    BiTNode current = root;</span><br><span class="line">    <span class="keyword">while</span> (current != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (x &lt; current-&gt;value)</span><br><span class="line">            current = current-&gt;left;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (x &gt; current-&gt;value)</span><br><span class="line">            current = current-&gt;right;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> current;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h3><p>插入操作先通过循环查找到待插入的节点的父节点，和查找父节点的逻辑一样，都是比大小，小的往左，大的往右。找到父节点后，对比父节点，小的就插入到父节点的左节点，大就插入到父节点的右节点上。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//插入节点</span></span><br><span class="line"><span class="function">BiTNode <span class="title">Insert</span><span class="params">(BiTNode root, <span class="keyword">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    BiTNode node = (BiTNode)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(struct BiTree));</span><br><span class="line">    node-&gt;value = x;</span><br><span class="line">    <span class="keyword">if</span> ((root) == <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> node;</span><br><span class="line">    &#125;</span><br><span class="line">    BiTNode current = root;</span><br><span class="line">    <span class="keyword">while</span> (current != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (current-&gt;value == x)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (current-&gt;value &gt; x)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (current-&gt;left == <span class="literal">NULL</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                current-&gt;left = node;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            current = current-&gt;left;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (current-&gt;right == <span class="literal">NULL</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                current-&gt;right = node;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            current = current-&gt;right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>删除操作的步骤如下：</p>
+<ol>
+<li>查找到要删除的节点。</li>
+<li>如果待删除的节点是叶子节点，则直接删除。</li>
+<li>如果待删除的节点不是叶子节点，则先找到待删除节点的右节点的最小节点，用该最小节点的值替换待删除的节点的值，然后删除这个最小节点。</li>
+</ol>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/14/162c43b0826825af?w=840&amp;h=399&amp;f=png&amp;s=78045" alt="BST remove"></p>
+<h3 id="BST存在的问题"><a href="#BST存在的问题" class="headerlink" title="BST存在的问题"></a>BST存在的问题</h3><p>BST存在的主要问题是，数在插入的时候会导致树倾斜，不同的插入顺序会导致树的高度不一样，而树的高度直接的影响了树的查找效率。理想的高度是logN，最坏的情况是所有的节点都在一条斜线上，这样的树的高度为N。</p>
+<h2 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h2><p>基于BST存在的问题，一种新的树——平衡二叉查找树(Balanced BST)产生了。平衡树在插入和删除的时候，会通过旋转操作将高度保持在logN。其中两款具有代表性的平衡树分别为AVL树和红黑树。AVL树由于实现比较复杂，而且插入和删除性能差，在实际环境下的应用不如红黑树。</p>
+<p><strong>红黑树（Red-Black Tree，以下简称RBTree）</strong> 的实际应用非常广泛，比如Linux内核中的完全公平调度器、高精度计时器、ext3文件系统等等，各种语言的函数库如Java的TreeMap和TreeSet，C++ STL的map、multimap、multiset等。</p>
+<p>RBTree也是函数式语言中最常用的持久数据结构之一，在计算几何中也有重要作用。值得一提的是，Java 8中HashMap的实现也因为用RBTree取代链表，性能有所提升。</p>
+<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>RBTree的定义如下:</p>
+<ol>
+<li>任何一个节点都有颜色，黑色或者红色</li>
+<li>根节点是黑色的</li>
+<li>所有叶子都是黑色（叶子是NIL节点）</li>
+<li>父子节点之间不能出现两个连续的红节点（每个红色节点必须有两个黑色的子节点）</li>
+<li>从任一节点到其每个叶子的所有<a href="https://zh.wikipedia.org/wiki/%E9%81%93%E8%B7%AF_(%E5%9B%BE%E8%AE%BA" target="_blank" rel="noopener">简单路径</a>)都包含相同数目的黑色节点。</li>
+</ol>
+<p>数据结构表示如下：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Node</span> *<span class="title">parent</span>;</span> <span class="comment">//父节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Node</span> *<span class="title">left</span>;</span>   <span class="comment">//左子树</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Node</span> *<span class="title">right</span>;</span>  <span class="comment">//右子树</span></span><br><span class="line">    <span class="keyword">int</span> value;           <span class="comment">//value</span></span><br><span class="line">    <span class="keyword">bool</span> color;          <span class="comment">//节点颜色</span></span><br><span class="line">&#125; * RBTree;</span><br></pre></td></tr></table></figure>
+<p>RBTree在理论上还是一棵BST树，但是它在对BST的插入和删除操作时会维持树的平衡，即保证树的高度在[logN,logN+1]（理论上，极端的情况下可以出现RBTree的高度达到2*logN，但实际上很难遇到）。这样RBTree的查找时间复杂度始终保持在O(logN)从而接近于理想的BST。RBTree的删除和插入操作的时间复杂度也是O(logN)。RBTree的查找操作就是BST的查找操作。</p>
+<p>图例：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/14/162c43b0c10ef333?w=450&amp;h=217&amp;f=png&amp;s=12834" alt="An example of a red-black tree"></p>
+<h3 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h3><p>Rotate分为left-rotate（左旋）和right-rotate（右旋）</p>
+<p><strong>注：网上可能有两种版本的旋转，请注意，以下全文均采用此处定义的旋转</strong> </p>
+<h4 id="旋转规则："><a href="#旋转规则：" class="headerlink" title="旋转规则："></a>旋转规则：</h4><p>假设当前节点为 node</p>
+<h5 id="左旋：（node即为右图中的P"><a href="#左旋：（node即为右图中的P" class="headerlink" title="左旋：（node即为右图中的P)"></a>左旋：（node即为右图中的P)</h5><p>node节点的父节点变为node的右子树，node的右节点变为node的右子树的左子树，node节点的祖父节点的child节点（可能左可能右）变为node节点的右子树</p>
+<h5 id="右旋：（node即为左图中的Q"><a href="#右旋：（node即为左图中的Q" class="headerlink" title="右旋：（node即为左图中的Q)"></a>右旋：（node即为左图中的Q)</h5><p>node节点的父节点变为node的左子树，node的左节点变为node的左子树的右子树，node节点的祖父节点的child节点（可能左可能右）变为node节点的左子树</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/14/162c43b0c0445656?w=612&amp;h=241&amp;f=png&amp;s=30878" alt="Tree rotation.png"></p>
+<h3 id="查找-1"><a href="#查找-1" class="headerlink" title="查找"></a>查找</h3><p>RBTree的查找操作和BST的查找操作是一样的。请参考BST的查找操作代码。</p>
+<p>插入删除前言：</p>
+<p>在红黑树上进行插入操作和删除操作会导致不再匹配红黑树的性质。恢复红黑树的性质需要少量<img src="https://user-gold-cdn.xitu.io/2018/4/14/162c43b0b1633a30" alt="{\displaystyle {\text{O}}(\log n)}">的颜色变更（实际是非常快速的）和不超过三次<a href="https://zh.wikipedia.org/wiki/%E6%A0%91%E6%97%8B%E8%BD%AC" target="_blank" rel="noopener">树旋转</a>（对于插入操作是两次）。虽然插入和删除很复杂，但操作时间仍可以保持为<img src="https://user-gold-cdn.xitu.io/2018/4/14/162c43b0b1633a30" alt="{\displaystyle {\text{O}}(\log n)}">次。</p>
+<h3 id="插入-1"><a href="#插入-1" class="headerlink" title="插入"></a>插入</h3><p>约定：新插入的节点初始都是 <strong>红色的</strong> 。</p>
+<h4 id="无须修复："><a href="#无须修复：" class="headerlink" title="无须修复："></a>无须修复：</h4><ul>
+<li>新节点C位于树的 <strong>根</strong> 上，没有父节点<br>操作：初始化根节点即可，并将颜色变为黑色</li>
+<li>新节点的父节点B是黑色<br>操作：直接插入即可，易得红黑树所有性质满足，因为新插入的节点为红色的，且与原树不冲突  </li>
+</ul>
+<h4 id="需要修复："><a href="#需要修复：" class="headerlink" title="需要修复："></a>需要修复：</h4><p>注：以下均采用父节点为祖父节点的左节点条件，若为右节点，则只需做镜像操作即可</p>
+<p>循环条件：需要修复的节点的父节点的颜色为RED</p>
+<h5 id="case-1"><a href="#case-1" class="headerlink" title="case 1"></a>case 1</h5><p>情况：父节点B和叔父节点C二者都是红色</p>
+<p>操作：将父节点和叔叔节点与祖父节点的颜色互换，即维持了 <strong>局部的颜色符合RBTree定义的第四条和第五条。下图中，操作完成后A节点变成了新的修复节点。</strong> 如果A节点的父节点不是黑色的，则继续做修复操作。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/14/162c43b08528d4df?w=847&amp;h=348&amp;f=png&amp;s=62719" alt="插入修复case 1"></p>
+<h5 id="case-2"><a href="#case-2" class="headerlink" title="case 2"></a>case 2</h5><p>情况：父节点B是红色而叔父节点U是黑色(NIL节点是黑色的)，新节点C是其父节点B的左子节点，而父节点B又是其父节点A的左子节点(一条直线上)</p>
+<p>操作：将祖父节点A节点进行右旋操作，并且和父节点B互换颜色。通过该修复操作RBTRee的高度和颜色都符合红黑树的定义。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/14/162c43b0b6f63e8d?w=453&amp;h=218&amp;f=png&amp;s=25637" alt="插入修复case 2"></p>
+<h5 id="case-3"><a href="#case-3" class="headerlink" title="case 3"></a>case 3</h5><p>父节点B是红色而叔父节点U是黑色(NIL节点是黑色的)，新节点C是其父节点B的右子节点(不在一条直线上)</p>
+<p>操作：将父节点B节点进行左旋，这样就从case 3转换成case 2了，B节点成为新的待调整的节点，然后针对case 2进行操作处理就行了。case 2操作做了一个右旋操作和颜色互换来达到目的。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/14/162c43b0be8979dd?w=546&amp;h=247&amp;f=png&amp;s=38620" alt="插入修复case 3"></p>
+<p>循环之后：将root变黑（防止case 1中最后要调整的节点为root，而root的父节点为空，即父节点的颜色为黑，满足跳出循环条件）</p>
+<h3 id="删除-1"><a href="#删除-1" class="headerlink" title="删除"></a>删除</h3><p>删除过程：</p>
+<ul>
+<li>如果是叶子节点或者只有一个子节点就直接删除；<br>删除的图示：<br><img src="https://user-gold-cdn.xitu.io/2018/4/7/162a00075de35231?w=350&amp;h=135&amp;f=png&amp;s=5375" alt="img"></li>
+<li>如果有左右节点都有，会用右节点的最小节点（记为T）顶替要删除节点(记为N)的位置，即将N的value替换为T的value，之后删除T；</li>
+<li>删除后，如果删除的节点的颜色为黑色就需要做删除修复操作，删除修复的主要思想就是从兄弟节点上 <strong>借调黑色的节点</strong> 过来或者把两边各变红一个让两边平衡(case2)，如果兄弟节点没有黑节点可以借调的话，就只能往上追溯，将每一级的黑节点数减去一个，使得整棵树符合红黑树的定义。</li>
+<li>删除修复操作在遇到被调整的节点是红色节点或者到达root节点时，修复操作完毕， <strong>修复之后要将被调整的节点颜色变为黑色（主要防止以下case 2中父节点为红色的）</strong> 。  </li>
+</ul>
+<p>删除修复操作分为四种情况(删除黑节点后)：</p>
+<p><strong>注：待调整的节点的初始节点为删除节点的子节点（优先非空子节点），以下删除修复情况只讨论待调整的节点为左节点的情况，若为右节点，则只需做相应的镜像操作即可。</strong> </p>
+<ol>
+<li>待调整的节点的兄弟节点是红色的节点；</li>
+<li>待调整的节点的兄弟节点是黑色的节点，且兄弟节点的子节点都是黑色的；</li>
+<li>待调整的节点的兄弟节点是黑色的节点，且兄弟节点的左子节点是红色的，右节点是黑色的；</li>
+<li>待调整的节点的兄弟节点是黑色的节点，且右子节点是是红色的；</li>
+</ol>
+<p>循环条件：被调整的节点是黑色节点或者到达root节点</p>
+<h4 id="case-1-1"><a href="#case-1-1" class="headerlink" title="case 1"></a>case 1</h4><p>情况：待调整的B的兄弟节点C是红色节点</p>
+<p>操作：交换此兄弟节点和父节点的颜色，再对待调整的节点的父节点A进行左旋</p>
+<p>解释：由于兄弟节点是红色节点，无法借调黑节点，所以需要将兄弟节点提升到父节点，由于兄弟节点是红色的，所以兄弟节点的子节点是黑色的，这样就可以从它的子节点借调黑节点了</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/14/162c43b0f3dc03ab?w=536&amp;h=239&amp;f=png&amp;s=38928" alt="删除情况1"></p>
+<h4 id="case-2-1"><a href="#case-2-1" class="headerlink" title="case 2"></a>case 2</h4><p>情况：待调整的节点B，兄弟节点C，及C的两个儿子节点的颜色都是黑色的</p>
+<p>操作：将兄弟节点颜色变为红色，同时将待调整的节点的父节点变为新的待调整的节点继续向上调整</p>
+<p>解释：当将兄弟节点也变红之后，达到了局部的平衡了（由于原来计算定义的第五条的时候就是多了一个黑色节点的数量），但是对于祖父节点不一定满足条件，所以继续上溯</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/14/162c43b0bf54506e?w=546&amp;h=246&amp;f=png&amp;s=36773" alt="删除情况2"></p>
+<h4 id="case-3-1"><a href="#case-3-1" class="headerlink" title="case 3"></a>case 3</h4><p>情况：待调整的节点B(B是空节点)的兄弟节点C是黑色，C的左儿子是红色，C的右儿子是黑色</p>
+<p>操作：交换兄弟节点的左儿子和兄弟节点的颜色，再对兄弟节点进行右旋</p>
+<p>解释：case 3的删除操作是一个中间步骤，目的是转换为case 4状态</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/12/162b8e49d39b5753?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="删除情况3"></p>
+<h4 id="case-4"><a href="#case-4" class="headerlink" title="case 4"></a>case 4</h4><p>情况：待调整的B和它的兄弟节点C是黑色的，C的右儿子是红色的</p>
+<p>解决：交换兄弟节点C和父节点A的颜色（防止父节点A为红色），再对父节点进行左旋，最后将原来兄弟节点的右儿子变黑即可</p>
+<p>解释：修复完成，整棵树还是符合红黑树的定义的，因为黑色节点的个数没有改变。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/12/162b8e69e9ae5b80?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="删除情况4"></p>
+<p>循环之后：将node(待调整节点)变黑（针对case2或者待调整节点初始化为红色直接跳出循环）</p>
+<h3 id="RBTree的C语言实现"><a href="#RBTree的C语言实现" class="headerlink" title="RBTree的C语言实现"></a>RBTree的C语言实现</h3><p><a href="https://github.com/tofar/RBTree/blob/master/RBTree.c" target="_blank" rel="noopener">https://github.com/tofar/RBTree/blob/master/RBTree.c</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>红黑树通过引入颜色的概念，通过颜色这个约束条件的使用来保持树的高度平衡。作为平衡二叉查找树，旋转是一个必不可少的操作。通过旋转可以降低树的高度，在红黑树里面还可以转换颜色。</p>
+<p>红黑树里面的插入和删除的操作比较难理解，这时要注意记住一点：操作之前红黑树是平衡的，颜色是符合定义的。在操作的时候就需要向兄弟节点、父节点、侄子节点借调和互换颜色，要达到这个目的，就需要不断的进行旋转。所以红黑树的插入删除操作需要不停的旋转，一旦借调了别的节点，删除和插入的节点就会达到局部的平衡（局部符合红黑树的定义），但是被借调的节点就不会平衡了，这时就需要以被借调的节点为起点继续进行调整，直到整棵树都是平衡的。在整个修复的过程中，插入修复具体的分为3种情况，删除修复分为4种情况。</p>
+<p>整个红黑树的查找，插入和删除都是O(logN)的，原因就是整个红黑树的高度是logN，查找从根到叶，走过的路径是树的高度，删除和插入操作是从叶到根的，所以经过的路径都是logN。</p>
+<p>文章来源：</p>
+<p><a href="https://tech.meituan.com/redblack-tree.html" target="_blank" rel="noopener">红黑树深入剖析及Java实现</a> </p>
+<p><a href="https://zh.wikipedia.org/zh-hans/%E7%BA%A2%E9%BB%91%E6%A0%91" target="_blank" rel="noopener">红黑树-wikipedia</a> </p>
+<p>演示参照：</p>
+<p><a href="https://www.jianshu.com/p/ad5d65e7ce62" target="_blank" rel="noopener">红黑树插入删除过程</a> </p>
+<p>或者 <a href="https://blog.csdn.net/v_JULY_v/article/details/6284050" target="_blank" rel="noopener">红黑树从头至尾插入和删除结点的全程演示图</a> </p>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/04/09/运维/ssl/acme-sh-配合-letsencrypt-配置泛域名/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/04/24/编程语言/Python/python logging模块学习/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

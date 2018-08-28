@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>前后端json数据发送和接收 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Python,flask,js,ajax," />
+  
+
+  <meta name="description" content="由于笔者后台使用的是flask框架接收和前端使用的是原生的JavaScript和jQuery的ajax发送，能力有限，在此仅写下我开发项目过程中所得，欢迎指正交流。  一、flask中的json数据接收1、利用flask的request.form.get()方法Python后台部分代码from flask import Flaskfrom flask import jsonifyfrom fla">
+<meta name="keywords" content="Python,flask,js,ajax">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前后端json数据发送和接收">
+<meta property="og:url" content="http://mu-mo.top/2017/07/26/web/前后端json数据发送和接收/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="由于笔者后台使用的是flask框架接收和前端使用的是原生的JavaScript和jQuery的ajax发送，能力有限，在此仅写下我开发项目过程中所得，欢迎指正交流。  一、flask中的json数据接收1、利用flask的request.form.get()方法Python后台部分代码from flask import Flaskfrom flask import jsonifyfrom fla">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.118Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前后端json数据发送和接收">
+<meta name="twitter:description" content="由于笔者后台使用的是flask框架接收和前端使用的是原生的JavaScript和jQuery的ajax发送，能力有限，在此仅写下我开发项目过程中所得，欢迎指正交流。  一、flask中的json数据接收1、利用flask的request.form.get()方法Python后台部分代码from flask import Flaskfrom flask import jsonifyfrom fla">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、flask中的json数据接收"><span class="toc-text">一、flask中的json数据接收</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、利用flask的request-form-get-方法"><span class="toc-text">1、利用flask的request.form.get()方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、-利用flask的request-get-data-方法"><span class="toc-text">2、 利用flask的request.get_data()方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、利用flask的request-get-json-方法"><span class="toc-text">3、利用flask的request.get_json()方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、前端发送json数据"><span class="toc-text">二、前端发送json数据</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、原生XMLHttp发送"><span class="toc-text">1、原生XMLHttp发送</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、ajax发送"><span class="toc-text">2、ajax发送</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-web/前后端json数据发送和接收" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      前后端json数据发送和接收
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2017.07.26
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/web/">web</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <blockquote>
+<p>由于笔者后台使用的是flask框架接收和前端使用的是原生的JavaScript和jQuery的ajax发送，能力有限，在此仅写下我开发项目过程中所得，欢迎指正交流。</p>
+</blockquote>
+<h2 id="一、flask中的json数据接收"><a href="#一、flask中的json数据接收" class="headerlink" title="一、flask中的json数据接收"></a>一、flask中的json数据接收</h2><h3 id="1、利用flask的request-form-get-方法"><a href="#1、利用flask的request-form-get-方法" class="headerlink" title="1、利用flask的request.form.get()方法"></a>1、利用flask的request.form.get()方法</h3><p>Python后台部分代码<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> jsonify</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment"># 登录</span></span><br><span class="line"><span class="meta">@app.route("/flask/login", methods=['POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">login</span><span class="params">()</span>:</span></span><br><span class="line">    data_ = request.form.get(<span class="string">'data'</span>)</span><br><span class="line">    data = json.loads(data)</span><br><span class="line">    username = data[<span class="string">'username'</span>]</span><br><span class="line">    password = data[<span class="string">'password'</span>]</span><br><span class="line">    rem = <span class="keyword">False</span></span><br><span class="line">    <span class="keyword">if</span> data[<span class="string">'remember'</span>]:</span><br><span class="line">        rem = <span class="keyword">True</span></span><br><span class="line">    <span class="keyword">return</span> jsonify(&#123;<span class="string">"login"</span>: Login.login(username, password, rem)&#125;)  <span class="comment"># 返回布尔值</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="2、-利用flask的request-get-data-方法"><a href="#2、-利用flask的request-get-data-方法" class="headerlink" title="2、 利用flask的request.get_data()方法"></a>2、 利用flask的request.get_data()方法</h3><p>Python后台代码<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> jsonify</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment"># 登录</span></span><br><span class="line"><span class="meta">@app.route("/flask/login", methods=['POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">login</span><span class="params">()</span>:</span></span><br><span class="line">    data = request.get_data()</span><br><span class="line">    data = json.loads(data)</span><br><span class="line">    username = data[<span class="string">'username'</span>]</span><br><span class="line">    password = data[<span class="string">'password'</span>]</span><br><span class="line">    rem = <span class="keyword">False</span></span><br><span class="line">    <span class="keyword">if</span> data[<span class="string">'remember'</span>]:</span><br><span class="line">        rem = <span class="keyword">True</span></span><br><span class="line">    <span class="keyword">return</span> jsonify(&#123;<span class="string">"login"</span>: Login.login(username, password, rem)&#125;)  <span class="comment"># 返回布尔值</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="3、利用flask的request-get-json-方法"><a href="#3、利用flask的request-get-json-方法" class="headerlink" title="3、利用flask的request.get_json()方法"></a>3、利用flask的request.get_json()方法</h3><p>Python后台代码<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> jsonify</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment"># 登录</span></span><br><span class="line"><span class="meta">@app.route("/flask/login", methods=['POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">login</span><span class="params">()</span>:</span></span><br><span class="line">    data = request.get_json()</span><br><span class="line">    username = data[<span class="string">'username'</span>]</span><br><span class="line">    password = data[<span class="string">'password'</span>]</span><br><span class="line">    rem = <span class="keyword">False</span></span><br><span class="line">    <span class="keyword">if</span> data[<span class="string">'remember'</span>]:</span><br><span class="line">        rem = <span class="keyword">True</span></span><br><span class="line">    <span class="keyword">return</span> jsonify(&#123;<span class="string">"login"</span>: Login.login(username, password, rem)&#125;)  <span class="comment"># 返回布尔值</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="二、前端发送json数据"><a href="#二、前端发送json数据" class="headerlink" title="二、前端发送json数据"></a>二、前端发送json数据</h2><h3 id="1、原生XMLHttp发送"><a href="#1、原生XMLHttp发送" class="headerlink" title="1、原生XMLHttp发送"></a>1、原生XMLHttp发送</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">login</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> username =<span class="built_in">document</span>.getElementById(<span class="string">"username"</span>).value;</span><br><span class="line">    <span class="keyword">var</span> password = <span class="built_in">document</span>.getElementById(<span class="string">"password"</span>).value;</span><br><span class="line">    <span class="keyword">var</span> remember =<span class="built_in">document</span>.getElementById(<span class="string">"remember"</span>).checked;</span><br><span class="line">    <span class="keyword">var</span> xmlhttp;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">window</span>.XMLHttpRequest)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码</span></span><br><span class="line">        xmlhttp=<span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// IE6, IE5 浏览器执行代码</span></span><br><span class="line">        xmlhttp=<span class="keyword">new</span> ActiveXObject(<span class="string">"Microsoft.XMLHTTP"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    xmlhttp.onreadystatechange=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (xmlhttp.readyState===<span class="number">4</span> &amp;&amp; xmlhttp.status===<span class="number">200</span>)</span><br><span class="line">        &#123;</span><br><span class="line">           ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    xmlhttp.open(<span class="string">"POST"</span>,<span class="string">"/flask/login"</span>,<span class="literal">true</span>);</span><br><span class="line">    xmlhttp.setRequestHeader(<span class="string">"Content-type"</span>,<span class="string">"application/json"</span>);</span><br><span class="line">    <span class="comment">// 后面这两部很重要，我看网上很多都是使用xmlhttp.send("username="+username+"&amp;password="+"),这样接收还要解析一番感觉还是直接发送以下格式的好些</span></span><br><span class="line">    <span class="keyword">var</span> data = &#123;</span><br><span class="line">        <span class="string">"username"</span>: username</span><br><span class="line">        <span class="string">"password"</span>: password</span><br><span class="line">        <span class="string">"remember"</span>: remember</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">var</span> data_json = <span class="built_in">JSON</span>.stringify(data);</span><br><span class="line">    xmlhttp.send(data_json);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>附：json数据解析<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> text = xmlhttp.responseText;</span><br><span class="line"><span class="comment">//  通过eval() 方法将json格式的字符串转化为js对象，并进行解析获取内容</span></span><br><span class="line"><span class="keyword">var</span> result = <span class="built_in">eval</span>(<span class="string">"("</span>+text+<span class="string">")"</span>);</span><br><span class="line"><span class="keyword">if</span> (result) &#123;</span><br><span class="line"></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">             alert(<span class="string">"请输入正确的用户名和密码"</span>);</span><br><span class="line">         &#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2、ajax发送"><a href="#2、ajax发送" class="headerlink" title="2、ajax发送"></a>2、ajax发送</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$(document).ready(function () &#123;</span><br><span class="line">   var data = &#123;</span><br><span class="line">   &quot;username&quot;: &quot;adamin&quot;,</span><br><span class="line">   &quot;password&quot;: &quot;123456789&quot;,</span><br><span class="line">   &quot;remember&quot;: true</span><br><span class="line">   &#125;</span><br><span class="line">   $.ajax(&#123;</span><br><span class="line">       url: &quot;/flask/login&quot;,</span><br><span class="line">       type: &quot;POST&quot;,</span><br><span class="line">       data: data,</span><br><span class="line">       success: function () &#123;</span><br><span class="line"></span><br><span class="line">       &#125;</span><br><span class="line">   &#125;)</span><br><span class="line">   &#125;)</span><br></pre></td></tr></table></figure>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/01/01/分布式/Raft学习传送门/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/10/21/学习笔记/学习笔记1/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

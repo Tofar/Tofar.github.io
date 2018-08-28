@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Ubuntu wifi问题记录 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Ubuntu,wifi," />
+  
+
+  <meta name="description" content="问题：Ubuntu下无法检测到WiFi 电脑：Lenovo Subsystem: Lenovo RTL8723BE PCIe Wireless Network Adapter [17aa:b736] Ubuntu 16.04LTS内核版本：4.13.0-26-generic  解决经历 首先检测是否有阻塞 命令：rfkill list all 结果：无阻塞 0: tpacpi_bluetooth_">
+<meta name="keywords" content="Ubuntu,wifi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu wifi问题记录">
+<meta property="og:url" content="http://mu-mo.top/2018/01/30/Ubuntu/Ubuntu wifi问题记录/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="问题：Ubuntu下无法检测到WiFi 电脑：Lenovo Subsystem: Lenovo RTL8723BE PCIe Wireless Network Adapter [17aa:b736] Ubuntu 16.04LTS内核版本：4.13.0-26-generic  解决经历 首先检测是否有阻塞 命令：rfkill list all 结果：无阻塞 0: tpacpi_bluetooth_">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.114Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ubuntu wifi问题记录">
+<meta name="twitter:description" content="问题：Ubuntu下无法检测到WiFi 电脑：Lenovo Subsystem: Lenovo RTL8723BE PCIe Wireless Network Adapter [17aa:b736] Ubuntu 16.04LTS内核版本：4.13.0-26-generic  解决经历 首先检测是否有阻塞 命令：rfkill list all 结果：无阻塞 0: tpacpi_bluetooth_">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题：Ubuntu下无法检测到WiFi"><span class="toc-text">问题：Ubuntu下无法检测到WiFi</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决经历"><span class="toc-text">解决经历</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-Ubuntu/Ubuntu wifi问题记录" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      Ubuntu wifi问题记录
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2018.01.30
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/Ubuntu/">Ubuntu</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <h3 id="问题：Ubuntu下无法检测到WiFi"><a href="#问题：Ubuntu下无法检测到WiFi" class="headerlink" title="问题：Ubuntu下无法检测到WiFi"></a>问题：Ubuntu下无法检测到WiFi</h3><ul>
+<li>电脑：Lenovo</li>
+<li>Subsystem: Lenovo RTL8723BE PCIe Wireless Network Adapter [17aa:b736]</li>
+<li>Ubuntu 16.04LTS内核版本：4.13.0-26-generic</li>
+</ul>
+<h3 id="解决经历"><a href="#解决经历" class="headerlink" title="解决经历"></a>解决经历</h3><ol>
+<li><p>首先检测是否有阻塞</p>
+<p>命令：<em>rfkill list all</em></p>
+<p>结果：无阻塞</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">0: tpacpi_bluetooth_sw: Bluetooth</span><br><span class="line">	Soft blocked: no</span><br><span class="line">	Hard blocked: no</span><br><span class="line">3: hci0: Bluetooth</span><br><span class="line">	Soft blocked: no</span><br><span class="line">	Hard blocked: no</span><br><span class="line">4: phy0: Wireless LAN</span><br><span class="line">	Soft blocked: no</span><br><span class="line">	Hard blocked: no</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果存在Soft blocked 阻塞 可使用 <em>rfkill unblock all</em> 解锁，如果存在 Hard blocked阻塞自行Google。</p>
+</blockquote>
+</li>
+<li><p>查看网卡及内核相关信息</p>
+<p>命令：<em>lspci -vvnn |grep -A 9 Network</em></p>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">04:00.0 Network controller [0280]: Realtek Semiconductor Co., Ltd. RTL8723BE PCIe Wireless Network Adapter [10ec:b723]</span><br><span class="line">	Subsystem: Lenovo RTL8723BE PCIe Wireless Network Adapter [17aa:b736]</span><br><span class="line">	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-</span><br><span class="line">	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast &gt;TAbort- &lt;TAbort- &lt;MAbort- &gt;SERR- &lt;PERR- INTx-</span><br><span class="line">	Latency: 0, Cache Line Size: 32 bytes</span><br><span class="line">	Interrupt: pin A routed to IRQ 49</span><br><span class="line">	Region 0: I/O ports at 1000 [size=256]</span><br><span class="line">	Region 2: Memory at f0800000 (64-bit, non-prefetchable) [size=16K]</span><br><span class="line">	Capabilities: &lt;access denied&gt;</span><br><span class="line">	Kernel driver in use: rtl8723be</span><br><span class="line">	Kernel modules: rtl8723be</span><br></pre></td></tr></table></figure>
+<p>重点：最后两行</p>
+</li>
+<li><p>解决</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install linux-headers-generic build-essential git  //没有有线网就算了</span><br><span class="line">git clone https://github.com/lwfinger/rtlwifi_new.git     </span><br><span class="line">cd rtlwifi_new</span><br><span class="line">sudo make install</span><br><span class="line">sudo modprobe -r rtl8723be    //&lt;&lt;YOUR WIRELESS DRIVER CODE&gt;&gt;</span><br><span class="line">sudo modprobe rtl8723be      //&lt;&lt;YOUR WIRELESS DRIVER CODE&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+</ol>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/01/30/工具/HEXO建站指南/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/01/30/编程语言/Golang/go命令学习/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>打印水仙花数（汇编） | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="汇编," />
+  
+
+  <meta name="description" content="这里水仙花数指严格意义上的水仙花数，即若一个数满足这个数等于它的百位数、十位数、个位数的立方和，那么这个数是水仙花数。  一、设计要求具体的设计任务及要求：  输入一个三位整数n； 将小于n的水仙花数打印出来（各位数字的立方和等于该数本身）； 程序采用子程序结构或宏指令，结构清晰； 友好清晰的用户界面，能识别输入错误并控制错误的修改。  二、功能简述​    程序可以输入一个三位数，若输入有误则">
+<meta name="keywords" content="汇编">
+<meta property="og:type" content="article">
+<meta property="og:title" content="打印水仙花数（汇编）">
+<meta property="og:url" content="http://mu-mo.top/2018/01/12/编程语言/其他/打印水仙花数(汇编）/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="这里水仙花数指严格意义上的水仙花数，即若一个数满足这个数等于它的百位数、十位数、个位数的立方和，那么这个数是水仙花数。  一、设计要求具体的设计任务及要求：  输入一个三位整数n； 将小于n的水仙花数打印出来（各位数字的立方和等于该数本身）； 程序采用子程序结构或宏指令，结构清晰； 友好清晰的用户界面，能识别输入错误并控制错误的修改。  二、功能简述​    程序可以输入一个三位数，若输入有误则">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/1/20/16112f03e942d95e?w=642&h=427&f=png&s=19774">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.130Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="打印水仙花数（汇编）">
+<meta name="twitter:description" content="这里水仙花数指严格意义上的水仙花数，即若一个数满足这个数等于它的百位数、十位数、个位数的立方和，那么这个数是水仙花数。  一、设计要求具体的设计任务及要求：  输入一个三位整数n； 将小于n的水仙花数打印出来（各位数字的立方和等于该数本身）； 程序采用子程序结构或宏指令，结构清晰； 友好清晰的用户界面，能识别输入错误并控制错误的修改。  二、功能简述​    程序可以输入一个三位数，若输入有误则">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2018/1/20/16112f03e942d95e?w=642&h=427&f=png&s=19774">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、设计要求"><span class="toc-text">一、设计要求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、功能简述"><span class="toc-text">二、功能简述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、模块说明"><span class="toc-text">三、模块说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、测试用例"><span class="toc-text">四、测试用例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码如下："><span class="toc-text">代码如下：</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-编程语言/其他/打印水仙花数(汇编）" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      打印水仙花数（汇编）
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2018.01.12
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/其他/">其他</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <blockquote>
+<p>这里水仙花数指严格意义上的水仙花数，即若一个数满足这个数等于它的百位数、十位数、个位数的立方和，那么这个数是水仙花数。</p>
+</blockquote>
+<h3 id="一、设计要求"><a href="#一、设计要求" class="headerlink" title="一、设计要求"></a>一、设计要求</h3><p>具体的设计任务及要求：</p>
+<ol>
+<li>输入一个三位整数n；</li>
+<li>将小于n的水仙花数打印出来（各位数字的立方和等于该数本身）；</li>
+<li>程序采用子程序结构或宏指令，结构清晰；</li>
+<li>友好清晰的用户界面，能识别输入错误并控制错误的修改。</li>
+</ol>
+<h3 id="二、功能简述"><a href="#二、功能简述" class="headerlink" title="二、功能简述"></a>二、功能简述</h3><p>​    程序可以输入一个三位数，若输入有误则提示错误，并提示重新输入，若输入正确，系统将显示出所有大于等于100，并且小于等于输入数字的水仙花数。</p>
+<p>​    然后提示是否继续，若用户输入y或Y，则系统回到最开始的状态，若输入n或N,则退出系统，若为其他则提示错误，并重新输入。</p>
+<h3 id="三、模块说明"><a href="#三、模块说明" class="headerlink" title="三、模块说明"></a>三、模块说明</h3><table>
+<thead>
+<tr>
+<th>子程序名</th>
+<th>功能</th>
+<th>基本实现</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET_INPUT</td>
+<td>获取键盘输入三位数字</td>
+<td>通过INT 21H号中断获取键盘输入</td>
+</tr>
+<tr>
+<td>INPUT_CHECK</td>
+<td>输入检测，判断是否为数字</td>
+<td>通过两次比较，第一次与‘0’比较，判断是否不小于，第二次与‘9’比较，判断是否不大于，都满足则ok</td>
+</tr>
+<tr>
+<td>JUDGE_lOW_BORDER</td>
+<td>判断输入数字是否是大于100的</td>
+<td>CMP与0进行比较判断即可</td>
+</tr>
+<tr>
+<td>INPUT_ERROR</td>
+<td>输入错误处理模块</td>
+<td>输出错误信息，同时自增CX，让循环仍然能够获取三位数字，在继续循环</td>
+</tr>
+<tr>
+<td>INPUT_RIGHT</td>
+<td>输入正确处理模块</td>
+<td>存储输入数字，循环继续</td>
+</tr>
+<tr>
+<td>CONTINUE</td>
+<td>循环继续</td>
+<td>通过LOOP  S2来使循环得到三位数字，同时输出三位数字以检测模块是否正确执行</td>
+</tr>
+<tr>
+<td>SWITCH_INPUT</td>
+<td>输入转换，即将输入字符转换为一个二进制数字</td>
+<td>将输入数字减去’0’即可获取输入数字（字符），的二进制（原因：ASCII码），再讲位数乘上10或者100</td>
+</tr>
+<tr>
+<td>SWITCH_NUM_SYS</td>
+<td>进制转换及存储</td>
+<td>将当前循环中的数字转化为三个数存储，如123转化为1， 2， 3分别存储，用于后面计算水仙花数</td>
+</tr>
+<tr>
+<td>CAL_CUBE</td>
+<td>计算水仙花立方</td>
+<td>将存储的三个数字分别计算立方并相加</td>
+</tr>
+<tr>
+<td>JUDGE_NARC_NUM</td>
+<td>判断水仙花数，是则显示</td>
+<td>通过CMP指令比较数字或者立方和是否相等，相等则显示</td>
+</tr>
+<tr>
+<td>IF_CONTINUE</td>
+<td>一轮之后是否继续</td>
+<td>通过获取键盘输入判断</td>
+</tr>
+<tr>
+<td>CONTINUE_CHECK</td>
+<td>是否继续输入判断</td>
+<td>通过CMP指令，让输入字符与 y,Y,n,N比较并跳转到相应模块</td>
+</tr>
+<tr>
+<td>CONTINUE_NEXT_ROUND</td>
+<td>继续下一轮</td>
+<td>跳转到ＳＴＡＲＴ</td>
+</tr>
+<tr>
+<td>CONTINUE_ERROR</td>
+<td>继续下一轮判断的时候输入错误</td>
+<td>显示输入错误信息，并JMP到IF_CONTINUE继续输入模块</td>
+</tr>
+<tr>
+<td>STOP</td>
+<td>输入ｎ退出</td>
+<td>通过MOV AX, 4C00H 和INT 21H结束程序</td>
+</tr>
+</tbody>
+</table>
+<h3 id="四、测试用例"><a href="#四、测试用例" class="headerlink" title="四、测试用例"></a>四、测试用例</h3><ul>
+<li><p>测试结果说明：</p>
+<p>（1） 输入789 ，输出水仙花数407， 371， 370， 153</p>
+<p>（2） 输入y，程序继续，重新输入上限数值</p>
+<p>（3） 输入367，输出水仙花数 153</p>
+<p>（4） 输入y，程序继续，重新输入上限数值</p>
+<p>（5） 输入067，程序发现其输入数字小于100，提示输入数字太小，重新输入</p>
+<p>（6） 输入a，提示输入错误重新输入数值</p>
+<p>（7） 输入 371，输出水仙花数  371,370,153</p>
+<p>（8） 输入N，退出程序</p>
+</li>
+<li><p>测试结果：</p>
+</li>
+</ul>
+<p><img src="https://user-gold-cdn.xitu.io/2018/1/20/16112f03e942d95e?w=642&amp;h=427&amp;f=png&amp;s=19774" alt=""></p>
+<h3 id="代码如下："><a href="#代码如下：" class="headerlink" title="代码如下："></a>代码如下：</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">COMMENT /**</span><br><span class="line">Copyright &lt;2018&gt; &lt;Zhao Nan&gt;</span><br><span class="line"></span><br><span class="line">Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated</span><br><span class="line">documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the</span><br><span class="line">rights to use, copy, modify, merge, publish, distribute, sublicense, and or sell copies of the Software, and to</span><br><span class="line">permit persons to whom the Software is furnished to do so, subject to the following conditions:</span><br><span class="line"></span><br><span class="line">The above copyright notice and this permission notice shall be included in all copies or substantial portions of the</span><br><span class="line">Software.</span><br><span class="line"></span><br><span class="line">THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE</span><br><span class="line">WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS</span><br><span class="line">OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR</span><br><span class="line">OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</span><br><span class="line"></span><br><span class="line">USERNAME: Zhao Nan</span><br><span class="line">COMPLETE TIME: 2018-1-4</span><br><span class="line">DESCRIBE: Print the number of daffodils between 100 and n(the number you input)</span><br><span class="line">*/</span><br><span class="line">.386</span><br><span class="line">ASSUME CS:CODES, DS:DATA, SS:STACK</span><br><span class="line">DATA SEGMENT  USE16</span><br><span class="line">    MSG1   DB    0AH, 0DH, &apos;The shuixianhuashu is : $&apos;           ;0AH, 0DH 代表换行和回车</span><br><span class="line">    MSG2   DB    0AH, 0DH, &apos;Please input a three-digit number: &apos;, &apos;$&apos;</span><br><span class="line">    MSG3   DB    0AH, 0DH, &apos;Input Error, Please the number again:&apos;, &apos;$&apos;</span><br><span class="line">    MSG4   DB    0AH, 0DH, &apos;The three-digit number is: &apos;, &apos;$&apos;</span><br><span class="line">    MSG5   DB    0AH, 0DH, &apos;Do you want to continue(y or Y/n or N): &apos;, &apos;$&apos;</span><br><span class="line">    MSG6   DB    0AH, 0DH, &apos;Input Error, Please input again:&apos;, &apos;$&apos;</span><br><span class="line">    MSG7   DB    0AH, 0DH, &apos;The number you input is too little.$&apos;</span><br><span class="line">    NUMS   DB    3 DUP(0), 0AH, 0DH, &apos;$&apos;    ; 存储三位数字,后续中可以存储当前的三位数字，如：循环到了456，则分别存储4,5,6</span><br><span class="line">    CUBES  DW    3 DUP(0)                   ; 存储立方数字，分别是 百位，十位，个位数字的立方</span><br><span class="line">DATA ENDS</span><br><span class="line"></span><br><span class="line">STACK SEGMENT USE16 STACK</span><br><span class="line">    DB   100 DUP(0)</span><br><span class="line">STACK ENDS</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">CODES SEGMENT USE16        ;使用 16位</span><br><span class="line">;------------------------main-----------------------------</span><br><span class="line">START:</span><br><span class="line">    CALL  GET_INPUT        ;获取键盘输入</span><br><span class="line">    CALL  JUDGE_lOW_BORDER ;判断输入数字是否是大于100的</span><br><span class="line">    CALL  SWITCH_INPUT     ;输入转换存在 CX 中，CX控制循环</span><br><span class="line">    SUB   CX, 100          ;不能输出100以下，所以这里减100，注意后面使用的时候加100或者用其他操作</span><br><span class="line">LOOP1:</span><br><span class="line">    CALL  SWITCH_NUM_SYS   ;将二进制转化为三个数字到 NUMS[0] NUMS[1] NUMS[2] 中</span><br><span class="line">    CALL  CAL_CUBE         ;求水仙花立方</span><br><span class="line">    JMP   JUDGE_NARC_NUM   ;判断水仙花数，是则显示</span><br><span class="line">NEXT:</span><br><span class="line">    LOOP  LOOP1            ;循环到 0为止</span><br><span class="line">    JMP NEAR PTR IF_CONTINUE</span><br><span class="line">    MOV   AX, 4C00H        ;程序终止</span><br><span class="line">    INT   21H</span><br><span class="line">;---------------------------------------------------------</span><br><span class="line"></span><br><span class="line">;---------------------------------------------------------</span><br><span class="line">;判断是否为水仙花数</span><br><span class="line">JUDGE_NARC_NUM:</span><br><span class="line">    MOV   AX, CUBES[0]</span><br><span class="line">    ADD   AX, CUBES[2]</span><br><span class="line">    ADD   AX, CUBES[4]</span><br><span class="line">    SUB   AX, 100          ;由于不能输出100,注意</span><br><span class="line">    CMP   AX, CX</span><br><span class="line">    JNE   NEXT</span><br><span class="line">    JE    DISPLAY          ;相等则显示</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">;显示水仙花数</span><br><span class="line">DISPLAY:</span><br><span class="line">    LEA   DX, MSG1         ;显示水仙花数</span><br><span class="line">    MOV   AH, 09H</span><br><span class="line">    INT   21H</span><br><span class="line">    MOV   AH, 2</span><br><span class="line"></span><br><span class="line">    MOV   DL, NUMS[0]      ;百位数字</span><br><span class="line">    ADD   DL, 30H          ;转换为数字显示, ASCII加上 48 即为字符</span><br><span class="line">    INT   21H</span><br><span class="line">    MOV   DL, NUMS[1]      ;十位数字</span><br><span class="line">    ADD   DL, 30H</span><br><span class="line">    INT   21H</span><br><span class="line">    MOV   DL, NUMS[2]      ;个位数字</span><br><span class="line">    ADD   DL, 30H</span><br><span class="line"></span><br><span class="line">    INT   21H</span><br><span class="line">    JMP   NEXT</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">;键盘输入</span><br><span class="line">GET_INPUT:</span><br><span class="line">    MOV   CX, 3            ;三次输入数字</span><br><span class="line">    MOV   AX, DATA</span><br><span class="line">    MOV   DS, AX</span><br><span class="line">    MOV   BX, 0            ;输入次数</span><br><span class="line"></span><br><span class="line">    LEA   DX, MSG2         ;显示提示输入</span><br><span class="line">    MOV   AH, 09H</span><br><span class="line">    INT   21H</span><br><span class="line"></span><br><span class="line">LOOP2:</span><br><span class="line">    MOV   AH, 01H          ;从键盘输入一个字符, 其ASCII存放在 AL 中</span><br><span class="line">    INT   21H</span><br><span class="line"></span><br><span class="line">    JMP   INPUT_CHECK      ;输入检测判断</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">;输入检测</span><br><span class="line">INPUT_CHECK:</span><br><span class="line">    CMP   AL, &apos;0&apos;</span><br><span class="line">    JB    INPUT_ERROR      ;输入ASCII码小于 0 输入错误</span><br><span class="line">    CMP   AL, &apos;9&apos;</span><br><span class="line">    JA    INPUT_ERROR      ;输入ASCII码大于 9 输入错误</span><br><span class="line">    JNA   INPUT_RIGHT      ;否则输入正确</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">;输入错误</span><br><span class="line">INPUT_ERROR:</span><br><span class="line">    LEA   DX, MSG3         ;输出错误的信息模板</span><br><span class="line">    MOV   AH, 09H</span><br><span class="line">    INT   21H</span><br><span class="line"></span><br><span class="line">    ;INC   CX</span><br><span class="line">    MOV   CX, 4</span><br><span class="line">    MOV   BX, 0</span><br><span class="line">    JMP   CONTINUE</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">;输入正确</span><br><span class="line">INPUT_RIGHT:</span><br><span class="line">    MOV   NUMS[BX], AL     ;存储输入</span><br><span class="line">    INC   BX</span><br><span class="line">    JMP   CONTINUE         ;继续循环</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">;继续</span><br><span class="line">CONTINUE:</span><br><span class="line">    LOOP  LOOP2</span><br><span class="line"></span><br><span class="line">    LEA   DX, MSG4         ;输出正确的数字</span><br><span class="line">    MOV   AH, 09H</span><br><span class="line">    INT   21H</span><br><span class="line">    LEA   DX, NUMS</span><br><span class="line">    MOV   AH, 09H</span><br><span class="line">    INT   21H</span><br><span class="line"></span><br><span class="line">    RET                    ;返回主程序，RET从堆栈中取出 IP</span><br><span class="line"></span><br><span class="line">;-----------------------------------------------------</span><br><span class="line"></span><br><span class="line">; 判断输入数字是否是大于100的</span><br><span class="line">JUDGE_lOW_BORDER:</span><br><span class="line">    CMP   NUMS[0], &apos;0&apos;</span><br><span class="line">    JE    NUM_IS_LIttle</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">;输入数字太小</span><br><span class="line">NUM_IS_LIttle:</span><br><span class="line">    LEA   DX, MSG7</span><br><span class="line">    MOV   AH, 09H</span><br><span class="line">    INT   21H</span><br><span class="line">    JMP   START</span><br><span class="line"></span><br><span class="line">;输入转换存在  CX 中，CX控制循环</span><br><span class="line">SWITCH_INPUT:</span><br><span class="line">    MOV   CX, 0</span><br><span class="line">    MOV   CL, NUMS[2]</span><br><span class="line">    SUB   CL, &apos;0&apos;</span><br><span class="line">    MOV   AL, 10</span><br><span class="line">    MOV   BL, NUMS[1]</span><br><span class="line">    SUB   BL, &apos;0&apos;</span><br><span class="line">    MUL   BL</span><br><span class="line">    ADD   CX, AX</span><br><span class="line">    MOV   AL, 100</span><br><span class="line">    MOV   BL, NUMS[0]</span><br><span class="line">    SUB   BL, &apos;0&apos;</span><br><span class="line">    MUL   BL</span><br><span class="line">    ADD   CX, AX</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">;----------------------------------------------------------</span><br><span class="line">;进制转换存在 NUMS[0], NUMS[1], NUMS[2] 中</span><br><span class="line">SWITCH_NUM_SYS:</span><br><span class="line">    MOV   AX, CX</span><br><span class="line">    ADD   AX, 100</span><br><span class="line">    MOV   BL, 100</span><br><span class="line">    DIV   BL                    ;AL=百位数, AH=余数</span><br><span class="line">    MOV   NUMS[0], AL           ;百位数字</span><br><span class="line">    MOV   AL, AH</span><br><span class="line">    MOV   AH, 0</span><br><span class="line">    MOV   BL, 10</span><br><span class="line">    DIV   BL</span><br><span class="line">    MOV   NUMS[1], AL           ;十位数字</span><br><span class="line">    MOV   NUMS[2], AH           ;个位数字</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">;求水仙花立方</span><br><span class="line">CAL_CUBE:</span><br><span class="line">    MOV   AL, NUMS[0]           ;三次连乘即可</span><br><span class="line">    MOV   AH, 0</span><br><span class="line">    MOV   BX, AX</span><br><span class="line">    MUL   BX</span><br><span class="line">    MUL   BX</span><br><span class="line">    MOV   CUBES[0], AX</span><br><span class="line"></span><br><span class="line">    MOV   AL, NUMS[1]</span><br><span class="line">    MOV   AH, 0</span><br><span class="line">    MOV   BX, AX</span><br><span class="line">    MUL   BX</span><br><span class="line">    MUL   BX</span><br><span class="line">    MOV   CUBES[2], AX</span><br><span class="line"></span><br><span class="line">    MOV   AL, NUMS[2]</span><br><span class="line">    MOV   AH, 0</span><br><span class="line">    MOV   BX, AX</span><br><span class="line">    MUL   BX</span><br><span class="line">    MUL   BX</span><br><span class="line">    MOV   CUBES[4], AX</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">;-----------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">;-----------------------------------------------------------------</span><br><span class="line">;输出水仙花数之后的判断是否继续</span><br><span class="line">IF_CONTINUE:</span><br><span class="line">    LEA   DX, MSG5        ;显示提示输入</span><br><span class="line">    MOV   AH, 09H</span><br><span class="line">    INT   21H</span><br><span class="line">    MOV   AH, 01H         ;从键盘输入一个字符, 其ASCII存放在 AL 中</span><br><span class="line">    INT   21H</span><br><span class="line"></span><br><span class="line">    JMP CONTINUE_CHECK</span><br><span class="line"></span><br><span class="line">;是否继续输入判断</span><br><span class="line">CONTINUE_CHECK:           ;判断是否输入的是 y, Y, n, N</span><br><span class="line">    CMP   AL, &apos;y&apos;</span><br><span class="line">    JE    CONTINUE_NEXT_ROUND</span><br><span class="line">    CMP   AL, &apos;Y&apos;</span><br><span class="line">    JE    CONTINUE_NEXT_ROUND</span><br><span class="line">    CMP   AL, &apos;n&apos;</span><br><span class="line">    JE    STOP</span><br><span class="line">    CMP   AL, &apos;N&apos;</span><br><span class="line">    JE    STOP</span><br><span class="line">    JNE   CONTINUE_ERROR</span><br><span class="line"></span><br><span class="line">;继续</span><br><span class="line">CONTINUE_NEXT_ROUND:</span><br><span class="line">    JMP  NEAR PTR START</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">;退出</span><br><span class="line">STOP:</span><br><span class="line">    MOV   AX, 4C00H       ;程序终止</span><br><span class="line">    INT   21H</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">;继续输入错误</span><br><span class="line">CONTINUE_ERROR:</span><br><span class="line">    LEA   DX, MSG6        ;输出错误的信息模板</span><br><span class="line">    MOV   AH, 09H</span><br><span class="line">    INT   21H</span><br><span class="line">    JMP   IF_CONTINUE</span><br><span class="line"></span><br><span class="line">;----------------------------------------------------</span><br><span class="line"></span><br><span class="line">CODES ENDS</span><br><span class="line">    END START</span><br></pre></td></tr></table></figure>
+<p>参考教材：王爽的《汇编语言》</p>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/01/01/任务发布/第三期任务/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/01/25/编程语言/Golang/golang-函数间数组传值/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

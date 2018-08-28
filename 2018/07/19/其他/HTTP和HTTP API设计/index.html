@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>HTTP 和 HTTP API 设计 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="restful,http,api," />
+  
+
+  <meta name="description" content="HTTP 基本知识URIURL(统一资源定位符)，我们比较熟悉，URI是3个单词的缩写，Uniform Resource Identifier URI用字符串表示某一互联网资源，而URL表示资源的地点，可见URL是URI的子集；采用HTTP协议时，协议方案就是http，除此之外，还有ftp、file等，标准的URI协议有30种方案左右。                     hierarchic">
+<meta name="keywords" content="restful,http,api">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP 和 HTTP API 设计">
+<meta property="og:url" content="http://mu-mo.top/2018/07/19/其他/HTTP和HTTP API设计/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="HTTP 基本知识URIURL(统一资源定位符)，我们比较熟悉，URI是3个单词的缩写，Uniform Resource Identifier URI用字符串表示某一互联网资源，而URL表示资源的地点，可见URL是URI的子集；采用HTTP协议时，协议方案就是http，除此之外，还有ftp、file等，标准的URI协议有30种方案左右。                     hierarchic">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2146831-499cae9ab386abe0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/681">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1724103-c43900117e983241.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/698">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1724103-e8ebcab6c80b9044.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/573">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1724103-ea242640383ed739.png?imageMogr2/auto-orient/">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.118Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTTP 和 HTTP API 设计">
+<meta name="twitter:description" content="HTTP 基本知识URIURL(统一资源定位符)，我们比较熟悉，URI是3个单词的缩写，Uniform Resource Identifier URI用字符串表示某一互联网资源，而URL表示资源的地点，可见URL是URI的子集；采用HTTP协议时，协议方案就是http，除此之外，还有ftp、file等，标准的URI协议有30种方案左右。                     hierarchic">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/2146831-499cae9ab386abe0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/681">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-基本知识"><span class="toc-text">HTTP 基本知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#URI"><span class="toc-text">URI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基本规定"><span class="toc-text">基本规定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用HTTP方法"><span class="toc-text">常用HTTP方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cookie-状态管理"><span class="toc-text">Cookie 状态管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP报文"><span class="toc-text">HTTP报文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#首部"><span class="toc-text">首部</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#通用首部"><span class="toc-text">通用首部</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#请求首部"><span class="toc-text">请求首部</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实体首部"><span class="toc-text">实体首部</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#响应首部"><span class="toc-text">响应首部</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP-状态码"><span class="toc-text">HTTP 状态码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-API-设计指南"><span class="toc-text">HTTP API 设计指南</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-HTTPS"><span class="toc-text">使用 HTTPS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#版本化"><span class="toc-text">版本化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#返回合适的状态码"><span class="toc-text">返回合适的状态码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在请求的body体使用JSON数据"><span class="toc-text">在请求的body体使用JSON数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#提供资源的唯一标识"><span class="toc-text">提供资源的唯一标识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#提供标准的时间戳"><span class="toc-text">提供标准的时间戳</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用ISO8601的国际化时间格式"><span class="toc-text">使用ISO8601的国际化时间格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用统一的资源路径"><span class="toc-text">使用统一的资源路径</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#资源命名"><span class="toc-text">资源命名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#形为"><span class="toc-text">形为</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#路径和属性要用小写字母"><span class="toc-text">路径和属性要用小写字母</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#嵌套外键关系"><span class="toc-text">嵌套外键关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#支持方便的无id间接引用"><span class="toc-text">支持方便的无id间接引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构建错误信息"><span class="toc-text">构建错误信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用id来跟踪每次的请求"><span class="toc-text">用id来跟踪每次的请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#按范围分页"><span class="toc-text">按范围分页</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#显示速度限制状态"><span class="toc-text">显示速度限制状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#指定可接受头信息的版本"><span class="toc-text">指定可接受头信息的版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#提供人类可读的文档"><span class="toc-text">提供人类可读的文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#提供可执行的示例"><span class="toc-text">提供可执行的示例</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-其他/HTTP和HTTP API设计" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      HTTP 和 HTTP API 设计
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2018.07.19
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/其他/">其他</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <h2 id="HTTP-基本知识"><a href="#HTTP-基本知识" class="headerlink" title="HTTP 基本知识"></a>HTTP 基本知识</h2><h3 id="URI"><a href="#URI" class="headerlink" title="URI"></a>URI</h3><p>URL(统一资源定位符)，我们比较熟悉，URI是3个单词的缩写，Uniform Resource Identifier</p>
+<p>URI用字符串表示某一互联网资源，而URL表示资源的地点，可见URL是URI的子集；采用HTTP协议时，协议方案就是http，除此之外，还有ftp、file等，标准的URI协议有30种方案左右。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">                    hierarchical part</span><br><span class="line">        ┌───────────────────┴──────────────────┐</span><br><span class="line">                    authority               path</span><br><span class="line">        ┌───────────────┴────────────┐┌───┴────┐</span><br><span class="line">  abc://username:password@example.com:123/path/data?key=value&amp;key2=value2#fragid1</span><br><span class="line">  └┬┘  └───────┬───────┘└────┬────┘└┬┘           └─────────┬───────┘ └──┬──┘</span><br><span class="line">scheme  user information     host     port                  query         fragment</span><br></pre></td></tr></table></figure>
+<p>eg:</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/2146831-499cae9ab386abe0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/681" alt="img"></p>
+<p>登录信息：指定用户名和密码作为从服务器端获取资源时必要的登录信息（身份认证），可选项。</p>
+<p>查询字符串：针对已指定的文件路径内的资源，可以使用查询字符串传入任意参数，可选项。</p>
+<p>片段标识符：使用片段标识符通常可标识出已获取资源中的子资源，可选项。</p>
+<blockquote>
+<p>URI 和 URL 的区别：</p>
+<p>URI 用字符串标识某一互联网资源，而 URL 标识资源的地址</p>
+<p>URL 是 URI 的子集</p>
+</blockquote>
+<h3 id="基本规定"><a href="#基本规定" class="headerlink" title="基本规定"></a>基本规定</h3><ul>
+<li><p>发送规则</p>
+<p>HTTP协议规定，请求从客户端发出，最后服务器端响应该请求并返回</p>
+</li>
+<li><p>HTTP无状态</p>
+<p>HTTP是一种不保存状态，即无状态协议，不会对之前发送过的请求进行信息的保存</p>
+</li>
+</ul>
+<h3 id="常用HTTP方法"><a href="#常用HTTP方法" class="headerlink" title="常用HTTP方法"></a>常用HTTP方法</h3><ul>
+<li>GET（SELECT）：从服务器取出资源（一项或多项）</li>
+<li>POST（CREATE）：在服务器新建一个资源</li>
+<li>PUT（UPDATE）：在服务器更新资源（客户端提供改变后的完整资源）</li>
+<li>PATCH（UPDATE）：在服务器更新资源（客户端提供改变的属性）(一般使用PUT)</li>
+<li>DELETE（DELETE）：从服务器删除资源</li>
+</ul>
+<h3 id="Cookie-状态管理"><a href="#Cookie-状态管理" class="headerlink" title="Cookie 状态管理"></a>Cookie 状态管理</h3><p>cookie会根据服务端发送的一个叫做Set-Cookie的首部字段信息，通知客服端保存Cookie，当下次客服端在往服务端发送请求的时候，客服端会自动在请求报文中加入Cookie然后发送过去，服务端接收到Cookie之后，对Cookie进行解析，然后找出是哪个用户。</p>
+<p><strong>eg:</strong></p>
+<p>一、请求报文（没有Cookie信息的状态）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET /reader/HTTP/1.1</span><br><span class="line">Host:host</span><br><span class="line">// 首部字段没有cookie的相关信息</span><br></pre></td></tr></table></figure>
+<p>二、响应报文（服务器端生成Cookie信息）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Date:Thu ,12 JUl 2012 07:12:20 GMT</span><br><span class="line">Server: Apache</span><br><span class="line">&lt;Set-Cookie:sid=1342077140;path=/;expires=wed&gt;</span><br><span class="line">Content-Type:text/plain;charset=UTF-8</span><br></pre></td></tr></table></figure>
+<p>三、请求报文（自动发送保存的Cookie信息）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET /image/ HTTP/1.1</span><br><span class="line">Host host</span><br><span class="line">Cookie:sid=1342077140</span><br></pre></td></tr></table></figure>
+<h3 id="HTTP报文"><a href="#HTTP报文" class="headerlink" title="HTTP报文"></a>HTTP报文</h3><p>结构：首部 + 主体</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1724103-c43900117e983241.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/698" alt="img"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1724103-e8ebcab6c80b9044.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/573" alt="img"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1724103-ea242640383ed739.png?imageMogr2/auto-orient/" alt="img"></p>
+<h3 id="首部"><a href="#首部" class="headerlink" title="首部"></a>首部</h3><p>分类：通用首部、请求首部、响应首部、实体首部、拓展首部</p>
+<ul>
+<li>通用首部：客户端和服务端都可以用，描述一些通用信息</li>
+<li>请求首部：请求报文特有，为服务器提供额外信息</li>
+<li>响应首部：响应报文特有，为客户端提供信息</li>
+<li>实体首部：描述实体主体部分的首部</li>
+<li>拓展首部：非标准首部，由应用开发者创建，未添加到HTTP规范中</li>
+</ul>
+<h4 id="通用首部"><a href="#通用首部" class="headerlink" title="通用首部"></a>通用首部</h4><ul>
+<li>Date：报文创建时间</li>
+<li>Connection：客户端和服务器连接的有关选项</li>
+<li>Via：报文经过的中间节点（代理、网关）</li>
+<li>Cache-control：缓存</li>
+</ul>
+<h4 id="请求首部"><a href="#请求首部" class="headerlink" title="请求首部"></a>请求首部</h4><ul>
+<li>Host：接受请求的服务器的主机名和端口</li>
+<li>Referer：当前请求的URL</li>
+<li>UA-OS：客户端操作系统及版本</li>
+<li>Accept：告诉服务器能够发送的媒体类型</li>
+<li>Accept-Charset：告诉服务器能够发送的字符集</li>
+<li>Accept-Encoding：告诉服务器能够发送的编码方式</li>
+<li>Accept-Language：告诉服务器能够发送的语言</li>
+<li>Authorization：包含客户端提供给服务端，以便进行安全认证的数据</li>
+<li>Cookie：客户端需要发送的cookie</li>
+<li>Cache-Control: 取值为一般为<code>no-cache</code>或<code>max-age=XX</code>，XX为个整数，表示该资源缓存有效期(秒)</li>
+</ul>
+<h4 id="实体首部"><a href="#实体首部" class="headerlink" title="实体首部"></a>实体首部</h4><ul>
+<li>Allow：对该实体可执行的请求方法</li>
+<li>Location：资源的新地址，重定向中常用到</li>
+<li>Content-Language：理解主体应该使用的语言</li>
+<li>Content-Length：主体的长度</li>
+<li>Content-Encoding：对主体实行的编码方式</li>
+<li>Content-Type：主体的类型</li>
+<li>Expires：实体不再有效，需要再次获取该实体的时间</li>
+<li>Last-Modified：实体最后一次被修改的时间</li>
+</ul>
+<h4 id="响应首部"><a href="#响应首部" class="headerlink" title="响应首部"></a>响应首部</h4><ul>
+<li>Server：服务器应用软件名称及版本</li>
+<li>Set-Cookie：设置cookie</li>
+</ul>
+<h3 id="HTTP-状态码"><a href="#HTTP-状态码" class="headerlink" title="HTTP 状态码"></a>HTTP 状态码</h3><p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status" target="_blank" rel="noopener">MDN http status code</a></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status" target="_blank" rel="noopener">MDN http status code -zh-CN</a></p>
+<ul>
+<li>1xx 信息响应</li>
+<li>2xx 成功相应</li>
+<li>3xx 重定向</li>
+<li>4xx 客户端响应</li>
+<li>5xx 服务端响应</li>
+</ul>
+<h2 id="HTTP-API-设计指南"><a href="#HTTP-API-设计指南" class="headerlink" title="HTTP API 设计指南"></a>HTTP API 设计指南</h2><h3 id="使用-HTTPS"><a href="#使用-HTTPS" class="headerlink" title="使用 HTTPS"></a>使用 HTTPS</h3><h3 id="版本化"><a href="#版本化" class="headerlink" title="版本化"></a>版本化</h3><ul>
+<li><p>在 URL 中标明版本</p>
+<p>eg:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://shonzilla/api/v2.2/customers/1234</span><br><span class="line">http://shonzilla/api/v2.0/customers/1234</span><br><span class="line">http://shonzilla/api/v2/customers/1234</span><br><span class="line">http://shonzilla/api/v1.1/customers/1234</span><br><span class="line">http://shonzilla/api/v1/customers/1234</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在 Header 中标明版本</p>
+<ul>
+<li><p>自定义 header</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">HTTP GET:</span><br><span class="line">https://haveibeenpwned.com/api/breachedaccount/foo</span><br><span class="line">api-version: 2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>利用 content type</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">HTTP GET:</span><br><span class="line">https://haveibeenpwned.com/api/breachedaccount/foo</span><br><span class="line">Accept: application/vnd.haveibeenpwned.v2+json</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">HTTP GET:</span><br><span class="line">https://haveibeenpwned.com/api/breachedaccount/foo</span><br><span class="line">Accept: application/vnd.haveibeenpwned+json; version=2.0</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="返回合适的状态码"><a href="#返回合适的状态码" class="headerlink" title="返回合适的状态码"></a>返回合适的状态码</h3><p>为每一次的响应返回合适的HTTP状态码. 成功的HTTP响应应该使用如下的状态码:</p>
+<ul>
+<li><code>200</code>: <code>GET</code>请求成功, 以及<code>DELETE</code>或 <code>PATCH</code> 同步请求完成</li>
+<li><code>201</code>: <code>POST</code> 同步请求完成</li>
+<li><code>202</code>: <code>POST</code>, <code>DELETE</code>, 或 <code>PATCH</code> 异步请求将要完成</li>
+<li>。。。</li>
+</ul>
+<p>对于用户请求的错误情况，及服务器的异常错误情况，请查阅完整的HTTP状态码 <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html" target="_blank" rel="noopener">HTTP response code spec</a></p>
+<h3 id="在请求的body体使用JSON数据"><a href="#在请求的body体使用JSON数据" class="headerlink" title="在请求的body体使用JSON数据"></a>在请求的body体使用JSON数据</h3><p>在 <code>PUT</code>/<code>PATCH</code>/<code>POST</code> 请求的body体使用JSON格式数据, 而不是使用 form 表单形式的数据. 这里我们使用JSON格式的body请求创建对称的格式数据, 例如.:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ curl -X POST https://service.com/apps \</span><br><span class="line">    -H &quot;Content-Type: application/json&quot; \</span><br><span class="line">    -d &apos;&#123;&quot;name&quot;: &quot;demoapp&quot;&#125;&apos;</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;id&quot;: &quot;01234567-89ab-cdef-0123-456789abcdef&quot;,</span><br><span class="line">  &quot;name&quot;: &quot;demoapp&quot;,</span><br><span class="line">  &quot;owner&quot;: &#123;</span><br><span class="line">    &quot;email&quot;: &quot;username@example.com&quot;,</span><br><span class="line">    &quot;id&quot;: &quot;01234567-89ab-cdef-0123-456789abcdef&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="提供资源的唯一标识"><a href="#提供资源的唯一标识" class="headerlink" title="提供资源的唯一标识"></a>提供资源的唯一标识</h3><p>在默认情况给每一个资源一个<code>id</code>属性. 用此作为唯一标识除非你有更好的理由不用.不要使用那种在服务器上或是资源中不是全局唯一的标识，比如自动增长的id标识。</p>
+<p>返回的唯一标识要用小写字母并加个分割线格式 <code>8-4-4-4-12</code>, 例如.:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&quot;id&quot;: &quot;01234567-89ab-cdef-0123-456789abcdef&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="提供标准的时间戳"><a href="#提供标准的时间戳" class="headerlink" title="提供标准的时间戳"></a>提供标准的时间戳</h3><p>提供默认的资源创建时间，更新时间 <code>created_at</code> and <code>updated_at</code> , 例如:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  ...</span><br><span class="line">  &quot;created_at&quot;: &quot;2012-01-01T12:00:00Z&quot;,</span><br><span class="line">  &quot;updated_at&quot;: &quot;2012-01-01T13:00:00Z&quot;,</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这些时间戳可能不适用于某些资源，这种情况下可以忽略省去。</p>
+<h3 id="使用ISO8601的国际化时间格式"><a href="#使用ISO8601的国际化时间格式" class="headerlink" title="使用ISO8601的国际化时间格式"></a>使用ISO8601的国际化时间格式</h3><p>在接收的返回时间数据时只使用UTC格式. 查阅ISO8601时间格式, 例如:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&quot;finished_at&quot;: &quot;2012-01-01T12:00:00Z&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="使用统一的资源路径"><a href="#使用统一的资源路径" class="headerlink" title="使用统一的资源路径"></a>使用统一的资源路径</h3><h4 id="资源命名"><a href="#资源命名" class="headerlink" title="资源命名"></a>资源命名</h4><p>使用复数形式为资源命名</p>
+<h4 id="形为"><a href="#形为" class="headerlink" title="形为"></a>形为</h4><p>好的末尾展现形式不许要指定特殊的资源形为，在某些情况下，指定特殊的资源的形为是必须的,用一个标准的<code>actions</code>前缀去替代他, 清楚的描述他:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/resources/:resource/actions/:action</span><br></pre></td></tr></table></figure>
+<p>例如.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/runs/&#123;run_id&#125;/actions/stop</span><br></pre></td></tr></table></figure>
+<h3 id="路径和属性要用小写字母"><a href="#路径和属性要用小写字母" class="headerlink" title="路径和属性要用小写字母"></a>路径和属性要用小写字母</h3><p>使用小写字母并用<code>-</code>短线分割路径名字,并且紧跟着主机域名 e.g:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">service-api.com/users</span><br><span class="line">service-api.com/app-setups</span><br></pre></td></tr></table></figure>
+<p>同样属性也要用小写字母, 但是属性名字要用下划线<code>_</code>分割。例如.:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&quot;service_class&quot;: &quot;first&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="嵌套外键关系"><a href="#嵌套外键关系" class="headerlink" title="嵌套外键关系"></a>嵌套外键关系</h3><p>序列化的外键关系通常建立在一个有嵌套关系的对象之上, 例如.:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;service-production&quot;,</span><br><span class="line">  &quot;owner&quot;: &#123;</span><br><span class="line">    &quot;id&quot;: &quot;5d8201b0...&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而不是这样 例如:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;service-production&quot;,</span><br><span class="line">  &quot;owner_id&quot;: &quot;5d8201b0...&quot;,</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种方式尽可能的把相关联的资源信息内联在一起，而不用改变响应资源的结构,或者展示更高一级的响应区域, 例如:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;service-production&quot;,</span><br><span class="line">  &quot;owner&quot;: &#123;</span><br><span class="line">    &quot;id&quot;: &quot;5d8201b0...&quot;,</span><br><span class="line">    &quot;name&quot;: &quot;Alice&quot;,</span><br><span class="line">    &quot;email&quot;: &quot;alice@heroku.com&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="支持方便的无id间接引用"><a href="#支持方便的无id间接引用" class="headerlink" title="支持方便的无id间接引用"></a>支持方便的无id间接引用</h3><p>在某些情况下，为了方便用户使用接口，在末尾提供用id标识资源,例如，一个用户想到了他在heroku平台app的名字，但是这个app的唯一标识是id,这种情况下，你想让接口通过名字和id都能访问，例如:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ curl https://service.com/apps/&#123;app_id_or_name&#125;</span><br><span class="line">$ curl https://service.com/apps/97addcf0-c182</span><br><span class="line">$ curl https://service.com/apps/www-prod</span><br></pre></td></tr></table></figure>
+<p>不要只接受使用名字而剔除了使用id。</p>
+<h3 id="构建错误信息"><a href="#构建错误信息" class="headerlink" title="构建错误信息"></a>构建错误信息</h3><p>在网络请求响应错误的时候，返回统一的，结构化的错误信息。要包含一个机器可读的错误 <code>id</code>,一个人类能识别的错误信息 <code>message</code>, 根据情况可以添加一个<code>url</code> ，告诉客户端关于这个错误的更多信息以及如何去解决它。 例如:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">HTTP/1.1 429 Too Many Requests</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;id&quot;:      &quot;rate_limit&quot;,</span><br><span class="line">  &quot;message&quot;: &quot;Account reached its API rate limit.&quot;,</span><br><span class="line">  &quot;url&quot;:     &quot;https://docs.service.com/rate-limits&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>把你的错误信息格式文档化，以及这些可能的错误信息<code>id</code>s 让客户端能获取到.</p>
+<h3 id="用id来跟踪每次的请求"><a href="#用id来跟踪每次的请求" class="headerlink" title="用id来跟踪每次的请求"></a>用id来跟踪每次的请求</h3><p>在每一个API响应中要包含一个<code>Request-Id</code>头信息, 通常用唯一标识UUID. 如果服务器和客户端都打印出他们的<code>Request-Id</code>, 这对我们的网络请求调试和跟踪非常有帮助.</p>
+<h3 id="按范围分页"><a href="#按范围分页" class="headerlink" title="按范围分页"></a>按范围分页</h3><p>对于服务器响应的大量数据我们应该为此分页。 使用<code>Content-Range</code> 头传递分页请求的数据.这里有个例子详细的说明了请求和响应头、状态码，限制条件、排序以及分页处理：<a href="https://devcenter.heroku.com/articles/platform-api-reference#ranges" target="_blank" rel="noopener">Heroku Platform API on Ranges</a>.</p>
+<p>注：服务器会在响应头中添加 <code>Accept-Ranges: bytes</code> 来表示支持 Range 的请求，之后客户端才可能发起带 Range 的请求</p>
+<p>eg:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># first</span><br><span class="line">Content-Length：1200</span><br><span class="line">Content-Range：bytes 0-1199/5000</span><br><span class="line"></span><br><span class="line"># second</span><br><span class="line">Content-Length：1200</span><br><span class="line">Content-Range：bytes 1200-2399/5000</span><br><span class="line"></span><br><span class="line"># third</span><br><span class="line">Content-Length：1200</span><br><span class="line">Content-Range：bytes 2400-3599/5000</span><br><span class="line"></span><br><span class="line"># fourth</span><br><span class="line">Content-Length：1400</span><br><span class="line">Content-Range：bytes 3600-5000/5000</span><br></pre></td></tr></table></figure>
+<h3 id="显示速度限制状态"><a href="#显示速度限制状态" class="headerlink" title="显示速度限制状态"></a>显示速度限制状态</h3><p>客户端的访问速度限制可以维护服务器的良好状态，进而为其他客户端请求提供高性的服务</p>
+<p>为每一个带有 <code>RateLimit-Remaining</code> 响应头的请求，返回预留的请求tokens。</p>
+<h3 id="指定可接受头信息的版本"><a href="#指定可接受头信息的版本" class="headerlink" title="指定可接受头信息的版本"></a>指定可接受头信息的版本</h3><p>在开始的时候指定API版本，使用<code>Accepts</code>头传递版本信息,也可以是一个自定义的内容, 例如:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Accept: application/vnd.heroku+json; version=3</span><br></pre></td></tr></table></figure>
+<p>最好不要给出一个默认的版本, 而是要求客户端明确指明他们要使用特定的版本.</p>
+<h3 id="提供人类可读的文档"><a href="#提供人类可读的文档" class="headerlink" title="提供人类可读的文档"></a>提供人类可读的文档</h3><p>提供人类可读的文档让客户端开发人员可以理解你的API。</p>
+<p>除此之在详细信息的结尾，提供一个关于如下信息的API摘要:</p>
+<ul>
+<li>验证授权,包含获取及使用验证tokens.</li>
+<li>API 稳定性及版本控制, 包含如何选择所需要的版本.</li>
+<li>一般的请求和响应头信息.</li>
+<li>错误信息序列格式.</li>
+<li>不同语言客户端使用API的例子.</li>
+</ul>
+<h3 id="提供可执行的示例"><a href="#提供可执行的示例" class="headerlink" title="提供可执行的示例"></a>提供可执行的示例</h3><p>提供可执行的示例让用户可以直接在终端里面看到API的调用情况,最大程度的让这些示例可以逐字的使用，以减少用户尝试使用API的工作量。例如:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ export TOKEN=... # acquire from dashboard</span><br><span class="line">$ curl -is https://$TOKEN@service.com/users</span><br></pre></td></tr></table></figure>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/07/07/编程语言/Golang/golang-项目管理/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

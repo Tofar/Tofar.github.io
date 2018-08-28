@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java 垃圾回收机制 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Java,gc," />
+  
+
+  <meta name="description" content="一、常用垃圾回收机制1. 标记-清除算法(mark-sweep)  顾名思义，标记-清除算法分为两个阶段，标记(mark)和清除(sweep). 在标记阶段，collector从mutator根对象开始进行遍历，对从mutator根对象可以访问到的对象都打上一个标识，一般是在对象的header中，将其记录为可达对象。 而在清除阶段，collector对堆内存(heap memory)从头到尾进行线">
+<meta name="keywords" content="Java,gc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 垃圾回收机制">
+<meta property="og:url" content="http://mu-mo.top/2017/11/13/编程语言/Java/Java垃圾回收机制/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="一、常用垃圾回收机制1. 标记-清除算法(mark-sweep)  顾名思义，标记-清除算法分为两个阶段，标记(mark)和清除(sweep). 在标记阶段，collector从mutator根对象开始进行遍历，对从mutator根对象可以访问到的对象都打上一个标识，一般是在对象的header中，将其记录为可达对象。 而在清除阶段，collector对堆内存(heap memory)从头到尾进行线">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-e88ef401871c1ad2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-df8caaaf977cf105.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-b581f08eab1a7a6b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-50aa63cdc64648d5.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-7c4a48361283f09a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-6dc89b8a0061332e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-289adc2f81b2fc9d?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-b477bbab1e6a7403?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.126Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 垃圾回收机制">
+<meta name="twitter:description" content="一、常用垃圾回收机制1. 标记-清除算法(mark-sweep)  顾名思义，标记-清除算法分为两个阶段，标记(mark)和清除(sweep). 在标记阶段，collector从mutator根对象开始进行遍历，对从mutator根对象可以访问到的对象都打上一个标识，一般是在对象的header中，将其记录为可达对象。 而在清除阶段，collector对堆内存(heap memory)从头到尾进行线">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7109326-e88ef401871c1ad2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、常用垃圾回收机制"><span class="toc-text">一、常用垃圾回收机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-标记-清除算法-mark-sweep"><span class="toc-text">1. 标记-清除算法(mark-sweep)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-标记-压缩算法-mark-compact"><span class="toc-text">2. 标记-压缩算法(mark-compact)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-复制算法-copying"><span class="toc-text">3. 复制算法(copying)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-引用计数算法-reference-counting"><span class="toc-text">4. 引用计数算法(reference counting)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-分代收集算法"><span class="toc-text">5. 分代收集算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Java的内存分布"><span class="toc-text">1. Java的内存分布</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Java年轻代垃圾回收机制"><span class="toc-text">2. Java年轻代垃圾回收机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Java老年代垃圾回收机制"><span class="toc-text">3. Java老年代垃圾回收机制</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#空间分配担保"><span class="toc-text">空间分配担保</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Java垃圾收集器"><span class="toc-text">2.Java垃圾收集器</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-编程语言/Java/Java垃圾回收机制" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      Java 垃圾回收机制
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2017.11.13
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <h2 id="一、常用垃圾回收机制"><a href="#一、常用垃圾回收机制" class="headerlink" title="一、常用垃圾回收机制"></a>一、常用垃圾回收机制</h2><h3 id="1-标记-清除算法-mark-sweep"><a href="#1-标记-清除算法-mark-sweep" class="headerlink" title="1. 标记-清除算法(mark-sweep)"></a>1. 标记-清除算法(mark-sweep)</h3><p>  顾名思义，标记-清除算法分为两个阶段，标记(mark)和清除(sweep).</p>
+<p>在标记阶段，collector从mutator根对象开始进行遍历，对从mutator根对象可以访问到的对象都打上一个标识，一般是在对象的header中，将其记录为可达对象。</p>
+<p>而在清除阶段，collector对堆内存(heap memory)从头到尾进行线性的遍历，如果发现某个对象没有标记为可达对象-通过读取对象的header信息，则就将其回收。</p>
+<p>[图片上传失败…(image-8c300b-1510574775013)]</p>
+<p>从上图我们可以看到，在Mark阶段，从根对象1可以访问到B对象，从B对象又可以访问到E对象，所以B,E对象都是可达的。同理，F,G,J,K也都是可达对象。到了Sweep阶段，所有非可达对象都会被collector回收。同时，Collector在进行标记和清除阶段时会将整个应用程序暂停(mutator)，等待标记清除结束后才会恢复应用程序的运行。</p>
+<p><strong>缺点</strong>：</p>
+<p>​    标记-清除算法的比较大的缺点就是垃圾收集后有可能会造成大量的内存碎片，像上面的图片所示，垃圾收集后内存中存在三个内存碎片，假设一个方格代表1个单位的内存，如果有一个对象需要占用3个内存单位的话，那么就会导致Mutator一直处于暂停状态，而Collector一直在尝试进行垃圾收集，直到Out of Memory。</p>
+<h3 id="2-标记-压缩算法-mark-compact"><a href="#2-标记-压缩算法-mark-compact" class="headerlink" title="2. 标记-压缩算法(mark-compact)"></a>2. 标记-压缩算法(mark-compact)</h3><p>​       顾名思义，标记-压缩算法分为两个阶段，标记(mark)和压缩(compact).</p>
+<p>​      其中标记阶段跟标记-清除算法中的标记阶段是一样的，而对于压缩阶段，它的工作就是移动所有的可达对象到堆内存的同一个区域中，使他们紧凑的排列在一起，从而将所有<strong>非可达对象释放出来的空闲内存</strong>都集中在一起，通过这样的方式来达到减少内存碎片的目的。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-e88ef401871c1ad2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+<h3 id="3-复制算法-copying"><a href="#3-复制算法-copying" class="headerlink" title="3. 复制算法(copying)"></a>3. 复制算法(copying)</h3><p>堆内存对半分为两个半区，只用其中一个半区来进行对象内存的分配，如果在这个半区内存不够给新的对象分配了，那么就开始进行垃圾收集，将这个半区中的所有可达对象都拷贝到另外一个半区中去，然后继续在另外那个半区进行新对象的内存分配。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-df8caaaf977cf105.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+<p>​                           <img src="http://upload-images.jianshu.io/upload_images/7109326-b581f08eab1a7a6b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="mg"></p>
+<p><strong>缺点:</strong></p>
+<p>​    存压缩为原来的一半，利用率比较低，典型的空间换时间</p>
+<h3 id="4-引用计数算法-reference-counting"><a href="#4-引用计数算法-reference-counting" class="headerlink" title="4. 引用计数算法(reference counting)"></a>4. 引用计数算法(reference counting)</h3><p>​    通过在对象头中分配一个空间来保存该对象被引用的次数。如果该对象被其它对象引用，则它的引用计数加一，如果删除对该对象的引用，那么它的引用计数就减一，当该对象的引用计数为0时，那么该对象就会被回收。</p>
+<p>​    采用引用计数的垃圾收集机制跟前面三种垃圾收集机制最大的不同在于，垃圾收集的开销被分摊到整个应用程序的运行当中了，而不是在进行垃圾收集时，要挂起整个应用的运行，直到对堆中所有对象的处理都结束。因此，采用引用计数的垃圾收集不属于严格意义上的”Stop-The-World”的垃圾收集机制。</p>
+<p>注意：</p>
+<ul>
+<li><p>当某个对象的引用计数减为0时，collector需要递归遍历它所指向的所有域，将它所有域所指向的对象的引用计数都减一，然后才能回收当前对象。</p>
+</li>
+<li><p>但是这种引用计数算法有一个比较大的问题，那就是它不能处理环形数据 - 即如果有两个对象相互引用，那么这两个对象就不能被回收，因为它们的引用计数始终为1。这也就是我们常说的“内存泄漏”问题。如下图：</p>
+<p>[图片上传失败…(image-56fb94-1510574775013)]</p>
+</li>
+</ul>
+<h3 id="5-分代收集算法"><a href="#5-分代收集算法" class="headerlink" title="5. 分代收集算法"></a>5. 分代收集算法</h3><p>​    当前的商业虚拟机都采用的是”分代收集“算法，一般是把java堆分成新生代和老生代，这样就可以根据各个年代的特点采用最适当的垃圾收集算法，新生代中，对象大多是”朝生夕死“可以采用复制算法，而老年代的对象存活率比较高，而且没有担保空间进行内存分配，就要采用”标记-清除算法“或者”标记-整理“算法。</p>
+<p>##　二、Java垃圾回收</p>
+<h3 id="1-Java的内存分布"><a href="#1-Java的内存分布" class="headerlink" title="1. Java的内存分布"></a>1. Java的内存分布</h3><p>[图片上传失败…(image-5469f-1510574775013)]</p>
+<p>其中，堆内存分为年轻代和年老代，非堆内存主要是Permanent区域，主要用于存储一些类的元数据，常量池等信息。而年轻代又分为两种，一种是Eden区域，另外一种是两个大小对等的Survivor区域。</p>
+<h3 id="2-Java年轻代垃圾回收机制"><a href="#2-Java年轻代垃圾回收机制" class="headerlink" title="2. Java年轻代垃圾回收机制"></a>2. Java年轻代垃圾回收机制</h3><p>[图片上传失败…(image-3bdb3-1510574775013)]</p>
+<p>​    部分的新创建对象分配在新生代。因为大部分对象很快就会变得不可达，所以它们被分配在新生代，然后消失不再。当对象从新生代移除时，我们称之为”Minor GC”。<strong>新生代使用的是复制收集算法</strong>。</p>
+<p>​    新生代划分为三个部分：分别为Eden、Survivor from、Survivor to，大小比例为8：1：1（为了防止复制收集算法的浪费内存过大）。每次只使用Eden和其中的一块Survivor，回收时将存活的对象复制到另一块Survivor中，这样就只有10%的内存被浪费，但是如果存活的对象总大小超过了Survivor的大小，那么就把多出的对象放入老年代中。</p>
+<p>在三个区域中有两个是Survivor区。对象在三个区域中的存活过程如下：</p>
+<ol>
+<li>大多数新生对象都被分配在Eden区。</li>
+<li>第一次GC过后Eden中还存活的对象被移到其中一个Survivor区。</li>
+<li>再次GC过程中，Eden中还存活的对象会被移到之前已移入对象的Survivor区。</li>
+<li>一旦该Survivor区域无空间可用时，还存活的对象会从当前Survivor区移到另一个空的Survivor区。而当前Survivor区就会再次置为空状态。</li>
+<li>经过数次（默认是15次）在两个Survivor区域移动后还存活的对象最后会被移动到老年代。</li>
+</ol>
+<p>如上所述，两个Survivor区域在任何时候必定有一个保持空白。如果同时有数据存在于两个Survivor区或者两个区域的的使用量都是0，则意味着你的系统可能出现了运行错误。</p>
+<h3 id="3-Java老年代垃圾回收机制"><a href="#3-Java老年代垃圾回收机制" class="headerlink" title="3. Java老年代垃圾回收机制"></a>3. Java老年代垃圾回收机制</h3><p>​    存活在新生代中但未变为不可达的对象会被复制到老年代。一般来说老年代的内存空间比新生代大，所以在老年代GC发生的频率较新生代低一些。当对象从老年代被移除时，我们称之为 “Major GC”(或者Full GC)。 <strong>老年代使用标记-清理或标记-整理算法</strong></p>
+<h5 id="空间分配担保"><a href="#空间分配担保" class="headerlink" title="空间分配担保"></a>空间分配担保</h5><p>在发生Minor GC前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间。</p>
+<ol>
+<li><p>如果大于，那么Minor GC可以确保是安全的。</p>
+</li>
+<li><p>如果小于，虚拟机会查看HandlePromotionFailure设置值是否允许担任失败。</p>
+<ul>
+<li>如果允许，那么会继续检查老年代最大可用连续空间是否大于历次晋升老年代对象的平均大小<ul>
+<li>如果大于，将尝试着进行一次Minor GC，尽管这次Minor GC是有风险的</li>
+<li>如果小于，进行一次Full GC</li>
+</ul>
+</li>
+<li>如果不允许，也要改为进行一次Full GC</li>
+</ul>
+<p>​      前面提到过，新生代使用复制收集算法，但为了内存利用率，只使用其中一个Survivor空间来作为轮换备份，因此当出现大量对象在Minor GC后仍然存活的情况时（最极端就是内存回收后新生代中所有对象都存活），就需要老年代进行分配担保，让Survivor无法容纳的对象直接进入老年代。与生活中的贷款担保类似，老年代要进行这样的担保，前提是老年代本身还有容纳这些对象的剩余空间，一共有多少对象会活下来，在实际完成内存回收之前是无法明确知道的，所以只好取之前每一次回收晋升到老年代对象容量的平均大小值作为经验值，与老年代的剩余空间进行比较，决定是否进行Full GC来让老年代腾出更多空间。</p>
+<p>​       取平均值进行比较其实仍然是一种动态概率的手段，也就是说如果某次Minor GC存活后的对象突增，远远高于平均值的话，依然会导致担保失败（Handle Promotion Failure）。如果出现了HandlePromotionFailure失败，那就只好在失败后重新发起一次Full GC。虽然担保失败时绕的圈子是最大的，但大部分情况下都还是会将HandlePromotionFailure开关打开，避免Full GC过于频繁。</p>
+</li>
+</ol>
+<h3 id="2-Java垃圾收集器"><a href="#2-Java垃圾收集器" class="headerlink" title="2.Java垃圾收集器"></a>2.Java垃圾收集器</h3><p><img src="http://upload-images.jianshu.io/upload_images/7109326-50aa63cdc64648d5.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+<ul>
+<li><p>Serial收集器(Serial/Serial Old)</p>
+<p>Serial是一个单线程的收集器，但它的“单线程”意义并不仅仅说明它只会使用一个CPU或一条手机此案成去完成垃圾和收集工作，更重要的是它进行垃圾收集时，必须暂停其他所有的工作线程，直到它收集结束。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-7c4a48361283f09a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+</li>
+<li><p>ParNew收集器</p>
+<p>ParNew收集器其实就是Serial收集器的多线程版本。</p>
+<p>它是运行在Server模式下的虚拟机中首选的新生代收集器，其中有一个与性能无关但很重要的原因是：除了Serial收集器外，目前只有它能与CMS收集器配合工作。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-6dc89b8a0061332e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+</li>
+<li><p>Parallel Scavenge收集器</p>
+<p>​      该收集器也是一个新生代的垃圾收集器，他也是使用复制算法的收集器，又是一个并行的垃圾收集器。该收集器的特点是他的关注点与其他的收集器不同，CMS等收集器的关注点是尽可能缩短垃圾回收时用户线程的停顿时间，而parallel Scavenge收集器的目标是达到一个可控制的吞吐量。所谓吞吐量就是CPU用于运行代码的时间与CPU总消耗时间的比值，即吞吐量=运行用户代码时间/(运行用户代码时间+垃圾回收时间)，比如虚拟机总共运行100分钟，垃圾回收占用了1分钟，那么吞吐量就是99%。</p>
+</li>
+<li><p>Parallel Old收集器</p>
+<p>Parallel Old是Parallel Scavenge收集器的老年代版本，使用多线程和“标记-整理”算法。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-289adc2f81b2fc9d?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+</li>
+<li><p>CMS收集器</p>
+<p>CMS（Concurrent Mark Sweep）收集器是一种以获取最短回收停顿时间为目标的收集器。CMS是基于“标记-清除”算法实现的，它的运作过程相对于前面几种收集器来说更复杂一些，整个过程分为4个步骤，包括：</p>
+<ul>
+<li>初始标记（CMS initial mark）</li>
+<li>并发标记（CMS concurrent mark）</li>
+<li>重新标记（CMS remark）</li>
+<li>并发清除（CMS concurrent sweep）</li>
+</ul>
+<p>其中，初始标记、重新标记这两个步骤仍然需要”Stop The world”。初始标记仅仅只是标记一下GC Roots Tracing的过程，而重新标记阶段则是为了修正并发标记期间因用户程序继续运作而导致标记产生变动的那一部分对象的标记记录，这个阶段的停顿时间一般会比初始标记阶段稍长一些，但远比并发标记的时间短。</p>
+<p>由于整个过程中耗时最长的并发标记和并发清除过程收集器线程都可以与用户线程一起工作，所以，从总体上来说，CMS收集器的内存回收过程是与用户线程一起并发执行的。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-b477bbab1e6a7403?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+<p><strong>CMS的优势：</strong>并发收集、低停顿。</p>
+<p><strong>CMS的缺点：</strong></p>
+<ul>
+<li>对CPU资源非常敏感。CMS默认启动的回收线程数是(CPU数量 + 3)/4,并发回收时垃圾收集线程所占CPU资源随着CPU数量的增加而下降，而且在CPU不足4个时，CMS对用户程序的影响就可能变得很大，导致执行速度降低。</li>
+<li>CMS收集器无法处理浮动垃圾，可能出现“Concurrent Mode Failure”失败而导致另一次Full GC的产生。</li>
+<li>CMS是一款基于“标记-清除”算法实现的收集器，这意味着收集结束时会有大量空间碎片产生。空间碎片太多的时候，将会给大对象分配带来很大麻烦。</li>
+</ul>
+</li>
+<li><p>G1收集器</p>
+<p>G1是一款面向服务端应用的垃圾收集器。HOtSpot开发团队赋予它的使命是未来可以替换掉CMS收集器。</p>
+<p><strong>G1具备如下特点：</strong></p>
+<ul>
+<li><strong>并行与并发：</strong>G1能充分利用多CPU、多核环境下的硬件优势，使用多个CPU来缩短Stop-The-World停顿的时间，部分其他收集器原本需要停顿Java线程执行的GC动作，G1收集器仍然可以通过并发的方式让Java程序继续执行。</li>
+<li><strong>分代收集：</strong>虽然G1可以不需要其他收集器配合就能独立管理整个GC堆，但它能够采用不同的方式去处理新创建的对象和已经存活了一段时间、熬过多次GC的就对象以获取更好的收集效果。</li>
+<li><strong>空间整合</strong>：G1从整体上来看是基于“标记-整理”算法实现的收集器，从局部（两个Region之间）上来看是基于“复制”算法实现的，这意味着G1运作期间不会产生内存空间碎片，收集后能提供规整的可用内存。</li>
+<li><strong>可预测的停顿</strong>：这是G1相对于CMS的另一大优势。</li>
+</ul>
+<p>​</p>
+<p>G1垃圾收集器和CMS垃圾收集器有几点不同。首先，最大的不同是内存的组织方式变了。Eden，Survivor和Tenured等内存区域不再是连续的了，而是变成了一个个大小一样的region - 每个region从1M到32M不等。</p>
+<p>​</p>
+<p>[图片上传失败…(image-f2affc-1510574775013)]</p>
+<p>​</p>
+<p>一个region有可能属于Eden，Survivor或者Tenured内存区域。图中的E表示该region属于Eden内存区域，S表示属于Survivor内存区域，T表示属于Tenured内存区域。图中空白的表示未使用的内存空间。G1垃圾收集器还增加了一种新的内存区域，叫做Humongous内存区域，如图中的H块。这种内存区域主要用于存储大对象-即大小超过一个region大小的50%的对象。</p>
+<p>​</p>
+<p>在G1垃圾收集器中，年轻代的垃圾回收过程跟PS垃圾收集器和CMS垃圾收集器差不多。</p>
+<p>[图片上传失败…(image-5a0154-1510574775013)]</p>
+<p>​</p>
+<p>对于年老代上的垃圾收集，G1垃圾收集器也分为4个阶段，基本跟CMS垃圾收集器一样，但略有不同：</p>
+<ol>
+<li><p>Initial Mark阶段 - 同CMS垃圾收集器的Initial Mark阶段一样，G1也需要暂停应用程序的执行，它会标记从根对象出发，在根对象的第一层孩子节点中标记所有可达的对象。但是G1的垃圾收集器的Initial Mark阶段是跟minor gc一同发生的。也就是说，在G1中，你不用像在CMS那样，单独暂停应用程序的执行来运行Initial Mark阶段，而是在G1触发minor gc的时候一并将年老代上的Initial Mark给做了。</p>
+</li>
+<li><p>Concurrent Mark阶段 - 在这个阶段G1做的事情跟CMS一样。但G1同时还多做了一件事情，那就是，如果在Concurrent Mark阶段中，发现哪些Tenured region中对象的存活率很小或者基本没有对象存活，那么G1就会在这个阶段将其回收掉，而不用等到后面的clean up阶段。这也是Garbage First名字的由来。同时，在该阶段，G1会计算每个 region的对象存活率，方便后面的clean up阶段使用 。</p>
+</li>
+<li><p>Remark阶段 - 在这个阶段G1做的事情跟CMS一样, 但是采用的算法不同，能够在Remark阶段更快的标记可达对象。</p>
+</li>
+<li><p>Clean up/Copy阶段 - 在G1中，没有CMS中对应的Sweep阶段。相反 它有一个Clean up/Copy阶段，在这个阶段中,G1会挑选出那些对象存活率低的region进行回收，这个阶段也是和minor gc一同发生的,如下图所示：</p>
+<p>[图片上传失败…(image-ed332d-1510574775013)]</p>
+</li>
+</ol>
+<p>从上可以看到，由于Initial Mark阶段和Clean up/Copy阶段都是跟minor gc同时发生的，相比于CMS，G1暂停应用程序的时间更少，从而提高了垃圾回收的效率。</p>
+<p>​</p>
+</li>
+</ul>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/11/10/学习笔记/学习笔记2/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/11/24/学习笔记/学习笔记3/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

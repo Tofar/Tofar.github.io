@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>acme.sh 配合 Let&#39;s Encrypt 设置https | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="SSL,https,acme," />
+  
+
+  <meta name="description" content="更多方式请查看: letsencrypt/client-options acme.sh 官方 wiki 说明  1. 安装 acme.sh安装： curl  https://get.acme.sh | sh 注：将会安装到 ~/.acme.sh/ 目录下，以后所有的配置默认也在这个目录下 设置 alias: alias acme.sh=~/.acme.sh/acme.sh  # .bashrc">
+<meta name="keywords" content="SSL,https,acme">
+<meta property="og:type" content="article">
+<meta property="og:title" content="acme.sh 配合 Let&#39;s Encrypt 设置https">
+<meta property="og:url" content="http://mu-mo.top/2018/04/09/运维/ssl/acme-sh-配合-letsencrypt-配置泛域名/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="更多方式请查看: letsencrypt/client-options acme.sh 官方 wiki 说明  1. 安装 acme.sh安装： curl  https://get.acme.sh | sh 注：将会安装到 ~/.acme.sh/ 目录下，以后所有的配置默认也在这个目录下 设置 alias: alias acme.sh=~/.acme.sh/acme.sh  # .bashrc">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.134Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="acme.sh 配合 Let&#39;s Encrypt 设置https">
+<meta name="twitter:description" content="更多方式请查看: letsencrypt/client-options acme.sh 官方 wiki 说明  1. 安装 acme.sh安装： curl  https://get.acme.sh | sh 注：将会安装到 ~/.acme.sh/ 目录下，以后所有的配置默认也在这个目录下 设置 alias: alias acme.sh=~/.acme.sh/acme.sh  # .bashrc">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-安装-acme-sh"><span class="toc-text">1. 安装 acme.sh</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-生成证书"><span class="toc-text">2. 生成证书</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-方式一：使用-token"><span class="toc-text">1. 方式一：使用 token</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-方式二：添加一条-txt-解析记录"><span class="toc-text">2. 方式二：添加一条 txt 解析记录</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-证书使用"><span class="toc-text">3. 证书使用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-更新证书"><span class="toc-text">4. 更新证书</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-更新-acme-sh"><span class="toc-text">5. 更新 acme.sh</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-运维/ssl/acme-sh-配合-letsencrypt-配置泛域名" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      acme.sh 配合 Let&#39;s Encrypt 设置https
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2018.04.09
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/运维/">运维</a> / <a class="article-category-link" href="/categories/运维/ssl/">ssl</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <blockquote>
+<p>更多方式请查看: <a href="https://letsencrypt.org/docs/client-options/" target="_blank" rel="noopener">letsencrypt/client-options</a></p>
+<p><a href="https://github.com/Neilpang/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acme.sh 官方 wiki 说明</a></p>
+</blockquote>
+<h1 id="1-安装-acme-sh"><a href="#1-安装-acme-sh" class="headerlink" title="1. 安装 acme.sh"></a>1. 安装 <strong>acme.sh</strong></h1><p>安装：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">curl  https://get.acme.sh | sh</span><br></pre></td></tr></table></figure>
+<p>注：将会安装到 <strong>~/.acme.sh/</strong> 目录下，以后所有的配置默认也在这个目录下</p>
+<p>设置 alias:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">alias acme.sh=~/.acme.sh/acme.sh  # .bashrc or .zshrc or .config/fish/fish.</span><br></pre></td></tr></table></figure>
+<p>2). 自动为你创建 cronjob, 每天 0:00 点自动检测所有的证书, 如果快过期了, 需要更新, 则会自动更新证书.</p>
+<p>更高级的安装选项请参考: <a href="https://github.com/Neilpang/acme.sh/wiki/How-to-install" target="_blank" rel="noopener">https://github.com/Neilpang/acme.sh/wiki/How-to-install</a></p>
+<h1 id="2-生成证书"><a href="#2-生成证书" class="headerlink" title="2. 生成证书"></a>2. 生成证书</h1><p><strong>acme.sh</strong> 实现了 <strong>acme</strong> 协议支持的所有验证协议. 一般有两种方式验证: http 和 dns 验证，这里仅介绍 DNS 方式</p>
+<h3 id="1-方式一：使用-token"><a href="#1-方式一：使用-token" class="headerlink" title="1. 方式一：使用 token"></a>1. 方式一：使用 token</h3><p><code>acme.sh</code> 支持直接使用主流 DNS 提供商的 API 接口来完成域名验证以及一些相关操作</p>
+<p>具体 <a href="https://github.com/Neilpang/acme.sh/tree/master/dnsapi" target="_blank" rel="noopener">dnsapi 链接</a></p>
+<p>这里以 阿里云 为例：</p>
+<p>首先获取你的阿里云API Key: <a href="https://ak-console.aliyun.com/#/accesskey" target="_blank" rel="noopener">https://ak-console.aliyun.com/#/accesskey</a></p>
+<p>之后在你的终端配置文件中设置：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">export Ali_Key=&quot;sdfsdfsdfljlbjkljlkjsdfoiwje&quot;</span><br><span class="line">export Ali_Secret=&quot;jlsdflanljkljlfdsaklkjflsa&quot;</span><br></pre></td></tr></table></figure>
+<p>之后直接使用如下命令发起申请：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">acme.sh --issue --dns dns_ali -d example.com -d *.example.com</span><br></pre></td></tr></table></figure>
+<p> <code>Ali_Key</code> 和 <code>Ali_Secret</code> 将被保存在 <code>~/.acme.sh/account.conf</code> , 命令中 <strong>dns_ali</strong> 指明使用 阿里的dns</p>
+<p>来生成证书，注意这里第一个域名为顶级域名，后面个为泛域名。</p>
+<blockquote>
+<p>这种方式将自动为你的域名添加一条 <code>txt</code> 解析，验证成功后，这条解析记录会被删除，所以对你来说是无感的，就是要等 <code>120秒</code>。</p>
+</blockquote>
+<p>证书生成成功后，默认保存在 <code>.acme.sh/hostname</code> 中。</p>
+<blockquote>
+<p>若想自定义证书目录，可加上 -w 参数</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt; acme.sh --issue --dns dns_ali -d *.example.com -w /etc/letsencrypt/*.example.com</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="2-方式二：添加一条-txt-解析记录"><a href="#2-方式二：添加一条-txt-解析记录" class="headerlink" title="2. 方式二：添加一条 txt 解析记录"></a>2. 方式二：添加一条 txt 解析记录</h3><p>命令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">acme.sh  --issue  --dns -d example.com -d *.example.com</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>需要同时添加裸域名及泛域名。注意要将非泛域名的域名放在前面，否则可能会遇到一些问题。</p>
+</blockquote>
+<p>然后, <strong>acme.sh</strong> 会生成相应的解析记录显示出来, 示例如下:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Multi domain=&apos;DNS:bitcat.cc,DNS:*.example.com&apos;</span><br><span class="line">Getting domain auth token for each domain</span><br><span class="line">Getting webroot for domain=&apos;example.com&apos;</span><br><span class="line">Getting webroot for domain=&apos;*.example.com&apos;</span><br><span class="line">Add the following TXT record:</span><br><span class="line">Domain: &apos;_acme-challenge.example.com&apos;</span><br><span class="line">TXT value: &apos;&lt;ACME_CHALLENGE_STRING&gt;&apos;</span><br><span class="line">Please be aware that you prepend _acme-challenge. before your domain</span><br><span class="line">so the resulting subdomain will be: _acme-challenge.example.com</span><br><span class="line">Please add the TXT records to the domains, and retry again.</span><br><span class="line">Please add &apos;--debug&apos; or &apos;--log&apos; to check more details.</span><br><span class="line">See: https://github.com/Neilpang/acme.sh/wiki/How-to-debug-acme.sh</span><br></pre></td></tr></table></figure>
+<p>记录下其中的 <code>&lt;ACME_CHALLENGE_STRING&gt;</code> 并前往你的 DNS 服务提供商，为主机名 <code>_acme-challenge</code> 添加一条 TXT 记录，内容即为上述的 <code>&lt;ACME_CHALLENGE_STRING&gt;</code>。提交后可以等待一小段时间以便让 DNS 生效。</p>
+<p>重新申请签发证书:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">acme.sh --renew --dns -d example.com -d *.example.comacme.sh</span><br></pre></td></tr></table></figure>
+<p>注意第二次这里用的是 <code>--renew</code></p>
+<h1 id="3-证书使用"><a href="#3-证书使用" class="headerlink" title="3. 证书使用"></a>3. 证书使用</h1><p>这里仅用 nginx 服务器配置做示例：</p>
+<p>nginx 配置文件重点介绍：</p>
+<ul>
+<li><p>Nginx 的配置 <code>ssl_certificate</code>  和 <code>ssl_trusted_certificate</code> 使用 <code>fullchain.cer</code> ，而非 <code>&lt;domain&gt;.cer</code> ，否则 <a href="https://www.ssllabs.com/ssltest/" target="_blank" rel="noopener">SSL Labs</a> 的测试会报 <code>Chain issues Incomplete</code> 错误</p>
+</li>
+<li><p><code>ssl_dhparam</code> 通过下面命令生成：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo mkdir /etc/nginx/ssl</span><br><span class="line">sudo openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>nginx.conf 配置示例：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name mark.example.com;</span><br><span class="line"></span><br><span class="line">    return 301 https://$host$request_uri;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 443 ssl;</span><br><span class="line">    server_name mark.example.com;</span><br><span class="line"></span><br><span class="line">    ssl_certificate /etc/letsencrypt/live/*.example.com/fullchain.cer;</span><br><span class="line">    ssl_certificate_key /etc/letsencrypt/live/*.example.com/*.example.com.key;</span><br><span class="line"></span><br><span class="line">    # disable SSLv2</span><br><span class="line">    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line"></span><br><span class="line">    # ciphers&apos; order matters</span><br><span class="line">    ssl_ciphers &quot;ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA384:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-RSA-AES256-SHA:AES128-SHA:AES256-SHA:DES-CBC3-SHA:!aNULL&quot;;</span><br><span class="line"></span><br><span class="line">    # the Elliptic curve key used for the ECDHE cipher.</span><br><span class="line">    ssl_ecdh_curve secp384r1;</span><br><span class="line"></span><br><span class="line">    # use command line</span><br><span class="line">    # openssl dhparam -out dhparam.pem 2048</span><br><span class="line">    # to generate Diffie Hellman Ephemeral Parameters</span><br><span class="line">    ssl_dhparam /etc/nginx/ssl/dhparam.pem;</span><br><span class="line"></span><br><span class="line">    # let the server choose the cipher</span><br><span class="line">    ssl_prefer_server_ciphers on;</span><br><span class="line"></span><br><span class="line">    # turn on the OCSP Stapling and verify</span><br><span class="line">    ssl_stapling on;</span><br><span class="line">    ssl_stapling_verify on;</span><br><span class="line">    ssl_trusted_certificate /etc/letsencrypt/live/*.example.com/fullchain.cer;</span><br><span class="line"></span><br><span class="line">    # http compression method is not secure in https</span><br><span class="line">    # opens you up to vulnerabilities like BREACH, CRIME</span><br><span class="line">    gzip off;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        root /mnt/var/www/tofar/mark.example.com;</span><br><span class="line">        index index.html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    error_log  /mnt/log/nginx/mark.example.com/error.log;</span><br><span class="line">    access_log /mnt/log/nginx/mark.example.com/access.log;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>之后重启 nginx 即可：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo nginx -s reload</span><br><span class="line">or sudo openresty -s reload # 若安装的是openresty</span><br></pre></td></tr></table></figure>
+<h1 id="4-更新证书"><a href="#4-更新证书" class="headerlink" title="4. 更新证书"></a>4. 更新证书</h1><p>目前证书在 60 天以后会自动更新, 你无需任何操作，不过都是自动的, 你不用关心.</p>
+<h1 id="5-更新-acme-sh"><a href="#5-更新-acme-sh" class="headerlink" title="5. 更新 acme.sh"></a>5. 更新 acme.sh</h1><p>目前由于 acme 协议和 letsencrypt CA 都在频繁的更新, 因此 acme.sh 也经常更新以保持同步.</p>
+<p>升级 acme.sh 到最新版 :</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">acme.sh --upgrade</span><br></pre></td></tr></table></figure>
+<p>如果你不想手动升级, 可以开启自动升级:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">acme.sh  --upgrade  --auto-upgrade</span><br></pre></td></tr></table></figure>
+<p>之后, acme.sh 就会自动保持更新了.</p>
+<p>你也可以随时关闭自动更新:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">acme.sh --upgrade  --auto-upgrade  0</span><br></pre></td></tr></table></figure>
+<p>更高级的用法请参看 <a href="https://github.com/Neilpang/acme.sh/wiki" target="_blank" rel="noopener">wiki 页面</a></p>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/04/09/运维/ssl/使用Let's Encrypt配置SSL证书/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/04/13/数据结构/红黑树/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>学习笔记1 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="学习笔记," />
+  
+
+  <meta name="description" content="机器学习相关 （列举这些大部分我只是了解，并没有使用，仅供学习） 机器学习的基本流程：确定研究问题——采集数据——人工标注（处理数据）——选择模型和算法——看结果调参数 根据我种子杯的经验，最重要的就是处理数据和选择模型两步，就种子杯的项目而言我想处理数据是最重要的，数据处理会决定最后结果的高度，模型主要是优化算法，虽然也影响最后结果，但是仅那种比较明了的项目而言，各种适用的模型效果可能没有数据">
+<meta name="keywords" content="学习笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习笔记1">
+<meta property="og:url" content="http://mu-mo.top/2017/10/21/学习笔记/学习笔记1/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="机器学习相关 （列举这些大部分我只是了解，并没有使用，仅供学习） 机器学习的基本流程：确定研究问题——采集数据——人工标注（处理数据）——选择模型和算法——看结果调参数 根据我种子杯的经验，最重要的就是处理数据和选择模型两步，就种子杯的项目而言我想处理数据是最重要的，数据处理会决定最后结果的高度，模型主要是优化算法，虽然也影响最后结果，但是仅那种比较明了的项目而言，各种适用的模型效果可能没有数据">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.118Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="学习笔记1">
+<meta name="twitter:description" content="机器学习相关 （列举这些大部分我只是了解，并没有使用，仅供学习） 机器学习的基本流程：确定研究问题——采集数据——人工标注（处理数据）——选择模型和算法——看结果调参数 根据我种子杯的经验，最重要的就是处理数据和选择模型两步，就种子杯的项目而言我想处理数据是最重要的，数据处理会决定最后结果的高度，模型主要是优化算法，虽然也影响最后结果，但是仅那种比较明了的项目而言，各种适用的模型效果可能没有数据">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-学习笔记/学习笔记1" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      学习笔记1
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2017.10.21
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/学习笔记/">学习笔记</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <ol>
+<li>机器学习相关 （列举这些大部分我只是了解，并没有使用，仅供学习）<ul>
+<li>机器学习的基本流程：确定研究问题——采集数据——人工标注（处理数据）——选择模型和算法——看结果调参数 根据我种子杯的经验，最重要的就是处理数据和选择模型两步，就种子杯的项目而言我想处理数据是最重要的，数据处理会决定最后结果的高度，模型主要是优化算法，虽然也影响最后结果，但是仅那种比较明了的项目而言，各种适用的模型效果可能没有数据处理的效果差异大。（仅个人想法，没有做过大项目，只做过一点种子杯）。</li>
+<li>机器学习数据预处理<ul>
+<li>归一化处理了</li>
+<li>降维 - PCA</li>
+<li>组合特征提取（GBDT)</li>
+<li>Eembed - L1正则化</li>
+<li>Filter 子集搜索</li>
+<li>Wrapper 搜索方法+学习算法</li>
+<li>……</li>
+</ul>
+</li>
+<li>机器学习的三种方式<ul>
+<li>有监督学习：类似与我知道一个问题的答案，所以我可以从这个答案问题出发设计出一个推理逻辑。</li>
+<li>无监督学习：类似于我给你一堆数据，你也不知道它是干什么用的，但是你或许可以找出这些数据中蕴含的某种规律</li>
+<li>半监督学习：大概就是综合利用有类标和无类标的数据来进行处理</li>
+</ul>
+</li>
+<li>机器学习常用方法<ul>
+<li>决策树</li>
+<li>神经网络</li>
+<li>支持向量机</li>
+<li>贝叶斯分类</li>
+<li>序列分析 聚类 分类</li>
+<li>最近邻，k近邻，改进近邻</li>
+</ul>
+</li>
+<li>机器学习相关模型<ul>
+<li>LR逻辑回归模型</li>
+<li>线性回归模型</li>
+<li>决策树</li>
+<li>随机森林</li>
+<li>RF、GBDT、XGBoost</li>
+<li>神经网络</li>
+<li>。。。</li>
+</ul>
+</li>
+<li>机器学习深入学习需了解的基本数学知识<ul>
+<li>线性代数</li>
+<li>微积分</li>
+<li>统计学/概率论</li>
+<li>信息论</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>nginx+ uwsgi + flask + python + linux + mysql 以前做过类似的配置，所以没有遇到大问题，暂时可以在本地使用postman调试通过，但是没有配置docker</li>
+<li>JWT<ul>
+<li>header eg. { “typ”: “JWT”, “alg”: “HS256” }</li>
+<li>payload 标准字段：<ul>
+<li>iss：Issuer 发行者</li>
+<li>sub：Subject 主题</li>
+<li>aud：Audience 观众</li>
+<li>exp：Expiration time 过期时间</li>
+<li>nbf：Not before</li>
+<li>iat：Issued at 发行时间</li>
+<li>jti：JWT ID eg. { “iss”: “ninghao.net”, “exp”: “1438955445”, “name”: “wanghao”, “admin”: true}</li>
+</ul>
+</li>
+<li>signature 这部分内容有三个部分，先是用 Base64 编码的 header.payload ，再用加密算法加密一下，加密的时候要放进去一个 secret . 注：JWT会生成一个token客户端收到这个 token 以后把它存储下来，下回向服务端发送请求的时候就带着这个 token 。服务端收到这个 token ，然后进行验证，通过以后就会返回给客户端想要的资源。</li>
+</ul>
+</li>
+<li>leetcode<ul>
+<li><a href="https://git.bingyan.net/tofar/leetcode.git" target="_blank" rel="noopener">https://git.bingyan.net/tofar/leetcode.git</a></li>
+</ul>
+</li>
+<li>《HTTP权威指南》看完前三章，《计算机网络：自顶向下》看完第一章，但是看过之后没什么印象。。。</li>
+<li>Linux命令<ul>
+<li>ssh 远程连接</li>
+<li>scp 不同Linux系统之间的cp</li>
+<li>ps 获取程序运作情况</li>
+<li>netstat 显示网络相关的信息，如网络连接，路由表，接口状态</li>
+<li>chmod 改变文件存储模式</li>
+<li>uname 显示系统信息</li>
+<li>ping 测试网络连通</li>
+<li>kill 杀进程</li>
+<li>grep 正则搜索文本</li>
+<li>。。。</li>
+</ul>
+</li>
+<li>其他<ul>
+<li>用Python flask 做了一个微信小程序的demo</li>
+<li>准备另一个团队机器学习的分享</li>
+</ul>
+</li>
+</ol>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/07/26/web/前后端json数据发送和接收/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/11/10/学习笔记/学习笔记2/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

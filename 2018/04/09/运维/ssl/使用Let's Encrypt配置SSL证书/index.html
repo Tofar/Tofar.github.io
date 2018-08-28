@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>使用Let&#39;s Encrypt配置SSL证书 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="SSL,https," />
+  
+
+  <meta name="description" content="1. 安装 CertbotLet’s Encrypt 证书生成不需要手动进行，官方推荐 certbot 这套自动化工具来实现。  Nginx on CentOS/RHEL 7 Certbot is packaged in EPEL (Extra Packages for Enterprise Linux). To use Certbot, you must first enable the EPE">
+<meta name="keywords" content="SSL,https">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Let&#39;s Encrypt配置SSL证书">
+<meta property="og:url" content="http://mu-mo.top/2018/04/09/运维/ssl/使用Let's Encrypt配置SSL证书/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="1. 安装 CertbotLet’s Encrypt 证书生成不需要手动进行，官方推荐 certbot 这套自动化工具来实现。  Nginx on CentOS/RHEL 7 Certbot is packaged in EPEL (Extra Packages for Enterprise Linux). To use Certbot, you must first enable the EPE">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.134Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Let&#39;s Encrypt配置SSL证书">
+<meta name="twitter:description" content="1. 安装 CertbotLet’s Encrypt 证书生成不需要手动进行，官方推荐 certbot 这套自动化工具来实现。  Nginx on CentOS/RHEL 7 Certbot is packaged in EPEL (Extra Packages for Enterprise Linux). To use Certbot, you must first enable the EPE">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-安装-Certbot"><span class="toc-text">1. 安装 Certbot</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-生成SSL证书"><span class="toc-text">2. 生成SSL证书</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-部署-https-反向代理"><span class="toc-text">3. 部署 https 反向代理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-设置SSL证书自动更新"><span class="toc-text">4. 设置SSL证书自动更新</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-在线工具测试SSL-安全性"><span class="toc-text">5. 在线工具测试SSL 安全性</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-运维/ssl/使用Let&#39;s Encrypt配置SSL证书" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      使用Let&#39;s Encrypt配置SSL证书
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2018.04.09
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/运维/">运维</a> / <a class="article-category-link" href="/categories/运维/ssl/">ssl</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <h5 id="1-安装-Certbot"><a href="#1-安装-Certbot" class="headerlink" title="1. 安装 Certbot"></a>1. 安装 Certbot</h5><p><em>Let’s Encrypt</em> 证书生成不需要手动进行，官方推荐 <a href="https://certbot.eff.org/" target="_blank" rel="noopener">certbot</a> 这套自动化工具来实现。</p>
+<ul>
+<li><p>Nginx on CentOS/RHEL 7</p>
+<p>Certbot is packaged in EPEL (Extra Packages for Enterprise Linux). To use Certbot, you must first <a href="https://fedoraproject.org/wiki/EPEL#How_can_I_use_these_extra_packages.3F" target="_blank" rel="noopener">enable the EPEL repository</a>. On RHEL or Oracle Linux, you must also enable the optional channel.</p>
+<blockquote>
+<p>Note:</p>
+<p>If you are using RHEL on EC2, you can enable the optional channel by running:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;</span> $ yum -y install yum-utils</span><br><span class="line"><span class="meta">&gt;</span> $ yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGION-rhel-server-optional</span><br><span class="line"><span class="meta">&gt;</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>After doing this, you can install Certbot by running:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span> sudo yum install certbot-nginx</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Nginx on Ubuntu 16.04 (xenial)</p>
+<p>On Ubuntu systems, the Certbot team maintains a PPA. Once you add it to your list of repositories all you’ll need to do is apt-get the following packages.</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span> sudo apt-get update</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span> sudo apt-get install software-properties-common</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span> sudo add-apt-repository ppa:certbot/certbot</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span> sudo apt-get update</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span> sudo apt-get install python-certbot-nginx</span><br></pre></td></tr></table></figure>
+<p>Certbot’s DNS plugins which can be used to automate obtaining a wildcard certificate from Let’s Encrypt’s ACMEv2 server are not available for your OS yet. This should change soon but if you don’t want to wait, you can use these plugins now by running Certbot in Docker instead of using the instructions on this page.</p>
+</li>
+</ul>
+<h5 id="2-生成SSL证书"><a href="#2-生成SSL证书" class="headerlink" title="2. 生成SSL证书"></a>2. 生成SSL证书</h5><ul>
+<li><p>编辑配置文件：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span> sudo vim /etc/letsencrypt/configs/hostname</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 写你的域名和邮箱</span><br><span class="line">domains = hostname</span><br><span class="line">rsa-key-size = 2048</span><br><span class="line">email = your-email</span><br><span class="line">text = True</span><br><span class="line"></span><br><span class="line"># 把下面的路径修改为 hostname 的目录位置</span><br><span class="line">authenticator = webroot</span><br><span class="line">webroot-path = /mnt/var/www/&lt;your-name&gt;/&lt;hostname&gt;</span><br></pre></td></tr></table></figure>
+<p>只需将 hostname 修改为你的域名即可，certbot 会自动在 <code>/mnt/var/www/&lt;your-name&gt;/&lt;hostname&gt;</code> 下面创建一个隐藏文件 <code>.well-known/acme-challenge</code> ，通过请求这个文件来验证 <code>hostname</code> 确实属于你。外网服务器访问 <code>http://hostname/.well-known/acme-challenge</code> ，如果访问成功则验证OK。</p>
+</li>
+<li><p>配置Nginx 进行 webroot 验证</p>
+<p>eg: 在<code>/etc/nginx/sites-available</code> 目录下 编辑 temp 文件</p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">   <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">   <span class="attribute">server_name</span> hostname;</span><br><span class="line"></span><br><span class="line">   <span class="attribute">location</span> <span class="regexp">~ /.well-known</span> &#123;</span><br><span class="line">       <span class="attribute">root</span> /mnt/var/www/&lt;your-name&gt;/&lt;hostname&gt;;</span><br><span class="line">       <span class="attribute">default_type</span> <span class="string">"text/plain"</span>;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>设置软连接：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span> cd /etc/nginx/sites-enabled     # 必须!!!</span><br><span class="line"><span class="meta">$</span> sudo ln -s ../sites-available/temp temp</span><br><span class="line"><span class="meta">$</span> sudo openresty -s reload</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>生成SSL证书</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span> sudo certbot -c /etc/letsencrypt/configs/hostname certonly</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span># 片刻之后，看到下面内容就是成功了</span><br><span class="line">IMPORTANT NOTES:</span><br><span class="line"> - Congratulations! Your certificate and chain have been saved at /etc/letsencrypt/live/hostname/fullchain.pem.</span><br></pre></td></tr></table></figure>
+<p><em>之后删除 之前的 temp 软连接</em></p>
+</li>
+</ul>
+<h5 id="3-部署-https-反向代理"><a href="#3-部署-https-反向代理" class="headerlink" title="3. 部署 https 反向代理"></a>3. 部署 https 反向代理</h5><ul>
+<li><p>nginx 配置文件</p>
+<p>在<code>/etc/nginx/sites-available</code> 目录下 编辑 hostname 文件</p>
+<p>  模板如下：</p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="attribute">upstream</span> monitor_server &#123;</span><br><span class="line">    <span class="attribute">server</span> &lt;server-host&gt;:&lt;port&gt;;</span><br><span class="line">    <span class="attribute">keepalive</span> <span class="number">2000</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> hostname;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># redirect all http to https</span></span><br><span class="line">    <span class="attribute">return</span> <span class="number">301</span> https://<span class="variable">$host</span><span class="variable">$request_uri</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">443</span> ssl;</span><br><span class="line">    <span class="attribute">server_name</span> hostname;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">ssl_certificate</span> /etc/letsencrypt/live/hostname/fullchain.pem;</span><br><span class="line">    <span class="attribute">ssl_certificate_key</span> /etc/letsencrypt/live/hostname/privkey.pem;</span><br><span class="line">    <span class="comment"># disable SSLv2</span></span><br><span class="line">    <span class="attribute">ssl_protocols</span> TLSv1 TLSv1.<span class="number">1</span> TLSv1.<span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># ciphers' order matters</span></span><br><span class="line">    <span class="attribute">ssl_ciphers</span> <span class="string">"ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA384:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-RSA-AES256-SHA:AES128-SHA:AES256-SHA:DES-CBC3-SHA:!aNULL"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># the Elliptic curve key used for the ECDHE cipher.</span></span><br><span class="line">    <span class="attribute">ssl_ecdh_curve</span> secp384r1;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># use command line</span></span><br><span class="line">    <span class="comment"># openssl dhparam -out dhparam.pem 2048</span></span><br><span class="line">    <span class="comment"># to generate Diffie Hellman Ephemeral Parameters</span></span><br><span class="line">    <span class="attribute">ssl_dhparam</span> /etc/letsencrypt/ssl-dhparams.pem;</span><br><span class="line">      <span class="comment"># let the server choose the cipher</span></span><br><span class="line">    <span class="attribute">ssl_prefer_server_ciphers</span> <span class="literal">on</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># turn on the OCSP Stapling and verify</span></span><br><span class="line">    <span class="attribute">ssl_stapling</span> <span class="literal">on</span>;</span><br><span class="line">    <span class="attribute">ssl_stapling_verify</span> <span class="literal">on</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># http compression method is not secure in https</span></span><br><span class="line">    <span class="comment"># opens you up to vulnerabilities like BREACH, CRIME</span></span><br><span class="line">    <span class="attribute">gzip</span> <span class="literal">off</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span><span class="regexp"> ^~</span> /.well-known/acme-challenge/ &#123;</span><br><span class="line">        <span class="attribute">default_type</span> <span class="string">"text/plain"</span>;</span><br><span class="line">        <span class="attribute">root</span> /mnt/var/www/&lt;your-name&gt;/hostname;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">      ...</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">access_log</span> /mnt/log/nginx/hostname/access.log;</span><br><span class="line">    <span class="attribute">error_log</span> /mnt/log/nginx/hostname/error.log;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注:</p>
+<p>​      如需支持HTTP2，可将http server第一行修改为 listen 443 ssl http2; 作用是启用 Nginx 的 ngx_http_v2_module 模块支持 HTTP2，Nginx 版本需要高于 1.9.5，且编译时需要设置 –with-http_v2_module。</p>
+<p>ssl_certificate 和 ssl_certificate_key ，分别对应 fullchain.pem 和 privkey.pem，这2个文件是之前就生成好的证书和密钥。</p>
+<p>ssl_dhparam 通过下面命令生成：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;</span> $ sudo openssl dhparam -out /etc/letsencrypt/ssl-dhparams.pem 2048</span><br><span class="line"><span class="meta">&gt;</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>之后</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;</span> $ cd /etc/nginx/sites-enabled     # 必须!!!</span><br><span class="line"><span class="meta">&gt;</span> $ sudo ln -s ../sites-available/hostname hostname</span><br><span class="line"><span class="meta">&gt;</span> $ sudo openresty -s reload</span><br><span class="line"><span class="meta">&gt;</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<h5 id="4-设置SSL证书自动更新"><a href="#4-设置SSL证书自动更新" class="headerlink" title="4. 设置SSL证书自动更新"></a>4. 设置SSL证书自动更新</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span> sudo vim /etc/systemd/system/letsencrypt.service</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Let&apos;s Encrypt renewal</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=oneshot</span><br><span class="line">ExecStart=/usr/bin/certbot renew --quiet --agree-tos</span><br><span class="line">ExecStartPost=/bin/systemctl reload nginx.service</span><br></pre></td></tr></table></figure>
+<p>然后增加一个 systemd timer 来触发这个服务：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span> sudo vim /etc/systemd/system/letsencrypt.timer</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Monthly renewal of Let&apos;s Encrypt&apos;s certificates</span><br><span class="line"></span><br><span class="line">[Timer]</span><br><span class="line">OnCalendar=daily</span><br><span class="line">Persistent=true</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=timers.target</span><br></pre></td></tr></table></figure>
+<p>启用服务，开启 timer：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ sudo systemctl enable letsencrypt.timer</span><br><span class="line">$ sudo systemctl start letsencrypt.timer</span><br></pre></td></tr></table></figure>
+<p>上面两条命令执行完毕后，你可以通过 <code>systemctl list-timers</code> 列出所有 systemd 定时服务。当中可以找到 <code>letsencrypt.timer</code> 并看到运行时间是明天的凌晨12点。</p>
+<h5 id="5-在线工具测试SSL-安全性"><a href="#5-在线工具测试SSL-安全性" class="headerlink" title="5. 在线工具测试SSL 安全性"></a>5. 在线工具测试SSL 安全性</h5><p><a href="https://www.ssllabs.com/ssltest/index.html" target="_blank" rel="noopener">Qualys SSL Labs</a> 提供了全面的 SSL 安全性测试，填写你的网站域名，给自己的 HTTPS 配置打个分。</p>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/03/30/其他/Graphql学习与REST比较/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/04/09/运维/ssl/acme-sh-配合-letsencrypt-配置泛域名/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

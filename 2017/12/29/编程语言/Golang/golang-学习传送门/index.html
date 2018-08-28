@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>golang 学习传送门 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="golang,portal," />
+  
+
+  <meta name="description" content="参考  effective_go 项目目录结构规范PROJECT_NAME├── README.md 介绍软件及文档入口├── bin 编译好的二进制文件,执行./build.sh自动生成，该目录也用于程序打包├── build.sh 自动编译的脚本├── doc 该项目的文档├── pack 打包后的程序放在此处├── pack.sh 自动打包的脚本，生成类似xxxx.20170713_14:4">
+<meta name="keywords" content="golang,portal">
+<meta property="og:type" content="article">
+<meta property="og:title" content="golang 学习传送门">
+<meta property="og:url" content="http://mu-mo.top/2017/12/29/编程语言/Golang/golang-学习传送门/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="参考  effective_go 项目目录结构规范PROJECT_NAME├── README.md 介绍软件及文档入口├── bin 编译好的二进制文件,执行./build.sh自动生成，该目录也用于程序打包├── build.sh 自动编译的脚本├── doc 该项目的文档├── pack 打包后的程序放在此处├── pack.sh 自动打包的脚本，生成类似xxxx.20170713_14:4">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.126Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="golang 学习传送门">
+<meta name="twitter:description" content="参考  effective_go 项目目录结构规范PROJECT_NAME├── README.md 介绍软件及文档入口├── bin 编译好的二进制文件,执行./build.sh自动生成，该目录也用于程序打包├── build.sh 自动编译的脚本├── doc 该项目的文档├── pack 打包后的程序放在此处├── pack.sh 自动打包的脚本，生成类似xxxx.20170713_14:4">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#项目目录结构规范"><span class="toc-text">项目目录结构规范</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#文件名命名规范"><span class="toc-text">文件名命名规范</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命名规范"><span class="toc-text">命名规范</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#包名"><span class="toc-text">包名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#接口名"><span class="toc-text">接口名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#变量"><span class="toc-text">变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#常量"><span class="toc-text">常量</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#import-规范"><span class="toc-text">import 规范</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#函数名"><span class="toc-text">函数名</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#错误处理"><span class="toc-text">错误处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Panic"><span class="toc-text">Panic</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Recover"><span class="toc-text">Recover</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Defer"><span class="toc-text">Defer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#控制结构"><span class="toc-text">控制结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#if"><span class="toc-text">if</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#for"><span class="toc-text">for</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#range"><span class="toc-text">range</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#return"><span class="toc-text">return</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法的接收器"><span class="toc-text">方法的接收器</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-编程语言/Golang/golang-学习传送门" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      golang 学习传送门
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2017.12.29
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/golang/">golang</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <p>参考  <a href="https://golang.org/doc/effective_go.html" target="_blank" rel="noopener">effective_go</a></p>
+<h3 id="项目目录结构规范"><a href="#项目目录结构规范" class="headerlink" title="项目目录结构规范"></a>项目目录结构规范</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">PROJECT_NAME</span><br><span class="line">├── README.md 介绍软件及文档入口</span><br><span class="line">├── bin 编译好的二进制文件,执行./build.sh自动生成，该目录也用于程序打包</span><br><span class="line">├── build.sh 自动编译的脚本</span><br><span class="line">├── doc 该项目的文档</span><br><span class="line">├── pack 打包后的程序放在此处</span><br><span class="line">├── pack.sh 自动打包的脚本，生成类似xxxx.20170713_14:45:35.tar.gz的文件，放在pack文件下</span><br><span class="line">└── src 该项目的源代码</span><br><span class="line">    ├── main 项目主函数</span><br><span class="line">    ├── model 项目代码</span><br><span class="line">    ├── research 在实现该项目中探究的一些程序</span><br><span class="line">    └── vendor 存放go的库</span><br><span class="line">        ├── github.com/xxx 第三方库</span><br><span class="line">        └── xxx.com/obc 公司内部的公共库</span><br></pre></td></tr></table></figure>
+<p>项目的目录结构尽量做到简明、层次清楚</p>
+<h4 id="文件名命名规范"><a href="#文件名命名规范" class="headerlink" title="文件名命名规范"></a>文件名命名规范</h4><p>用小写，尽量见名思义，看见文件名就可以知道这个文件下的大概内容，对于源代码里的文件，文件名要很好的代表了一个模块实现的功能。</p>
+<h3 id="命名规范"><a href="#命名规范" class="headerlink" title="命名规范"></a>命名规范</h3><h4 id="包名"><a href="#包名" class="headerlink" title="包名"></a>包名</h4><p>包名用小写,使用短命名,尽量和标准库不要冲突</p>
+<h4 id="接口名"><a href="#接口名" class="headerlink" title="接口名"></a>接口名</h4><p>单个函数的接口名以”er”作为后缀，如Reader,Writer</p>
+<p>接口的实现则去掉“er”</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">type Reader interface &#123;</span><br><span class="line">        Read(p []byte) (n int, err error)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>两个函数的接口名综合两个函数名</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">type WriteFlusher interface &#123;</span><br><span class="line">    Write([]byte) (int, error)</span><br><span class="line">    Flush() error</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>三个以上函数的接口名，类似于结构体名</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">type Car interface &#123;</span><br><span class="line">    Start([]byte) </span><br><span class="line">    Stop() error</span><br><span class="line">    Recover()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h4><p>全局变量：采用驼峰命名法，仅限在包内的全局变量，包外引用需要写接口，提供调用 局部变量：驼峰式，小写字母开头</p>
+<h4 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h4><p>常量：大写，采用下划线</p>
+<h3 id="import-规范"><a href="#import-规范" class="headerlink" title="import 规范"></a>import 规范</h3><p>import在多行的情况下，goimports会自动帮你格式化，在一个文件里面引入了一个package，建议采用如下格式：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import (</span><br><span class="line">    &quot;fmt&quot;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>如果你的包引入了三种类型的包，标准库包，程序内部包，第三方包，建议采用如下方式进行组织你的包：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import (</span><br><span class="line">    &quot;encoding/json&quot;</span><br><span class="line">    &quot;strings&quot;</span><br><span class="line"></span><br><span class="line">    &quot;myproject/models&quot;</span><br><span class="line">    &quot;myproject/controller&quot;</span><br><span class="line">    &quot;git.obc.im/obc/utils&quot;</span><br><span class="line"></span><br><span class="line">    &quot;git.obc.im/dep/beego&quot;</span><br><span class="line">    &quot;git.obc.im/dep/mysql&quot;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>在项目中不要使用相对路径引入包：</p>
+<p>// 这是不好的导入</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import “../net”</span><br></pre></td></tr></table></figure>
+<p>// 这是正确的做法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import “xxxx.com/proj/net”</span><br></pre></td></tr></table></figure>
+<h4 id="函数名"><a href="#函数名" class="headerlink" title="函数名"></a>函数名</h4><p>函数名采用驼峰命名法，尽量不要使用下划线</p>
+<h3 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h3><p>error作为函数的值返回,必须尽快对error进行处理<br>采用独立的错误流进行处理<br>不要采用这种方式</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">if err != nil &#123;</span><br><span class="line">    // error handling</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    // normal code</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而要采用下面的方式</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">if err != nil &#123;</span><br><span class="line">    // error handling</span><br><span class="line">    return // or continue, etc.</span><br><span class="line">&#125;</span><br><span class="line">// normal code</span><br></pre></td></tr></table></figure>
+<p>如果返回值需要初始化，则采用下面的方式</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">x, err := f()</span><br><span class="line">if err != nil &#123;</span><br><span class="line">    // error handling</span><br><span class="line">    return</span><br><span class="line">&#125;</span><br><span class="line">// use x</span><br></pre></td></tr></table></figure>
+<h3 id="Panic"><a href="#Panic" class="headerlink" title="Panic"></a>Panic</h3><p>在逻辑处理中禁用panic<br>在main包中只有当实在不可运行的情况采用panic，例如文件无法打开，数据库无法连接导致程序无法 正常运行，但是对于其他的package对外的接口不能有panic，只能在包内采用。 建议在main包中使用log.Fatal来记录错误，这样就可以由log来结束程序。</p>
+<h3 id="Recover"><a href="#Recover" class="headerlink" title="Recover"></a>Recover</h3><p>recover用于捕获runtime的异常，禁止滥用recover，在开发测试阶段尽量不要用recover，recover一般放在你认为会有不可预期的异常的地方。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">func server(workChan &lt;-chan *Work) &#123;</span><br><span class="line">    for work := range workChan &#123;</span><br><span class="line">        go safelyDo(work)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func safelyDo(work *Work) &#123;</span><br><span class="line">    defer func() &#123;</span><br><span class="line">        if err := recover(); err != nil &#123;</span><br><span class="line">            log.Println(&quot;work failed:&quot;, err)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;()</span><br><span class="line">    // do 函数可能会有不可预期的异常</span><br><span class="line">    do(work)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Defer"><a href="#Defer" class="headerlink" title="Defer"></a>Defer</h3><p>defer在函数return之前执行，对于一些资源的回收用defer是好的，但也禁止滥用defer，defer是需要消耗性能的,所以频繁调用的函数尽量不要使用defer。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// Contents returns the file&apos;s contents as a string.</span><br><span class="line">func Contents(filename string) (string, error) &#123;</span><br><span class="line">    f, err := os.Open(filename)</span><br><span class="line">    if err != nil &#123;</span><br><span class="line">        return &quot;&quot;, err</span><br><span class="line">    &#125;</span><br><span class="line">    defer f.Close()  // f.Close will run when we&apos;re finished.</span><br><span class="line"></span><br><span class="line">    var result []byte</span><br><span class="line">    buf := make([]byte, 100)</span><br><span class="line">    for &#123;</span><br><span class="line">        n, err := f.Read(buf[0:])</span><br><span class="line">        result = append(result, buf[0:n]...) // append is discussed later.</span><br><span class="line">        if err != nil &#123;</span><br><span class="line">            if err == io.EOF &#123;</span><br><span class="line">                break</span><br><span class="line">            &#125;</span><br><span class="line">            return &quot;&quot;, err  // f will be closed if we return here.</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return string(result), nil // f will be closed if we return here.</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="控制结构"><a href="#控制结构" class="headerlink" title="控制结构"></a>控制结构</h3><h4 id="if"><a href="#if" class="headerlink" title="if"></a>if</h4><p>if接受初始化语句，约定如下方式建立局部变量</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">if err := file.Chmod(0664); err != nil &#123;</span><br><span class="line">    return err</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="for"><a href="#for" class="headerlink" title="for"></a>for</h4><p>采用短声明建立局部变量</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sum := 0</span><br><span class="line">for i := 0; i &lt; 10; i++ &#123;</span><br><span class="line">    sum += i</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="range"><a href="#range" class="headerlink" title="range"></a>range</h4><p>如果只需要第一项（key），就丢弃第二个：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">for key := range m &#123;</span><br><span class="line">    if key.expired() &#123;</span><br><span class="line">        delete(m, key)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果只需要第二项，则把第一项置为下划线</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sum := 0</span><br><span class="line">for _, value := range array &#123;</span><br><span class="line">    sum += value</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="return"><a href="#return" class="headerlink" title="return"></a>return</h4><p>尽早return：一旦有错误发生，马上返回</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">f, err := os.Open(name)</span><br><span class="line">if err != nil &#123;</span><br><span class="line">    return err</span><br><span class="line">&#125;</span><br><span class="line">d, err := f.Stat()</span><br><span class="line">if err != nil &#123;</span><br><span class="line">    f.Close()</span><br><span class="line">    return err</span><br><span class="line">&#125;</span><br><span class="line">codeUsing(f, d)</span><br></pre></td></tr></table></figure>
+<h3 id="方法的接收器"><a href="#方法的接收器" class="headerlink" title="方法的接收器"></a>方法的接收器</h3><p>名称 一般采用strcut的第一个字母且为小写，而不是this，me或者self</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">type T struct&#123;&#125; </span><br><span class="line">func (p *T)Get()&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>如果接收者是map,slice或者chan，不要用指针传递</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//Map</span><br><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    &quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">type mp map[string]string</span><br><span class="line"></span><br><span class="line">func (m mp) Set(k, v string) &#123;</span><br><span class="line">    m[k] = v</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    m := make(mp)</span><br><span class="line">    m.Set(&quot;k&quot;, &quot;v&quot;)</span><br><span class="line">    fmt.Println(m)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//Channel</span><br><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    &quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">type ch chan interface&#123;&#125;</span><br><span class="line"></span><br><span class="line">func (c ch) Push(i interface&#123;&#125;) &#123;</span><br><span class="line">    c &lt;- i</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (c ch) Pop() interface&#123;&#125; &#123;</span><br><span class="line">    return &lt;-c</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    c := make(ch, 1)</span><br><span class="line">    c.Push(&quot;i&quot;)</span><br><span class="line">    fmt.Println(c.Pop())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果需要对slice进行修改，通过返回值的方式重新赋值</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//Slice</span><br><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    &quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">type slice []byte</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    s := make(slice, 0)</span><br><span class="line">    s = s.addOne(42)</span><br><span class="line">    fmt.Println(s)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (s slice) addOne(b byte) []byte &#123;</span><br><span class="line">    return append(s, b)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果接收者是含有sync.Mutex或者类似同步字段的结构体，必须使用指针传递避免复制</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    &quot;sync&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">type T struct &#123;</span><br><span class="line">    m sync.Mutex</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (t *T) lock() &#123;</span><br><span class="line">    t.m.Lock()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">Wrong !!!</span><br><span class="line">func (t T) lock() &#123;</span><br><span class="line">    t.m.Lock()</span><br><span class="line">&#125;</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    t := new(T)</span><br><span class="line">    t.lock()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果接收者是大的结构体或者数组，使用指针传递会更有效率。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    &quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">type T struct &#123;</span><br><span class="line">    data [1024]byte</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (t *T) Get() byte &#123;</span><br><span class="line">    return t.data[0]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    t := new(T)</span><br><span class="line">    fmt.Println(t.Get())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注：转载自：<a href="https://sheepbao.github.io/post/golang_code_specification/" target="_blank" rel="noopener">https://sheepbao.github.io/post/golang_code_specification/</a></p>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/12/28/学习笔记/学习笔记6/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/12/30/分布式/区块链科普/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

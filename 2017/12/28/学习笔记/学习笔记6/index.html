@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>学习笔记6 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="学习笔记," />
+  
+
+  <meta name="description" content="1. 分布式系统核心问题   参考书籍：《区块链原理、设计与应用》  一致性问题 例子：两个不同的电影院买同一种电影票，如何避免超售？如何保持两个电影院数据一致？ 挑战  节点之间的网络通讯是不可靠的，包括任意延迟和内容故障； 节点的处理可能是错误的，甚至节点自身随时可能宕机； 同步调用会让系统变得不具备可扩展性。  要求  可终止性（Termination）：一致的结果在有限时间内能完成；  共">
+<meta name="keywords" content="学习笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习笔记6">
+<meta property="og:url" content="http://mu-mo.top/2017/12/28/学习笔记/学习笔记6/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="1. 分布式系统核心问题   参考书籍：《区块链原理、设计与应用》  一致性问题 例子：两个不同的电影院买同一种电影票，如何避免超售？如何保持两个电影院数据一致？ 挑战  节点之间的网络通讯是不可靠的，包括任意延迟和内容故障； 节点的处理可能是错误的，甚至节点自身随时可能宕机； 同步调用会让系统变得不具备可扩展性。  要求  可终止性（Termination）：一致的结果在有限时间内能完成；  共">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-b50ffd7b915fcef9.latex?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-875f4efc27bb7b87?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-d8e3264f19d4dc86?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-f5f9eb898791ba10.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/742658-d882d6a3115b38f5.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.122Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="学习笔记6">
+<meta name="twitter:description" content="1. 分布式系统核心问题   参考书籍：《区块链原理、设计与应用》  一致性问题 例子：两个不同的电影院买同一种电影票，如何避免超售？如何保持两个电影院数据一致？ 挑战  节点之间的网络通讯是不可靠的，包括任意延迟和内容故障； 节点的处理可能是错误的，甚至节点自身随时可能宕机； 同步调用会让系统变得不具备可扩展性。  要求  可终止性（Termination）：一致的结果在有限时间内能完成；  共">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7109326-b50ffd7b915fcef9.latex?imageMogr2/auto-orient/strip">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-分布式系统核心问题"><span class="toc-text">1. 分布式系统核心问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Raft算法"><span class="toc-text">2. Raft算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-概述"><span class="toc-text">1. 概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Raft基础"><span class="toc-text">2. Raft基础</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-领导人选举"><span class="toc-text">3. 领导人选举</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-日志复制"><span class="toc-text">4. 日志复制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-安全性"><span class="toc-text">5. 安全性</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-常识"><span class="toc-text">3. 常识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-golang-新手入门配置学习"><span class="toc-text">4. golang 新手入门配置学习</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#常用命令介绍："><span class="toc-text">常用命令介绍：</span></a></li></ol></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-学习笔记/学习笔记6" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      学习笔记6
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2017.12.28
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/学习笔记/">学习笔记</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <h2 id="1-分布式系统核心问题"><a href="#1-分布式系统核心问题" class="headerlink" title="1. 分布式系统核心问题"></a>1. 分布式系统核心问题</h2><p>   参考书籍：《<a href="https://item.jd.com/12159265.html" target="_blank" rel="noopener">区块链原理、设计与应用</a>》</p>
+<ol>
+<li><p>一致性问题</p>
+<p>例子：两个不同的电影院买同一种电影票，如何避免超售？如何保持两个电影院数据一致？</p>
+<p><strong>挑战</strong></p>
+<ul>
+<li>节点之间的网络通讯是不可靠的，包括任意延迟和内容故障；</li>
+<li>节点的处理可能是错误的，甚至节点自身随时可能宕机；</li>
+<li>同步调用会让系统变得不具备可扩展性。</li>
+</ul>
+<p><strong>要求</strong></p>
+<ul>
+<li><p>可终止性（Termination）：一致的结果在有限时间内能完成；</p>
+</li>
+<li><p>共识性（Consensus）：不同节点最终完成决策的结果应该相同；</p>
+<blockquote>
+<p>eg：现在就剩一张票了，两个电影院也分别刚确认过这张票的存在，然后两个电影院同时来了一个顾客要买票，从各自“观察”看来，自己的顾客都是第一个到的……怎么能达成结果的共识呢？记住我们的唯一秘诀：核心在于需要<strong>把两件事情进行排序，而且这个顺序还得是大家都认可的</strong>。</p>
+</blockquote>
+</li>
+<li><p>合法性（Validity）：决策的结果必须是其它进程提出的提案。</p>
+</li>
+</ul>
+</li>
+<li><p>共识算法</p>
+<blockquote>
+<p> 保障分布式系统的一致性，需要通过共识算法来实现。</p>
+</blockquote>
+<p>简述：对某个提案，大家达成一致的过程。</p>
+</li>
+<li><p>FLP 不可能性原理</p>
+<blockquote>
+<p> FLP 不可能原理：在网络可靠，存在节点失效（即便只有一个）的最小化异步模型系统中，不存在一个可以解决一致性问题的确定性算法。</p>
+</blockquote>
+<p>eg: 三个人在不同房间，进行投票（投票结果是 0 或者 1）。三个人彼此可以通过电话进行沟通，但经常会有人时不时地睡着。比如某个时候，A 投票 0，B 投票 1，C 收到了两人的投票，然后 C 睡着了。A 和 B 则永远无法在有限时间内获知最终的结果。</p>
+<p>FLP原理只是最坏的情况下，但是我们可以付出一些代价来提高成功的概率。</p>
+</li>
+<li><p>CAP 原理</p>
+<p>分布式计算系统不可能同时确保一致性（Consistency）、可用性（Availablity）和分区容忍性（Partition），设计中往往需要<strong>弱化对某个特性的保证</strong>。</p>
+<ul>
+<li><p>一致性（Consistency）：任何操作应该都是原子的，发生在后面的事件能看到前面事件发生导致的结果，注意这里指的是强一致性；</p>
+</li>
+<li><p>可用性（Availablity）：在有限时间内，任何非失败节点都能应答请求；</p>
+</li>
+<li><p>分区容忍性（Partition）：集群中的某些节点在无法联系后，集群整体是否还能继续进行服务。</p>
+<blockquote>
+<p>分隔容忍(Partition tolerance) (系统中任意信息的丢失或失败不会影响系统的继续运作)</p>
+</blockquote>
+</li>
+</ul>
+<p>应用：</p>
+<p>网络中会经常会出现延迟丢包等问题，所以分区容忍性一般不会弱化。</p>
+<ul>
+<li><p>弱化一致性</p>
+<p>对结果一致性不敏感的应用，可以允许在新版本上线后过一段时间才更新成功，期间不保证一致性。</p>
+</li>
+<li><p>弱化可用性</p>
+<p>对结果一致性很敏感的应用，例如银行取款机，当系统故障时候会拒绝服务。</p>
+</li>
+</ul>
+</li>
+<li><p>ACID 原则</p>
+<p>ACID 原则描述了对分布式数据库的一致性需求，同时付出了可用性的代价。</p>
+<ul>
+<li>原子性（Atomicity）：每次操作是原子的，要么成功，要么不执行；</li>
+<li>一致性（Consistency）：数据库的状态是一致的，无中间状态；</li>
+<li>隔离性（Isolation）：各种操作彼此互相不影响；</li>
+<li>持久性（Durability）：状态的改变是持久的，不会失效。</li>
+</ul>
+<blockquote>
+<p>一个与之相对的原则是 BASE（Basically Available（基本可用）、Soft state（软状态）和Eventually consistent（最终一致性）），牺牲掉对一致性的约束（最终一致性），来换取一定的可用性。</p>
+</blockquote>
+</li>
+<li><p>Paxos 与 Raft</p>
+<ul>
+<li><p>Paxos</p>
+<blockquote>
+<p> 问题背景：古希腊 Paxon 岛上的多个法官在一个大厅内对一个议案进行表决，如何达成统一的结果。他们之间通过服务人员来传递纸条，但法官可能离开或进入大厅，服务人员可能偷懒去睡觉。</p>
+</blockquote>
+<p>算法中将节点分为三种类型：</p>
+<ul>
+<li>proposer：提出一个提案，等待大家批准为结案。往往是客户端担任该角色；</li>
+<li>acceptor：负责对提案进行投票。往往是服务端担任该角色；</li>
+<li>learner：被告知结案结果，并与之统一，不参与投票过程。可能为客户端或服务端。</li>
+</ul>
+<p>算法需要满足 safety 和 liveness 两方面的约束要求：</p>
+<ul>
+<li>safety：保证决议结果是对的，无歧义的，不会出现错误情况。<ul>
+<li>决议（value）只有在被 proposers 提出的 proposal 才能被最终批准；</li>
+<li>在一次执行实例中，只批准（chosen）一个最终决议，意味着多数接受（accept）的结果能成为决议；</li>
+</ul>
+</li>
+<li>liveness：保证决议过程能在有限时间内完成。<ul>
+<li>决议总会产生，并且 learners 能获得被批准（chosen）的决议。</li>
+</ul>
+</li>
+</ul>
+<p><strong>基本过程</strong>包括 proposer 提出提案，先争取大多数 acceptor 的支持，超过一半支持时，则发送结案结果给所有人进行确认。一个潜在的问题是 proposer 在此过程中出现故障，可以通过超时机制来解决。极为凑巧的情况下，每次新的一轮提案的 proposer 都恰好故障，系统则永远无法达成一致（概率很小）。</p>
+<p>Paxos 能保证在超过 <img src="http://upload-images.jianshu.io/upload_images/7109326-b50ffd7b915fcef9.latex?imageMogr2/auto-orient/strip" alt="img"> 的正常节点存在时，系统能达成共识。</p>
+</li>
+<li><p>Raft</p>
+<p>Raft 算法是Paxos 算法的一种简化实现。</p>
+<p>包括三种角色：leader、candidate 和 follower，其基本过程为：</p>
+<ol>
+<li>Leader 选举：每个 candidate 随机经过一定时间都会提出选举方案，最近阶段中得票最多者被选为 leader；</li>
+<li>同步事件记录 log：leader 会找到系统中 log 最新的记录，并强制所有的 follower 来刷新到这个记录。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>拜占庭问题</p>
+<blockquote>
+<p>拜占庭是古代东罗马帝国的首都，由于地域宽广，守卫边境的多个将军（系统中的多个节点）需要通过信使来传递消息，达成某些一致的决定。但由于将军中可能存在叛徒（系统中节点出错），这些叛徒将努力向不同的将军发送不同的消息，试图会干扰一致性的达成。</p>
+<p><em>拜占庭问题即为在此情况下，如何让忠诚的将军们能达成行动的一致?</em></p>
+</blockquote>
+<p><strong>Byzantine Fault Tolerant (BFT) 算法</strong> </p>
+<p>​    BFT算法保证所有正常的replicas节点<strong>执行相同序列的操作</strong>。因为所有的replicas节点都是deterministic，而且初始状态都相同，根据状态机原理（state machine replication），这些replicas会产生相同的结果状态。当Client收到f+1个replicas节点返回的结果时，如果这些结果都一样，因为BFT算法确保了最多有f个replicas出现问题，所以至少有一个replicas是正确的，那么Client收到的这些结果都是正确的。</p>
+<p><strong>其他解决思路：</strong></p>
+<p>问题由来：系统存在多个提案，一致确认困难</p>
+<p>PoW（Proof of Work） 算法思路：</p>
+<ol>
+<li>增加提案成本（限制了提案数量）</li>
+<li>放宽对最终一致性确认的需求，约定好大家都确认并沿着已知最长的链进行拓宽。</li>
+</ol>
+<p>注：系统的最终确认是概率意义上的存在。这样，即便有人试图恶意破坏，也会付出很大的经济代价（付出超过系统一半的算力）。</p>
+</li>
+<li><p>可靠性指标</p>
+<p>下表给出不同指标下，每年允许服务出现不可用时间的参考值。</p>
+<p>| 指标   | 概率可靠性       | 每年允许不可用时间 | 典型场景 |<br>| —- | ———– | ——— | —- |<br>| 一个九  | 90%         | 1.2 个月    | 不可用  |<br>| 二个九  | 99%         | 3.6 天     | 普通单点 |<br>| 三个九  | 99.9%       | 8.6 小时    | 普通企业 |<br>| 四个九  | 99.99%      | 51.6 分钟   | 高可用  |<br>| 五个九  | 99.999%     | 5 分钟      | 电信级  |<br>| 六个九  | 99.9999%    | 31 秒      | 极高要求 |<br>| 七个九  | 99.99999%   | 3 秒       | N/A  |<br>| 八个九  | 99.999999%  | 0.3 秒     | N/A  |<br>| 九个九  | 99.9999999% | 30 毫秒     | N/A  |</p>
+</li>
+</ol>
+<h2 id="2-Raft算法"><a href="#2-Raft算法" class="headerlink" title="2. Raft算法"></a>2. Raft算法</h2><p><strong>参考学习链接</strong>：</p>
+<ul>
+<li><a href="https://raft.github.io/" target="_blank" rel="noopener">Raft官网</a></li>
+<li><a href="https://ramcloud.atlassian.net/wiki/download/attachments/6586375/raft.pdf" target="_blank" rel="noopener">论文英文pdf地址</a></li>
+<li><a href="https://github.com/maemual/raft-zh_cn/blob/master/raft-zh_cn.md" target="_blank" rel="noopener">Raft算法论文中文翻译</a></li>
+<li><a href="http://thesecretlivesofdata.com/raft/" target="_blank" rel="noopener">Raft算法动画演示</a> </li>
+<li><a href="https://www.jianshu.com/p/4711c4c32aab" target="_blank" rel="noopener">Raft理解</a></li>
+</ul>
+<p><strong>Raft 算法实现推荐</strong>：</p>
+<ul>
+<li><a href="http://nil.csail.mit.edu/6.824/2016/" target="_blank" rel="noopener">MIT-6.824-2016: Distributed Systems</a></li>
+<li><a href="https://thesquareplanet.com/blog/students-guide-to-raft/" target="_blank" rel="noopener">Students’ Guide to Raft </a></li>
+</ul>
+<p>其他：<a href="https://www.jianshu.com/p/542262237d55" target="_blank" rel="noopener">状态机</a></p>
+<h4 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h4><p>Raft 是一种为了管理复制日志的一致性算法。它提供了和 Paxos 算法相同的功能和性能，但是它的算法结构和 Paxos 不同，使得 Raft 算法更加容易理解并且更容易构建实际的系统。Raft 将一致性算法分解成了几个关键模块，例如 <strong>领导人选举、日志复制和安全性</strong> 。</p>
+<h4 id="2-Raft基础"><a href="#2-Raft基础" class="headerlink" title="2. Raft基础"></a>2. Raft基础</h4><p>服务器节点的三种状态：</p>
+<ul>
+<li><p>Leader（领导人）</p>
+<p>通常情况下，系统中只有一个领导人，其他节点都是跟随者。领导人处理所有的客户端请求（如果一个客户端和跟随者联系，那么跟随者会把请求重定向给领导人）。</p>
+</li>
+<li><p>Follower（跟随者）</p>
+<p>跟随者不会发送任何请求，只是简单的响应来自领导者或者候选人的请求。如果跟随者接收不到消息，那么他就会变成候选人并发起一次选举。</p>
+</li>
+<li><p>Candidate（候选人）</p>
+<p>获得集群中大多数选票的候选人将成为领导者。</p>
+</li>
+</ul>
+<p>下面是这三种状态的转化过程：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-875f4efc27bb7b87?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图 4 "></p>
+<blockquote>
+<p>跟随者只响应来自其他服务器的请求。如果跟随者接收不到消息，那么他就会变成候选人并发起一次选举。获得集群中大多数选票的候选人将成为领导者。在一个任期内,领导人一直都会是领导人直到自己宕机了。</p>
+</blockquote>
+<h4 id="3-领导人选举"><a href="#3-领导人选举" class="headerlink" title="3. 领导人选举"></a>3. 领导人选举</h4><p>可参考 <a href="https://raft.github.io/" target="_blank" rel="noopener">官方可视化动画1</a>  <a href="http://thesecretlivesofdata.com/raft/" target="_blank" rel="noopener">官方可视化动画2</a></p>
+<ul>
+<li><p>触发选举</p>
+<p>Raft 使用一种心跳机制来触发领导人选举。触发有两种情况：</p>
+<ol>
+<li>初始状态时，所有服务器节点都是跟随者，并且随机睡眠一段时间，这个时间在0~1000ms之间。最先醒来的server A进入 Candidate 状态，触发选举。</li>
+<li>领导者周期性的向所有跟随者发送心跳包（即不包含日志项内容的附加日志项 RPCs）来维持自己的权威。如果一个跟随者在一段时间里没有接收到任何消息，也就是<strong>选举超时</strong>，那么这时触发选举以选出新的领导者。</li>
+</ol>
+</li>
+<li><p>选举</p>
+<p>要开始一次选举过程，跟随者先要增加自己的 <strong>当前任期号</strong> 并且转换到候选人状态。然后他会并行的向集群中的其他服务器节点发送请求投票的 RPCs 来给自己投票。当一个候选人从整个集群的大多数服务器节点（一半以上）获得了针对同一个任期号的选票，那么他就赢得了这次选举并成为领导人。每一个服务器最多会对一个任期号投出一张选票，按照先来先服务的原则。</p>
+<p>在等待投票的时候，候选人可能会从其他的服务器接收到声明它是领导人的附加日志项 RPC。如果这个领导人的任期号（包含在此次的 RPC中）不小于候选人当前的任期号，那么候选人会承认领导人合法并回到跟随者状态。 如果此次 RPC 中的任期号比自己小，那么候选人就会拒绝这次的 RPC 并且继续保持候选人状态。</p>
+<blockquote>
+<p> 如果有多个跟随者同时成为候选人，那么选票可能会被瓜分以至于没有候选人可以赢得大多数人的支持。当这种情况发生的时候，每一个候选人都会超时，然后通过增加当前任期号来开始一轮新的选举。</p>
+</blockquote>
+</li>
+<li><p>选举之后</p>
+<p>一旦候选人赢得选举，他就立即成为领导人。然后他会向其他的服务器发送心跳消息来建立自己的权威并且阻止新的领导人的产生。</p>
+</li>
+</ul>
+<h4 id="4-日志复制"><a href="#4-日志复制" class="headerlink" title="4. 日志复制"></a>4. 日志复制</h4><ol>
+<li><p>复制过程</p>
+<p>Leader选举出来后，就可以开始处理客户端请求。Leader收到客户端请求后，将请求内容作为一条log日志添加到自己的log记录中，并向其它server发送RPCs(添加日志)请求。其它server收到请求后，如果满足条件就将其添加到本地的log中，并给Leader发送添加成功的response。Leader在收到大多数server添加成功的response后，就将该条log正式提交到状态机中。</p>
+</li>
+<li><p>一致性保持</p>
+<p>当一个领导人刚获得权力的时候，他初始化所有的 nextIndex 值为自己的最后一条日志的index（索引）加1。如果一个跟随者的日志和领导人不一致，那么在下一次的附加日志 RPC 时的一致性检查就会失败。在被跟随者拒绝之后，领导人就会减小 nextIndex 值并进行重试。最终 nextIndex 会在某个位置使得领导人和跟随者的日志达成一致。当这种情况发生，附加日志 RPC 就会成功，这时就会把跟随者冲突的日志条目全部删除并且加上领导人的日志。一旦附加日志 RPC 成功，那么跟随者的日志就会和领导人保持一致，并且在接下来的任期里一直继续保持。</p>
+</li>
+</ol>
+<h4 id="5-安全性"><a href="#5-安全性" class="headerlink" title="5. 安全性"></a>5. 安全性</h4><ol>
+<li><p>选举限制</p>
+<p>候选人为了赢得选举必须联系集群中的大部分节点，这意味着每一个已经提交的日志条目在这些服务器节点中肯定存在于至少一个节点上。如果候选人的日志至少和大多数的服务器节点一样新，那么他一定持有了所有已经提交的日志条目。请求投票 RPC 实现了这样的限制： RPC 中包含了候选人的日志信息，然后投票人会拒绝掉那些日志没有自己新的投票请求。</p>
+<blockquote>
+<p>Raft 通过比较两份日志中最后一条日志条目的索引值和任期号定义谁的日志比较新。如果两份日志最后的条目的任期号不同，那么任期号大的日志更加新。如果两份日志最后的条目任期号相同，那么日志比较长的那个就更加新。</p>
+</blockquote>
+</li>
+<li><p>提交之前任期内的日志条目</p>
+<p>领导人知道一条当前任期内的日志记录是可以被提交的，只要它被存储到了大多数的服务器上。如果一个领导人在提交日志条目之前崩溃了，未来后续的领导人会继续尝试复制这条日志记录。然而，一个领导人不能断定一个之前任期里的日志条目被保存到大多数服务器上的时候就一定已经提交了。图 8 展示了一种情况，一条已经被存储到大多数节点上的老日志条目，也依然有可能会被未来的领导人覆盖掉。</p>
+<p><a href="https://camo.githubusercontent.com/14df99e543c71ee75cafd614e1c55c25ac580ec8/68747470733a2f2f646e2d307830312d696f2e71626f782e6d652f726166742d254535253942254245382e706e67" target="_blank" rel="noopener"><img src="http://upload-images.jianshu.io/upload_images/7109326-d8e3264f19d4dc86?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图 8"></a></p>
+<blockquote>
+<p>图 8：如图的时间序列展示了为什么领导人无法通过老的日志的任期号来判断其提交状态。在 (a) 中，S1 是领导者，部分的复制了索引位置 2 的日志条目。在 (b) 中，S1 崩溃了，然后 S5 在任期 3 里通过 S3、S4 和自己的选票赢得选举，然后从客户端接收了一条不一样的日志条目放在了索引 2 处。然后到 (c)，S5 又崩溃了；S1 重新启动，选举成功，开始复制日志。在这时，来自任期 2 的那条日志已经被复制到了集群中的大多数机器上，但是还没有被提交。如果 S1 在 (d) 中又崩溃了，S5 可以重新被选举成功（通过来自 S2，S3 和 S4 的选票），然后覆盖了他们在索引 2 处的日志。但是，在崩溃之前，如果 S1 在自己的任期里复制了日志条目到大多数机器上，如 (e) 中，然后这个条目就会被提交（S5 就不可能选举成功）。 在这个时候，之前的所有日志就会被正常提交处理。</p>
+</blockquote>
+<p>为了消除图 8 里描述的情况，Raft 永远不会通过计算副本数目的方式去提交一个之前任期内的日志条目。只有领导人当前任期里的日志条目通过计算副本数目可以被提交；一旦当前任期的日志条目以这种方式被提交，那么由于日志匹配特性，之前的日志条目也都会被间接的提交。在某些情况下，领导人可以安全的知道一个老的日志条目是否已经被提交（例如，该条目是否存储到所有服务器上），但是 Raft 为了简化问题使用一种更加保守的方法。</p>
+<p>当领导人复制之前任期里的日志时，Raft 会为所有日志保留原始的任期号, 这在提交规则上产生了额外的复杂性。在其他的一致性算法中，如果一个新的领导人要重新复制之前的任期里的日志时，它必须使用当前新的任期号。Raft 使用的方法更加容易辨别出日志，因为它可以随着时间和日志的变化对日志维护着同一个任期编号。另外，和其他的算法相比，Raft 中的新领导人只需要发送更少日志条目。</p>
+</li>
+</ol>
+<p>####　6. Raft 算法实现指导</p>
+<p><strong>状态</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>所有服务器上持久存在的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>currentTerm</td>
+<td>服务器最后一次知道的任期号（初始化为 0，持续递增）</td>
+</tr>
+<tr>
+<td>votedFor</td>
+<td>在当前获得选票的候选人的 Id</td>
+</tr>
+<tr>
+<td>log[]</td>
+<td>日志条目集；每一个条目包含一个用户状态机执行的指令，和收到时的任期号</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>所有服务器上经常变的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>commitIndex</td>
+<td>已知的最大的已经被提交的日志条目的索引值</td>
+</tr>
+<tr>
+<td>lastApplied</td>
+<td>最后被应用到状态机的日志条目索引值（初始化为 0，持续递增）</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>在领导人里经常改变的 （选举后重新初始化）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>nextIndex[]</td>
+<td>对于每一个服务器，需要发送给他的下一个日志条目的索引值（初始化为领导人最后索引值加一）</td>
+</tr>
+<tr>
+<td>matchIndex[]</td>
+<td>对于每一个服务器，已经复制给他的日志的最高索引值</td>
+</tr>
+</tbody>
+</table>
+<p><strong>附加日志 RPC</strong>：</p>
+<p>由领导人负责调用来复制日志指令；也会用作heartbeat</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>term</td>
+<td>领导人的任期号</td>
+</tr>
+<tr>
+<td>leaderId</td>
+<td>领导人的 Id，以便于跟随者重定向请求</td>
+</tr>
+<tr>
+<td>prevLogIndex</td>
+<td>新的日志条目紧随之前的索引值</td>
+</tr>
+<tr>
+<td>prevLogTerm</td>
+<td>prevLogIndex 条目的任期号</td>
+</tr>
+<tr>
+<td>entries[]</td>
+<td>准备存储的日志条目（表示心跳时为空；一次性发送多个是为了提高效率）</td>
+</tr>
+<tr>
+<td>leaderCommit</td>
+<td>领导人已经提交的日志的索引值</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>返回值</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>term</td>
+<td>当前的任期号，用于领导人去更新自己</td>
+</tr>
+<tr>
+<td>success</td>
+<td>跟随者包含了匹配上 prevLogIndex 和 prevLogTerm 的日志时为真</td>
+</tr>
+</tbody>
+</table>
+<p>接收者实现：</p>
+<ol>
+<li>如果 <code>term &lt; currentTerm</code> 就返回 false （5.1 节）</li>
+<li>如果日志在 prevLogIndex 位置处的日志条目的任期号和 prevLogTerm 不匹配，则返回 false （5.3 节）</li>
+<li>如果已经存在的日志条目和新的产生冲突（索引值相同但是任期号不同），删除这一条和之后所有的 （5.3 节）</li>
+<li>附加任何在已有的日志中不存在的条目</li>
+<li>如果 <code>leaderCommit &gt; commitIndex</code>，令 commitIndex 等于 leaderCommit 和 新日志条目索引值中较小的一个</li>
+</ol>
+<p><strong>请求投票 RPC</strong>：</p>
+<p>由候选人负责调用用来征集选票（5.2 节）</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>term</td>
+<td>候选人的任期号</td>
+</tr>
+<tr>
+<td>candidateId</td>
+<td>请求选票的候选人的 Id</td>
+</tr>
+<tr>
+<td>lastLogIndex</td>
+<td>候选人的最后日志条目的索引值</td>
+</tr>
+<tr>
+<td>lastLogTerm</td>
+<td>候选人最后日志条目的任期号</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>返回值</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>term</td>
+<td>当前任期号，以便于候选人去更新自己的任期号</td>
+</tr>
+<tr>
+<td>voteGranted</td>
+<td>候选人赢得了此张选票时为真</td>
+</tr>
+</tbody>
+</table>
+<p>接收者实现：</p>
+<ol>
+<li>如果<code>term &lt; currentTerm</code>返回 false （5.2 节）</li>
+<li>如果 votedFor 为空或者就是 candidateId，并且候选人的日志至少和自己一样新，那么就投票给他（5.2 节，5.4 节）</li>
+</ol>
+<p><strong>所有服务器需遵守的规则</strong>：</p>
+<p>所有服务器：</p>
+<ul>
+<li>如果<code>commitIndex &gt; lastApplied</code>，那么就 lastApplied 加一，并把<code>log[lastApplied]</code>应用到状态机中（5.3 节）</li>
+<li>如果接收到的 RPC 请求或响应中，任期号<code>T &gt; currentTerm</code>，那么就令 currentTerm 等于 T，并切换状态为跟随者（5.1 节）</li>
+</ul>
+<p>跟随者（5.2 节）：</p>
+<ul>
+<li>响应来自候选人和领导者的请求</li>
+<li>如果在超过选举超时时间的情况之前都没有收到领导人的心跳，或者是候选人请求投票的，就自己变成候选人</li>
+</ul>
+<p>候选人（5.2 节）：</p>
+<ul>
+<li>在转变成候选人后就立即开始选举过程<ul>
+<li>自增当前的任期号（currentTerm）</li>
+<li>给自己投票</li>
+<li>重置选举超时计时器</li>
+<li>发送请求投票的 RPC 给其他所有服务器</li>
+</ul>
+</li>
+<li>如果接收到大多数服务器的选票，那么就变成领导人</li>
+<li>如果接收到来自新的领导人的附加日志 RPC，转变成跟随者</li>
+<li>如果选举过程超时，再次发起一轮选举</li>
+</ul>
+<p>领导人：</p>
+<ul>
+<li>一旦成为领导人：发送空的附加日志 RPC（心跳）给其他所有的服务器；在一定的空余时间之后不停的重复发送，以阻止跟随者超时（5.2 节）</li>
+<li>如果接收到来自客户端的请求：附加条目到本地日志中，在条目被应用到状态机后响应客户端（5.3 节）</li>
+<li>如果对于一个跟随者，最后日志条目的索引值大于等于 nextIndex，那么：发送从 nextIndex 开始的所有日志条目：<ul>
+<li>如果成功：更新相应跟随者的 nextIndex 和 matchIndex</li>
+<li>如果因为日志不一致而失败，减少 nextIndex 重试</li>
+</ul>
+</li>
+<li>如果存在一个满足<code>N &gt; commitIndex</code>的 N，并且大多数的<code>matchIndex[i] ≥ N</code>成立，并且<code>log[N].term == currentTerm</code>成立，那么令 commitIndex 等于这个 N </li>
+</ul>
+<h2 id="3-常识"><a href="#3-常识" class="headerlink" title="3. 常识"></a>3. 常识</h2><ul>
+<li><p>ftp/http/https/http 2.0</p>
+<ul>
+<li><p>通俗解释</p>
+<p>ftp: 文件传输的协议</p>
+<p>http: 网络交流的基础，凡是网络都需要它    </p>
+<p>https: 安全的http</p>
+<p>http 2.0:  http1.0 和 http 1.1 的升级版，反正就是解决了 前代 http 的一些问题</p>
+</li>
+<li><p>专业解释</p>
+<p>ftp: FTP 是 File Transfer Protocol（文件传输协议）的英文简称，用于控制文件在不同计算机之间的双向传输，如下载和上传，顾名思义 下载就是从远程服务器将文件copy到自己的本地，上传就是把本地文件copy到远程服务器上。</p>
+<p>http: 超文本传输协议（HTTP）是一种应用协议用于分布式，协作和超媒体信息系统，主要是一种<strong>请求 - 响应</strong> 协议。如: 浏览器的客户端向服务器提交HTTP <strong>请求</strong> 消息，服务器接到请求之后<strong>响应</strong>HTML文件和其他内容等资源。响应包含有关请求的完成状态信息，并且可能还包含消息正文中的请求内容等。</p>
+<p>https: HTTP的改进，用于通过计算机网络进行安全通信。在HTTPS，该通信协议被加密的传输层安全性（TLS），或以前，它的前身，安全套接字层（SSL）。HTTP没有加密，容易受到中间人和窃听攻击，攻击者可以窃取网站账户等敏感信息等。HTTPS旨在抵御此类攻击。</p>
+<p>http 2.0: <strong>HTTP / 2</strong> 是  HTTP 1.1 以来的第一个新版本。旨在解决 http 1.0 和 1.1 的一些问题。</p>
+<p>​    http 1.0 和 1.1 的一些问题：</p>
+<p>​        1、 单连接多资源的方式，减少服务端的链接压力,内存占用更少,连接吞吐量更大。</p>
+<p>​        2、不支持首部压缩</p>
+<p>​    http 2.0 优点：</p>
+<p>​       1、 多路复用允许同时通过单一的 HTTP/2 连接发起多重的请求-响应消息，不用依赖建立多个 TCP 连接。HTTP/2 把 HTTP 协议通信的基本单位缩小为一个一个的帧，这些帧对应着逻辑流中的消息。并行地在同一个 TCP 连接上双向交换消息。从而是的拥塞状况得到改善。</p>
+<p>​       2、首部压缩，减少了数据大小</p>
+<p>​       3、在 HTTP/2 中，服务器可以对客户端的一个请求发送多个响应。</p>
+</li>
+</ul>
+</li>
+<li><p>tcp/ip</p>
+<ul>
+<li><p>通俗解释</p>
+<p>TCP负责保证数据安全正确地传输到目的地。而IP是每一台联网设备的一个唯一的地址。</p>
+</li>
+<li><p>专业解释</p>
+<p>TCP/IP 是供已连接因特网的计算机进行通信的通信协议， 定义了电子设备如何连入因特网，以及数据如何在它们之间传输的标准。</p>
+<p>该协议包含 TCP、UDP、IP、ICMP、DHCP等一系列协议。</p>
+<p>TCP是面向连接的通信协议，通过三次握手建立连接，四次挥手拆除连接。</p>
+<p>ip: Internet的网络地址是指连入Internet网络的计算机的地址编号。所以，在Internet网络中，网络地址唯一地标识一台计算机，如：123.37.0.200。</p>
+</li>
+</ul>
+</li>
+<li><p>gzip压缩</p>
+<ul>
+<li><p>通俗解释：把文件压缩为 .gz 格式，或者解压文件</p>
+</li>
+<li><p>专业解释</p>
+<p>语法：gzip [option] filename</p>
+<p>option:</p>
+<p>​    -c   将输出写到标准输出上，并保留原有文件。<br>​    -d  将压缩文件解压。<br>​     -l   对每个压缩文件，显示字段(不解压)：压缩文件的大小、未压缩文件的大小、压缩比、未压缩文件的名字<br>​     -r  递归式地查找指定目录并压缩其中的所有文件或者是解压缩。<br>​     -t  测试，检查压缩文件是否完整。<br>​     -v  对每一个压缩和解压的文件，显示文件名和压缩比。<br>​     -num 用指定的数字num调整压缩的速度，-1或–fast表示最快压缩方法（低压缩比），-9或–best表示最慢压缩方法（高压缩比）。系统缺省值为6。</p>
+<p><strong>注：gzip不能压缩整个目录。可以使用tar先打包，再压缩</strong></p>
+<p>eg: </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">tar cf test.tar test/</span><br><span class="line">gzip test.tar</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>nginx/cgi/uWSGI/php-fpm/fastcgi</p>
+<ul>
+<li><p>通俗解释</p>
+<p>nginx: 一个性能很高的服务器</p>
+<p>uWSGI: 一个web服务器 </p>
+<p>cgi: 写Web程序的标准</p>
+<p>php-fpm: 用与处理PHP请求的东西</p>
+</li>
+<li><p>专业解释</p>
+<p>nginx: 一个高性能的占有内存少，并发能力强的（反向）代理服务器</p>
+<p>uWSGI: uWSGI是一个Web服务器，它实现了WSGI协议、uwsgi、http等协议。WSGI是一种Web服务器网关接口。它是一个Web服务器与web应用通信的一种规范。</p>
+<p>cgi: 一个通用的web标准。</p>
+<p>fastcgi: Web服务器和语言解释器(eg:uWsgi)两者底层的通信协议的规范，是对CGI的开放的扩展。</p>
+<p>php-fpm: 全称是php fastcgi process manager即php fastcgi进程管理器，相比fastcgi静态的唤起cgi，fpm能根据访问的压力动态的唤起cgi进程和销毁以到达动态的调整cgi数量，这样可以有效的使用内存。其他优点：fpm还可以平滑的重载php配置；不用再配置cgi端口；有更好的状态输出和slowlog日志，502的时候能给出更多的错误细节。</p>
+</li>
+</ul>
+</li>
+<li><p>高阶函数/函数柯里化</p>
+<ul>
+<li><p>通俗解释</p>
+<p>高阶函数：从一个函数映射到另一个函数</p>
+<p>函数柯里化：多参数的函数简化为单参数的函数的过程</p>
+</li>
+<li><p>专业解释</p>
+<p>高阶函数：满足下列一个或者两个条件的函数:</p>
+<ul>
+<li>接受一个或多个函数作为输入</li>
+<li>输出一个函数</li>
+</ul>
+<p>函数柯里化：柯里化(Currying)指的是将原来接受多个参数的函数变成新的接受一个参数的函数的过程。</p>
+<p>eg:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add(<span class="number">1</span>, <span class="number">2</span>) </span><br><span class="line"><span class="comment">// 柯里化</span></span><br><span class="line"><span class="keyword">var</span> addCurry = curry(add)</span><br><span class="line">addCurry(<span class="number">1</span>)(<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>函数式编程</p>
+<p>通俗解释：是一种编写程序的方法论，也就是教我们怎么写程序的</p>
+<p>专业解释：一种 <a href="http://en.wikipedia.org/wiki/Programming_paradigm" target="_blank" rel="noopener">编程范式</a> ，属于一种 <a href="http://en.wikipedia.org/wiki/Structured_programming" target="_blank" rel="noopener">结构化编程</a> </p>
+<p>思想：把运算过程写成一系列嵌套的函数调用</p>
+<p>eg: </p>
+<p>​    数学表达式 ： <code>(1 + 2) * 3 - 4</code></p>
+<p>​    传统写法：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">     　  a := <span class="number">1</span> + <span class="number">2</span></span><br><span class="line">     　　b := a * <span class="number">3</span></span><br><span class="line">     　　c := b - <span class="number">4</span></span><br></pre></td></tr></table></figure>
+<p>​    函数式编程写法：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">result := subtract(multiply(add(<span class="number">1</span>,<span class="number">2</span>), <span class="number">3</span>), <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>五大特点:</strong></p>
+<ol>
+<li><p>函数是”第一等公民”</p>
+<p>函数与其他数据类型拥有同样的地位和功能，如：可以赋值给其他变量，也可以作为参数，传入另一个函数，或者作为别的函数的返回值。</p>
+</li>
+<li><p>只用”表达式”，不用”语句”</p>
+<p>“表达式”是一个单纯的运算过程，有返回值；”语句”是执行某种操作，没有返回值。只使用表达式，不使用语句就是每一步都是单纯的运算过程，都有返回值。</p>
+</li>
+<li><p>没有”副作用”</p>
+<p>函数是独立的，返回的值是一个新的值，不得修改外部变量的值。</p>
+</li>
+<li><p>不修改状态</p>
+<p>函数式编程使用参数保存状态，而不保存在变量中，例如递归。</p>
+</li>
+<li><p>引用透明</p>
+<p>函数独立，不依赖于外部变量或”状态”，只依赖于输入的参数，任何时候只要参数相同，引用函数所得到的返回值总是相同的。</p>
+</li>
+</ol>
+<p><strong>好处：</strong></p>
+<ol>
+<li>代码简洁，开发快速</li>
+<li>接近自然语言，易于理解</li>
+<li>更方便的代码管理</li>
+<li>易于”并发编程”</li>
+<li>代码的热升级</li>
+</ol>
+</li>
+<li><p>前置条件/后置条件/循环不变量/代码正确性证明</p>
+<p>前置条件：指函数履行其契约所必须满足的条件，即此函数可以执行的必须满足的条件。</p>
+<p>后置条件：指函数执行完毕后，返回之前哪些条件是调用者可以期望的。</p>
+<p>eg: </p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">test</span><span class="params">(a, b <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注：前置条件：函数的两个参数 a, b且为 int 型</p>
+<p>​    后置条件：返回值必须为 int 型</p>
+<p>循环不变量：循环过程中算法的固有性质。如：队列出栈的时候一定是最前面的节点出栈，不会是其他点。</p>
+<p>代码正确性证明：</p>
+<p>​    选取一个布尔函数 F(V)，在整个循环过程（起始和进行中），F(V)为真，当循环结束后，F(V)可以说明函数的正确性。</p>
+</li>
+<li><p>hash函数/慢哈希/加密算法</p>
+<ul>
+<li><p>通俗解释：都是一些加密算法，即让你的信息需要一定的秘钥或者其他什么东西才能看的一种手段</p>
+</li>
+<li><p>专业解释</p>
+<ol>
+<li><p>hash函数：散列函数，一个伪随机数生成器，著名的 hash 算法 MD4，MD5，SHA1</p>
+</li>
+<li><p>慢哈希</p>
+<p>定义：指执行这个哈希函数非常慢，这样暴力破解需要枚举遍历所有可能结果时，就需要花上非常非常长的时间。</p>
+<p>最简单的方法就是对 Hash 后的结果再 Hash。</p>
+<p>缺点：慢，消耗计算资源</p>
+</li>
+<li><p>加密算法</p>
+<p>定义：对原来为明文的文件或数据按某种算法进行处理，使其成为不可读的一段代码，通常称为“密文”，使其只能在输入相应的密钥之后才能显示出本来内容，通过这样的途径来达到保护数据不被非法人窃取、阅读的目的。</p>
+<p>分类：对称加密和非对称加密</p>
+<p>常见算法：</p>
+<p>对称加密算法：DES和3DES、RC2和RC4、AES</p>
+<p>非对称加密算法：RSA、DSA、ECC</p>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>线程/进程/协程/并行算法</p>
+<ul>
+<li><p>通俗解释</p>
+<p>进程：你运行的程序的实例</p>
+<p>线程：轻量级进程</p>
+<p>并行算法：几个人一起解决一个问题</p>
+</li>
+<li><p>专业解释</p>
+<p>进程：是一个具有一定独立功能的程序关于某个数据集合的一次运行活动。它是操作系统动态执行的基本单元，在传统的操作系统中，进程既是基本的分配单元，也是基本的执行单元。</p>
+<p>线程：是程序中一个单一的顺序控制流程。在单个程序中同时运行多个线程完成不同的工作，称为多线程。</p>
+<p>并行算法：使用多个进程或者线程同时求解同一个问题，进程或者线程之间相互协调统一，最终得到结果。</p>
+</li>
+</ul>
+</li>
+<li><p>文件系统</p>
+<ul>
+<li><p>通俗解释：帮助傻瓜用户管理文件的系统</p>
+</li>
+<li><p>专业解释</p>
+<p>定义：文件系统（file system）是命名文件及放置文件的逻辑存储和恢复的系统。</p>
+<p>用处：将不美的操作转化为美的接口，即将底层的操作进行抽象，方便用户。</p>
+<p>常见的文件系统：FAT、NTFS、exFAT、Ext、Btrfs</p>
+</li>
+</ul>
+</li>
+<li><p>html/css/js</p>
+<ul>
+<li><p>通俗解释: 用来做我们看到的网页的语言</p>
+</li>
+<li><p>专业解释</p>
+<ul>
+<li><p>HTML</p>
+<p>定义：超文本标记语言 (<strong>H</strong>yper <strong>T</strong>ext <strong>M</strong>arkup <strong>L</strong>anguage)</p>
+<p>eg: </p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">title</span>&gt;</span>hello<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">p</span>&gt;</span>hello world<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>CSS</p>
+<p>定义：层叠样式表 (<em>C</em>ascading <em>S</em>tyle <em>S</em>heets)</p>
+<p>用处：渲染 HTML，让HTML更漂亮</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">body</span>&#123;</span><br><span class="line">	<span class="attribute">background-color</span>: <span class="number">#eef5fd</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>JS</p>
+<p>定义：JavaScript 是一个高层次，动态，弱类型，基于原型的，多范式，并且解释 的编程语言</p>
+<p>用处：对事件响应，动态网页制作等</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">document</span>.write(<span class="string">"&lt;h1&gt;Hello world&lt;/h1&gt;"</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>bcd/mit licenses</p>
+<ul>
+<li><p>通俗解释</p>
+<p>MIT License：相对较为宽松的授权条款</p>
+<p>BCD License：比GPL许可证和MPL许可证宽松，比MIT严格一点</p>
+</li>
+<li><p>专业解释</p>
+<p>MIT License：MIT许可是一个宽容的自由软件许可证起源于美国麻省理工学院（MIT）。它只对重用限制非常有限，MIT许可证允许在私有软件中重复使用，前提是许可软件的所有副本均包含MIT许可条款和版权声明的副本。</p>
+<p>BCD License：对使用和重新分配涵盖的软件施加最小的限制，BSD由于允许使用者修改和重新发布代码，也允许使用或在BSD代码上开发商业软件发布和销售，因此是对商业集成很友好的协议。但前提是1、如果再发布的产品中包含源代码，则在源代码中必须带有原来代码中的BSD协议。<br>2、如果再发布的只是二进制类库/软件，则需要在类库/软件的文档和版权声明中包含原来代码中的BSD协议。<br>3、不可以用开源代码的作者/机构名字和原来产品的名字做市场推广。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-f5f9eb898791ba10.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+</li>
+</ul>
+</li>
+<li><p>cocoa</p>
+<p>通俗解释：苹果的一套用来写Mac OS X应用程序的面向对象的框架</p>
+<p>专业解释：Cocoa是苹果公司为Mac OS X所创建的原生面向对象的API</p>
+<p>用于苹果设备的应用程序</p>
+<p>主要开发工具：XCode 和 Interface Builder</p>
+</li>
+<li><p>mvc模式</p>
+<ul>
+<li><p>通俗解释</p>
+<p>Model（模型）、View（视图）和 Controller（控制器）</p>
+</li>
+<li><p>专业解释</p>
+<p>Model（模型）表示应用程序核心（比如数据库记录列表）<br>View（视图）显示数据（数据库记录）<br>Controller（控制器）处理输入（写入数据库记录）</p>
+<p>流程：用户通过视图层进行相关操作，引发相应的事件传到控制层，控制层处理响应，并返回相应的值或者通过其他方式传值。</p>
+</li>
+</ul>
+</li>
+<li><p>装饰者/装饰器模式</p>
+<p>通俗解释：包装，给一个对象在外部添加一些功能</p>
+<p>专业解释：动态的为对象添加功能，即从一个对象外部来给对象添加功能。它不必改变原类文件，动态的扩展一个对象的功能，主要是通过创建一个装饰器来包装对象。</p>
+<p>eg:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">login_required</span><span class="params">(func)</span>:</span></span><br><span class="line"><span class="meta">    @wraps(func)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(*args, **kw)</span>:</span></span><br><span class="line">        token = request.headers.get(<span class="string">'Authorization'</span>)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            payload = jwt.decode(token, config.SECRET, algorithms=[config.JWT_ALGORITHM])</span><br><span class="line">            <span class="keyword">return</span> func(payload, *args, **kw)</span><br><span class="line">        <span class="keyword">except</span> Exception, e:</span><br><span class="line">            logging.warn(<span class="string">'login error: '</span> + e.message)</span><br><span class="line">            <span class="keyword">return</span> jsonify(&#123;<span class="string">'successful'</span>: <span class="keyword">False</span>, <span class="string">'error'</span>: <span class="string">'Unauthorized!'</span>&#125;)</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>socket/websocket</p>
+<ul>
+<li><p>通俗解释</p>
+<p><strong>socket:</strong> 网络数据交换的接口</p>
+<p><strong>websocket:</strong> 单个TCP连接双向通信</p>
+</li>
+<li><p>专业解释</p>
+<p><strong>socket:</strong> 网络上的两个程序通过一个双向的通信连接实现数据的交换，这个连接的一端称为一个socket。socket本质是编程接口(API)，对TCP/IP的封装，TCP/IP也要提供可供程序员做网络开发所用的接口，这就是Socket编程接口；HTTP是轿车，提供了封装或者显示数据的具体形式；Socket是发动机，提供了网络通信的能力。</p>
+<p><strong>websocket:</strong> WebSocket协议是基于TCP的一种新的网络协议。它实现了浏览器与服务器全双工(full-duplex)通信——允许服务器主动发送信息给客户端。</p>
+</li>
+</ul>
+</li>
+<li><p>opengl/opencv</p>
+<ul>
+<li><p>通俗解释</p>
+<p><strong>OpenGL: </strong> 主要是一个3D 图像库（2D 也能写）</p>
+<p><strong>OpenCV: </strong> 跨平台计算机视觉库</p>
+</li>
+<li><p>专业解释</p>
+<p><strong>OpenGL: </strong>OpenGL（全写Open Graphics Library）是指定义了一个跨编程语言、跨平台的编程接口规格的专业的图形程序接口。它用于三维图像（二维的亦可），是一个功能强大，调用方便的底层图形库。</p>
+<p><strong>OpenCV:</strong>  由一系列 C 函数和少量 C++ 类构成，同时提供了Python、Ruby、MATLAB等语言的接口，实现了图像处理和计算机视觉方面的很多通用算法，还涉及一些机器学习的算法。</p>
+<p>Opencv是从图像到数据，OpenGL是从数据到图像</p>
+</li>
+</ul>
+</li>
+<li><p>多态</p>
+<p>通俗解释：同样的事件在不同对象上产生不同效果，如你去打NBA和科比去打NBA，虽然都是去打比赛，但是就是不一样的结果。</p>
+<p>专业解释：指允许不同类的对象对同一消息做出响应。即同一消息可以根据发送对象的不同而采用多种不同的行为方式。</p>
+<p>eg: </p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> ...</span>&#123;  </span><br><span class="line">         <span class="function"><span class="keyword">public</span> String <span class="title">show</span><span class="params">(D obj)</span>...</span>&#123;  </span><br><span class="line">                <span class="keyword">return</span> (<span class="string">"A and D"</span>);  </span><br><span class="line">         &#125;   </span><br><span class="line">         <span class="function"><span class="keyword">public</span> String <span class="title">show</span><span class="params">(A obj)</span>...</span>&#123;  </span><br><span class="line">                <span class="keyword">return</span> (<span class="string">"A and A"</span>);  </span><br><span class="line">         &#125;   </span><br><span class="line">&#125;   </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span>...</span>&#123;  </span><br><span class="line">         <span class="function"><span class="keyword">public</span> String <span class="title">show</span><span class="params">(B obj)</span>...</span>&#123;  </span><br><span class="line">                <span class="keyword">return</span> (<span class="string">"B and B"</span>);  </span><br><span class="line">         &#125;  </span><br><span class="line">         <span class="function"><span class="keyword">public</span> String <span class="title">show</span><span class="params">(A obj)</span>...</span>&#123;  </span><br><span class="line">                <span class="keyword">return</span> (<span class="string">"B and A"</span>);  </span><br><span class="line">         &#125;   </span><br><span class="line">&#125;  </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span> <span class="keyword">extends</span> <span class="title">B</span>...</span>&#123;&#125;   </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span> <span class="keyword">extends</span> <span class="title">B</span>...</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>main 函数如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">  		A a1 = <span class="keyword">new</span> A();  </span><br><span class="line">        A a2 = <span class="keyword">new</span> B();  </span><br><span class="line">        B b = <span class="keyword">new</span> B();  </span><br><span class="line">        C c = <span class="keyword">new</span> C();   </span><br><span class="line">        D d = <span class="keyword">new</span> D();   </span><br><span class="line">        System.out.println(a1.show(b));   <span class="comment">// ①  </span></span><br><span class="line">        System.out.println(a1.show(c));   <span class="comment">// ②  </span></span><br><span class="line">        System.out.println(a1.show(d));   <span class="comment">// ③  </span></span><br><span class="line">        System.out.println(a2.show(b));   <span class="comment">// ④  </span></span><br><span class="line">        System.out.println(a2.show(c));   <span class="comment">// ⑤  </span></span><br><span class="line">        System.out.println(a2.show(d));   <span class="comment">// ⑥  </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">①   A and A</span><br><span class="line">②   A and A</span><br><span class="line">③   A and D</span><br><span class="line">④   B and A</span><br><span class="line">⑤   B and A</span><br><span class="line">⑥   A and D</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>像素/尺寸/px/分辨率/ppi</p>
+<p>像素：是指在由一个数字序列表示的图像中的一个最小单位，称为像素。</p>
+<p>尺寸：屏幕对角线的长度</p>
+<p>px: 像素单位</p>
+<p>分辨率：如 1080 * 1920，就是高是1080px，宽是1920px，即整个屏幕可以用1080 × 1920 个格子划分，每个格子代表一个像素</p>
+<p>ppi：屏幕像素密度（PPI）就是每英寸屏幕所拥有的像素数</p>
+<p><strong>注：这个英寸是指对角线的长度</strong></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/742658-d882d6a3115b38f5.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt="img"></p>
+</li>
+<li><p>如何计算sin(1), e^x, log(x), sqrt(x)/快速/精确</p>
+<ul>
+<li><p>sqrt(x) </p>
+<p>0x5f3759df 取的真迷</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">InvSqrt</span> <span class="params">(<span class="keyword">float</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">        <span class="keyword">float</span> xhalf = <span class="number">0.5f</span>*x;</span><br><span class="line">        <span class="keyword">int</span> i = *(<span class="keyword">int</span>*)&amp;x;</span><br><span class="line">        i = <span class="number">0x5f3759df</span> - (i &gt;&gt; <span class="number">1</span>);        <span class="comment">// 计算第一个近似根</span></span><br><span class="line">        x = *(<span class="keyword">float</span>*)&amp;i;</span><br><span class="line">        x = x*(<span class="number">1.5f</span> - xhalf*x*x);       <span class="comment">// 牛顿迭代法</span></span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>sin()</p>
+</li>
+</ul>
+</li>
+<li><p>全加器/半加器/超前进位加法器</p>
+<p><strong>逐位进位加法器</strong></p>
+<p>简介：在每一位的计算时，都在等待前一位的进位。</p>
+<ul>
+<li>半加器：加数和被加数为输入，和数与<a href="https://baike.baidu.com/item/%E8%BF%9B%E4%BD%8D" target="_blank" rel="noopener">进位</a>为输出的装置为<a href="https://baike.baidu.com/item/%E5%8D%8A%E5%8A%A0%E5%99%A8" target="_blank" rel="noopener">半加器</a>。</li>
+<li>全加器：若加数、被加数与低位的进位数为输入，而和数与进位为输出则为<a href="https://baike.baidu.com/item/%E5%85%A8%E5%8A%A0%E5%99%A8" target="_blank" rel="noopener">全加器</a>。</li>
+</ul>
+<p><strong>超前进位加法器</strong>：是对普通的全加器进行改良而设计成的并行加法器，主要是针对普通全加器串联时互相进位产生的延迟进行了改良。</p>
+<p>主要思想：1、由输入的A，B算出每一位的G，P；2、由各位的G，P算出每一位的GN：0，PN：0；3、由每一位的GN：0，PN：0与CIN算出每一位的COUT，S。</p>
+</li>
+<li><p>编译原理/代码运行原理</p>
+<p>编译：把高级语言变成计算机能够识别的机器语言</p>
+<p>代码运行原理：编译 -&gt; 执行</p>
+</li>
+<li><p>mysql/mongodb/sql/NoSql</p>
+<ul>
+<li><p>通俗解释：各种数据库</p>
+</li>
+<li><p>专业解释：组织、存储、管理数据的仓库</p>
+<ol>
+<li><p>mysql</p>
+<p>一种关系型数据库</p>
+<p>组成：</p>
+<ul>
+<li>数据以表格的形式出现</li>
+<li>表格中每行为各种数据</li>
+<li>表格中每列为同一类型（名称）的数据</li>
+<li>许多的行和列组成一张表单</li>
+<li>若干的表单组成database</li>
+</ul>
+</li>
+<li><p>mongodb</p>
+<p>文档型数据库，主要应用于web应用</p>
+<p>优点：数据结构要求不严格，表结构可变，扩展性高，不需要预先定义数据表结构</p>
+<p>缺点：查询性能不高，而且缺乏统一的查询语法</p>
+</li>
+<li><p>sql</p>
+<p>SQL 是用于访问和处理数据库的标准的计算机语言。</p>
+</li>
+<li><p>nosql</p>
+<p>泛指非关系型数据库，用于超大规模数据的存储。</p>
+<p>优点：</p>
+<ul>
+<li>没有复杂的关系</li>
+<li>扩展性高</li>
+<li>成本低</li>
+<li>灵活</li>
+<li>采用分布式计算</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>cookie/session</p>
+<ul>
+<li><p>通俗解释</p>
+<p><strong>cookie:</strong>  存储在本地的用来辨认用户以及其状态等信息的数据</p>
+<p><strong>session:</strong> 存储在服务器上的用来辨认用户、其状态以及回话等信息的数据  </p>
+</li>
+<li><p>专业解释</p>
+<p><strong>cookie:</strong> 网站为了认证用户存储在本地的数据，存储在客户端，但是不是很安全，别人可以分析存放在本地的 cookie 并进行 cookie 欺骗。</p>
+<p><strong>session:</strong> 存储客户的信息并存储在服务器上的，但是当访问增多，会比较占用你服务器的性能。</p>
+</li>
+</ul>
+</li>
+<li><p>git/svn/版本控制</p>
+<ul>
+<li><p>专业解释</p>
+<p><strong>git:</strong> 分布式版本控制系统，没有中心服务器，不同开发者都能管理项目代码。</p>
+<p><strong>SVN:</strong> 集中式版本管理系统，即有一个中心仓库，里面保存了项目代码的不同版本，开发人员在本地在只有这个仓库中的一个版本，如果想要其他版本，必须得到中心服务器授权才能获得。</p>
+<p><strong>版本控制:</strong> 记录仓库各个组别的改动，并时不同人编辑的同一组别的内容得到更新</p>
+</li>
+</ul>
+</li>
+<li><p>ssh （Secure Shell）</p>
+<p>通俗解释：一种安全的网络协议</p>
+<p>专业解释：建立在应用层基础上的安全协议，专为远程登录会话和其他网络服务提供安全性的协议，所有传输的数据都会被加密。</p>
+<p>两种级别的安全验证：</p>
+<ol>
+<li><p>基于口令的安全验证</p>
+<p>只要知道账号和口令就可以登录到远程主机，所以可能会有其他服务器冒充真正的服务器（中间人攻击）</p>
+</li>
+<li><p>基于密钥的安全验证</p>
+<p>你必须创建一对密匙，公钥放在服务器上，这样其他服务器就无法冒充真正的服务器，但是登录时间较慢。</p>
+<p>过程：</p>
+<ol>
+<li>客户端向服务器发出请求，请求安全验证。</li>
+<li>服务器收到请求之后，把服务器存储的公钥和你发送过来的公钥进行比较。如果两个密匙一致，服务器就用公用密匙加密“质询”并把它发送给客户端软件。</li>
+<li>客户端软件收到“质询”之后用私匙解密再把它发送给服务器。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>php是世界上最好的语言/pythonic</p>
+<p><strong>PHP是世界上最好的语言：</strong></p>
+<p>由来：有些人认为PHP就是最简单最完善最好的语言，并且热衷于在各种论坛等地方与其他人进行争辩。所谓一粉顶十黑，“PHP是最好的语言”的梗即由此而来，其实它并不是讽刺PHP语言本身，而是在讽刺并不深入理解PHP的开发者。</p>
+<p>PHP的优点：</p>
+<ul>
+<li>性能好</li>
+<li>语法简单，上手简单</li>
+<li>支持完整，有很多成熟的框架、社区等</li>
+</ul>
+<p>PHP的缺点：</p>
+<ul>
+<li>对多线程支持不太好</li>
+<li>语法不严谨</li>
+<li>每个PHP页面被解释执行后，所有的相关资源都会被回收，无法在语言层面上让对象常驻内存</li>
+</ul>
+<p><strong>pythonic:</strong></p>
+<ul>
+<li><p>通俗解释</p>
+<p>Python 的 区别于其他语言的优雅写法</p>
+</li>
+<li><p>专业解释</p>
+<p>​    如何写出 pythonic : 阅读 <a href="https://link.zhihu.com/?target=https%3A//www.python.org/dev/peps/pep-0008/" target="_blank" rel="noopener">PEP 8</a>，并遵守规范</p>
+<p>​    eg:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="number">0</span> &lt; a &lt; <span class="number">10</span></span><br><span class="line">a, b = b, a</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>ORM</p>
+<p>通俗解释：数据库的操作接口</p>
+<p>专业解释：Object-Relational Mapping（对象关系映射）</p>
+<p>作用：在关系型数据库和业务实体对象之间作一个映射，具体操作时只需简单的操作对象的属性和方法。</p>
+<p>优点：</p>
+<ol>
+<li>操作简单，只用调接口，不用考虑SQL语句</li>
+<li>固化数据结构变得简单，不需要把每条数据转化为一条一条的SQL语句</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>性能差</li>
+<li>灵活性不够</li>
+</ol>
+</li>
+</ul>
+<h2 id="4-golang-新手入门配置学习"><a href="#4-golang-新手入门配置学习" class="headerlink" title="4. golang 新手入门配置学习"></a>4. <a href="http://www.jianshu.com/p/fb22d50a05f2" target="_blank" rel="noopener">golang 新手入门配置学习</a></h2><p>   bbs链接：<a href="https://newbbs.bingyan.net/topics/1111" target="_blank" rel="noopener">https://newbbs.bingyan.net/topics/1111</a></p>
+<p><strong>Ubuntu下 golang 安装与配置</strong></p>
+<ul>
+<li><p>安装最新版本 golang 方法 （推荐）</p>
+<ol>
+<li><p>下载： <a href="https://www.golangtc.com/download" target="_blank" rel="noopener">https://www.golangtc.com/download</a></p>
+</li>
+<li><p>解压安装包<code>tar -C /usr/local -xzf &lt;安装包&gt;</code> （其中 <code>/usr/local</code> 为 go 的解压目录即GOROOT，也可以安装到自己想要的位置，后面配置一下就行了）</p>
+</li>
+<li><p>环境配置</p>
+<ul>
+<li><p>在 ~/.bashrc 最后一行加上 <code>export PATH=$PATH:/usr/local/go/bin</code> </p>
+<p>注：<code>:</code> 为分隔符，即配置多个路径时使用； <code>/usr/local/go/bin</code> 为 go 安装位置下的 bin 目录</p>
+<p>功效：用于 在bash 下使用命令 <code>go</code> 等命令（可看 bin 目录下有哪些可执行文件）</p>
+</li>
+<li><p>之后 运行 <code>source .bashrc</code> 更新 PATH</p>
+<p>注：如果终端为 zsh, fish 命令  <code>source</code> 可能失效，这时需要输入 <code>bash</code> 进入 bash 执行，但是当返回zsh 或者 fish等其他终端时可能还是无法使用 命令 <code>go</code> ，这是因为你的 zsh 或者 fish 有自己单独的config 文件，你需要在那个文件最后一行加上相应代码（由于不同终端配置语法不同，此处不做扩展)</p>
+<blockquote>
+<p><code>/etc/profile，/root/.bashrc</code> 是系统全局环境变量设定<br><code>~/.profile，~/.bashrc</code> 用户家目录下的私有环境变量设定</p>
+<p>​</p>
+<p>当登入系统时候获得一个shell进程时，其读取环境设定档有三步</p>
+<ol>
+<li>首先读入的是全局环境变量设定档 <code>/etc/profile</code>，然后根据其内容读取额外的设定的文档</li>
+<li>然后根据不同使用者帐号，去其家目录读取 <code>~/.profile</code></li>
+<li>然后在根据用户帐号读取 <code>~/.bashrc</code> </li>
+</ol>
+<p>​</p>
+<p><code>~/.profile</code> 与 <code>~/.bashrc</code> 的区别<br><code>~/.profile</code> 可以设定本用户专有的路径，环境变量，等，它只能登入的时候执行一次<br><code>~/.bashrc</code> 也是某用户专有设定文档，可以设定路径，命令别名，每次shell script的执行都会使用它一次</p>
+</blockquote>
+</li>
+<li><p>配置 GOPATH （可选）</p>
+<ol>
+<li>在 <code>~/.bashrc</code> 或者  <code>~/.profile</code>最后一行加上 <code>export GOPATH=$HOME&lt;你的工作目录&gt;</code></li>
+<li>进入bash 执行 <code>source ~/.bashrc</code> 或者 <code>~/.profile</code> ，如果此时没有生效，可尝试重启或者注销重新登录</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>直接一键安装，但是版本不一定是最新的</p>
+<p>安装命令： <code>sudo apt install golang-go</code></p>
+<blockquote>
+<p>也可以在安装之前通过 <code>apt-cache search golang-go</code> 搜索可见 golang-go 版本等</p>
+</blockquote>
+<ul>
+<li>PATH 和 GOPATH 等见上文环境配置</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li><p>golang 项目目录结构</p>
+<p>一个Go项目在GOPATH下，会有如下三个目录：</p>
+<ul>
+<li>src存放源代码 ( .go )</li>
+<li>pkg编译后生成的文件 </li>
+<li>bin编译后生成的可执行文件 ( .a )</li>
+</ul>
+<p>​</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;project&gt;</span><br><span class="line">      |--&lt;bin&gt;</span><br><span class="line">      |--&lt;pkg&gt;</span><br><span class="line">      |--&lt;src&gt;</span><br><span class="line">         |--&lt;a&gt;</span><br><span class="line">             |--&lt;a1&gt;</span><br><span class="line">                 |--al.go</span><br><span class="line">             |--&lt;a2&gt;</span><br><span class="line">                 |--a2.go</span><br><span class="line">         |--&lt;b&gt;</span><br><span class="line">             |--b1.go</span><br><span class="line">             |--b2.go</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>PATH GOPATH</code> 等简介</p>
+<ul>
+<li><p>GOROOT</p>
+<p>GO 语言安装的路径，如我的 Ubuntu 下的是<code>/usr/local/go</code>，类似于JAVA中的JAVA_HOME</p>
+</li>
+<li><p>GOPATH</p>
+<p>GOPATH 表示代码包或项目所在的地址，可以设置多个，不同地址之间使用 <code>:</code> 分隔</p>
+<blockquote>
+<p>假设：<code>GOPATH=~/project1:~/project2，GOROOT=/usr/local/go</code>，在代码中引用了包：<code>github.com/bitly/nsq/util</code></p>
+<p>GO程序在编译时会按先后次序到以下目录中寻找源码：</p>
+<p><code>~/project1/github.com/bitly/nsq/util</code></p>
+<p><code>~/project2/github.com/bitly/nsq/util</code></p>
+<p><code>/usr/local/go/github.com/bitly/nsq/util</code> </p>
+</blockquote>
+</li>
+<li><p>PATH</p>
+<p> <strong>可执行程序的路径</strong>，在命令行执行命令时，系统默认会在PATH中指定路径里寻找。比如linux下我们用最常用的<code>cd</code>命令，执行时我们并未指定 <code>cd</code> 命令的路径，也没有切换到 <code>cd</code> 所在的目录下去执行该命令。这就是因为 <code>cd</code> 命令的可执行文件所在的目录在PATH中录入了。</p>
+<p><code>go</code> 安装后，在GOROOT/bin目录，如 Ubuntu 的 <code>/usr/local/go/bin</code> 目录下会有 go 、godoc、gofmt 三个可执行命令。为了方便在编译go项目时方便的使用<code>go build、go install</code> 等命令，需要将GOROOT/bin目录加入到系统的PATH路径下。</p>
+</li>
+<li><p>GOARCH</p>
+<p>CPU 架构，如： amd64, 386</p>
+</li>
+<li><p>GOOS</p>
+<p>操作系统，如：linux</p>
+</li>
+<li><p>GOBIN</p>
+<p>工作目录下的bin文件夹</p>
+</li>
+<li><p>GOEXE</p>
+<p>生成的可执行文件后缀</p>
+</li>
+<li><p>GOHOSTARCH</p>
+<p>想要交叉编译的CPU架构</p>
+</li>
+<li><p>GOHOSTOS</p>
+<p>想要交叉编译的操作系统</p>
+</li>
+</ul>
+</li>
+<li><p>go 基本命令介绍</p>
+<p>Go命令一般<strong>格式</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">go command [arg]</span><br></pre></td></tr></table></figure>
+<p>其中，command是操作命令，arg是该命令的参数</p>
+<h4 id="常用命令介绍："><a href="#常用命令介绍：" class="headerlink" title="常用命令介绍："></a>常用命令介绍：</h4><ul>
+<li><p>go get</p>
+<p>用于动态获取远程代码包，如果是从GitHub上获取，则需要现安装git，如果是从Google Code上获取，则需要安装hg。go get 获取的远程代码包将被下载到 <code>GOPATH</code> 目录下的<code>src</code>文件夹中</p>
+<p><code>eg: go get -u github.com/nsf/gocode</code></p>
+</li>
+<li><p>go install</p>
+<ol>
+<li>编译导入的包文件，所有导入的包文件编译完才会编译主程序</li>
+<li>将编译后生成的可执行文件放到bin目录下（GOPATH/bin），编译后的包文件放到pkg目录下（GOPATH/pkg）</li>
+</ol>
+</li>
+<li><p>go run</p>
+<p>用于编译并直接运行程序，它会生成一个临时文件（但不是一个标准的可执行文件），直接在命令行打印输出程序执行结果，方便用户调试。</p>
+<p><code>eg: go run main.go</code></p>
+</li>
+<li><p>go build</p>
+<p>用于测试编译包，可检查是否存在编译错误，如果被编译的是main包，会生成可执行文件。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#编译</span><br><span class="line">go build main.go</span><br><span class="line">#运行</span><br><span class="line">./main</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>go fmt</p>
+<p>用于格式化源码，有的IDE保存源码时自动执行该命令，比如subl，也可手动执行它。</p>
+<p><code>eg: go fmt main.go</code></p>
+</li>
+<li><p>go test</p>
+<p>用于运行测试文件，该命令会自动读取源码目录下的名为：*_test.go的文件，生成并运行测试用的可执行文件，测试成功会显示“PASS”、“OK”等信息。</p>
+</li>
+<li><p>其他</p>
+<ol>
+<li>go clean：用来移除当前源码包里面编译生成的文件 </li>
+<li>go env: 查看当前用户的go环境变量 </li>
+<li>go fix: 用来修复以前老版本的代码到新版本 </li>
+<li>go list: 列出当前全部安装的packge </li>
+<li>go version: 查看当前go版本</li>
+</ol>
+</li>
+</ul>
+<p><strong>hello world：</strong></p>
+<p>main.go 代码：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    &quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    fmt.Println(&quot;Hello World!&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>进入该文件所在目录，尝试编译运行：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">go run main.go</span><br></pre></td></tr></table></figure>
+<p>终端会输出 Hello World! ，则运行成功</p>
+</li>
+<li><p>sublime 配置 golang 环境</p>
+<ul>
+<li><p>安装 GoSublime </p>
+<p>运行：Ctrl + B </p>
+<p>个人 GoSublime 配置：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;env&quot;: &#123;</span><br><span class="line">        &quot;PATH&quot;: &quot;$PATH&quot;,</span><br><span class="line">        // &quot;GOPATH&quot;: &quot;$HOME/Projects/Go/test&quot;,</span><br><span class="line">        // &quot;GOPATH&quot;: &quot;$GOPATH:$GS_GOPATH&quot;,</span><br><span class="line">        &quot;GOPATH&quot;: &quot;$GS_GOPATH&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;comp_lint_enabled&quot;:true,</span><br><span class="line">    &quot;lint_enabled&quot;: true,</span><br><span class="line">    &quot;autocomplete_builtins&quot;: true,</span><br><span class="line">    &quot;fmt_cmd&quot; :[ &quot;goimports&quot;],</span><br><span class="line">    &quot;snippets&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;match&quot;: &#123;&quot;global&quot;: true, &quot;pkgname&quot;: &quot;.&quot;&#125;,</span><br><span class="line">            &quot;snippets&quot;: [</span><br><span class="line">                &#123;</span><br><span class="line">                    &quot;text&quot;:&quot;type&quot;,</span><br><span class="line">                    &quot;title&quot;:&quot;type struct &#123;&#125;&quot;,</span><br><span class="line">                    &quot;value&quot;:&quot;type $&#123;1:name&#125; struct &#123;\n\t$0\n&#125;&quot;</span><br><span class="line">                &#125;,&#123;</span><br><span class="line">                    &quot;text&quot;:&quot;type&quot;,</span><br><span class="line">                    &quot;title&quot;:&quot;type interface &#123;&#125;&quot;,</span><br><span class="line">                    &quot;value&quot;:&quot;type $&#123;1:name&#125; interface &#123;\n\t$0\n&#125;&quot;</span><br><span class="line">                &#125;,&#123;</span><br><span class="line">                    &quot;text&quot;:&quot;var&quot;,</span><br><span class="line">                    &quot;title&quot;:&quot;var struct &#123;&#125;&quot;,</span><br><span class="line">                    &quot;value&quot;:&quot;var $&#123;1:name&#125; struct &#123;\n\t$0\n&#125;&quot;</span><br><span class="line">                &#125;,&#123;</span><br><span class="line">                    &quot;text&quot;:&quot;map&quot;,</span><br><span class="line">                    &quot;title&quot;:&quot;map[...]...&quot;,</span><br><span class="line">                    &quot;value&quot;:&quot;map[$&#123;1:string&#125;]$&#123;2:interface&#123;&#125;&#125;&quot;</span><br><span class="line">                &#125;,&#123;</span><br><span class="line">                    &quot;text&quot;:&quot;interface&quot;,</span><br><span class="line">                    &quot;title&quot;:&quot;interface&#123;&#125;&quot;,</span><br><span class="line">                    &quot;value&quot;:&quot;interface&#123;&#125;&quot;</span><br><span class="line">                &#125;,&#123;</span><br><span class="line">                    &quot;text&quot;:&quot;if&quot;,</span><br><span class="line">                    &quot;title&quot;:&quot;if err != nil &#123;...&#125;&quot;,</span><br><span class="line">                    &quot;value&quot;:&quot;if $&#123;1:err&#125; $&#123;2:!=&#125; $&#123;3:nil&#125; &#123;\n\t$0\n&#125;&quot;</span><br><span class="line">                &#125;,&#123;</span><br><span class="line">                    &quot;text&quot;:&quot;if&quot;,</span><br><span class="line">                    &quot;title&quot;:&quot;if ret,ok := func(); ok &#123;...&#125;&quot;,</span><br><span class="line">                    &quot;value&quot;:&quot;if $&#123;1:ret,&#125; $&#123;2:ok&#125; $&#123;3::=&#125; $&#123;4:func()&#125;; $&#123;5:!ok&#125; &#123;\n\t$0\n&#125;&quot;</span><br><span class="line">                &#125;,&#123;</span><br><span class="line">                    &quot;text&quot;:&quot;break&quot;,</span><br><span class="line">                    &quot;title&quot;:&quot;break&quot;,</span><br><span class="line">                    &quot;value&quot;:&quot;break&quot;</span><br><span class="line">                &#125;,&#123;</span><br><span class="line">                    &quot;text&quot;:&quot;continue&quot;,</span><br><span class="line">                    &quot;title&quot;:&quot;continue&quot;,</span><br><span class="line">                    &quot;value&quot;:&quot;continue&quot;</span><br><span class="line">                &#125;,&#123;</span><br><span class="line">                    &quot;text&quot;:&quot;defer&quot;,</span><br><span class="line">                    &quot;title&quot;:&quot;defer func()&quot;,</span><br><span class="line">                    &quot;value&quot;:&quot;defer $&#123;0:func()&#125;&quot;</span><br><span class="line">                &#125;,&#123;</span><br><span class="line">                    &quot;text&quot;:&quot;for&quot;,</span><br><span class="line">                    &quot;title&quot;:&quot;for k,v := range func() &#123;...&#125;&quot;,</span><br><span class="line">                    &quot;value&quot;:&quot;for $&#123;1:k,&#125;$&#123;2:v&#125; := range $&#123;3:func()&#125; &#123;\n\t$0\n&#125;&quot;</span><br><span class="line">                &#125;,&#123;</span><br><span class="line">                    &quot;text&quot;:&quot;switch&quot;,</span><br><span class="line">                    &quot;title&quot;:&quot;switch ... &#123;...&#125;&quot;,</span><br><span class="line">                    &quot;value&quot;:&quot;switch $&#123;1:name&#125; &#123;\ncase $&#123;2:v&#125;:\n\t$3\ndefault:\n\t$0\n&#125;&quot;</span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注：</p>
+<p><code>GS_GOPATH</code> is a pseudo-environment-variable. It’s changed to match a possible GOPATH based on:</p>
+<ul>
+<li>the current working directory, e.g. <code>~/go/src/pkg</code> then <code>$GS_GOPATH</code> will be <code>~/go/</code></li>
+<li>or the path the current <code>.go</code> file (or last activated <code>.go</code> file if the current file is not <code>.go</code>) e.g. if your file path is <code>/tmp/go/src/hello/main.go</code> then it will be <code>/tmp/go</code></li>
+</ul>
+<p>简单说就是 GS_GOPATH 是用来自动根据当前目录设置 GOPATH 的</p>
+</li>
+<li><p>安装 gocode</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">go get -u github.com/nsf/gocode</span><br><span class="line">go install github.com/nsf/gocode</span><br></pre></td></tr></table></figure>
+<p>安装完成后，我们可以在 $GOPATH/bin 目录下，发现多出了个 gocode 文件</p>
+</li>
+</ul>
+</li>
+<li><p>常用 tools</p>
+<ul>
+<li><p>gocode 提供代码补全</p>
+<p><code>go get -u github.com/nsf/gocode</code></p>
+</li>
+<li><p>godef 代码跳转</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">go get -v code.google.com/p/rog-go/exp/cmd/godef</span><br><span class="line">go install -v code.google.com/p/rog-go/exp/cmd/godef</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>gofmt 自动代码整理</p>
+</li>
+<li><p>golint 代码语法检查</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">go get github.com/golang/lint</span><br><span class="line">go install github.com/golang/lint</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>goimports 自动整理imports</p>
+<p><code>go get golang.org/x/tools/cmd/goimports</code></p>
+</li>
+</ul>
+</li>
+<li><p>安装 <code>echo</code> </p>
+<p><a href="https://echo.labstack.com/guide" target="_blank" rel="noopener">官方教程</a></p>
+<p>安装：<code>go get -u github.com/labstack/echo/...</code></p>
+<p>注：如果无法翻墙可能会报错 <code>package golang.org/x/crypto/acme/autocert: unrecognized import path &quot;golang.org/x/crypto/acme/autocert&quot;</code></p>
+<p><strong>解决方案:</strong> </p>
+<blockquote>
+<p>分析错误，我们缺少crypto组件，需要下载，使用<code>go get golang.org/x/crypto/acme/autocert</code>来下载，但是 crypto 官方地址在外网</p>
+<p>好在 golang.org 在 github.com 上有备份仓库，所以缺少的组件可以在 github 上下载</p>
+<p>eg: 安装 crypto 组件</p>
+<p>github 地址： <a href="https://github.com/golang/crypto" target="_blank" rel="noopener">https://github.com/golang/crypto</a></p>
+<p>过程：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;mkdir -p /usr/local/go/src/golang.org/x/</span><br><span class="line">&gt;git clone git@github.com:golang/crypto.git</span><br><span class="line">&gt;mv crypto /usr/local/go/golang.org/x/</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><strong>测试示例: </strong></p>
+<p><strong>main.go</strong> </p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"net/http"</span></span><br><span class="line">	</span><br><span class="line">	<span class="string">"github.com/labstack/echo"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	e := echo.New()</span><br><span class="line">	e.GET(<span class="string">"/"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c echo.Context)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">		<span class="keyword">return</span> c.String(http.StatusOK, <span class="string">"Hello, World!"</span>)</span><br><span class="line">	&#125;)</span><br><span class="line">	e.Logger.Fatal(e.Start(<span class="string">":1323"</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>启动： <code>go run server.go</code></p>
+<p>Browse to <a href="http://localhost:1323/" target="_blank" rel="noopener">http://localhost:1323</a> and you should see Hello, World! on the page.</p>
+<p>更多echo 请参照学习官方教程：<a href="https://echo.labstack.com/guide" target="_blank" rel="noopener">https://echo.labstack.com/guide</a></p>
+</li>
+</ol>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/12/25/数据结构/游标实现链表及二叉树和BST树/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/12/29/编程语言/Golang/golang-学习传送门/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

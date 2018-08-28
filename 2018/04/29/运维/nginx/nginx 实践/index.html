@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>openresty/nginx 实践 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="config,nginx,openresty," />
+  
+
+  <meta name="description" content="nginx的两个很重要的优势就是反向代理和负载均衡 前言：本文nginx采用目录模板如下：  nginx 配置文件 将你的服务的 Nginx 配置文件目录：/etc/nginx/sites-available/ 目录下，然后通过软连接链到 /etc/nginx/sites-enabled/  SSL 证书 使用 letsencrypt 签发的证书，目录位置：/etc/letsencrypt/ ss">
+<meta name="keywords" content="config,nginx,openresty">
+<meta property="og:type" content="article">
+<meta property="og:title" content="openresty&#x2F;nginx 实践">
+<meta property="og:url" content="http://mu-mo.top/2018/04/29/运维/nginx/nginx 实践/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="nginx的两个很重要的优势就是反向代理和负载均衡 前言：本文nginx采用目录模板如下：  nginx 配置文件 将你的服务的 Nginx 配置文件目录：/etc/nginx/sites-available/ 目录下，然后通过软连接链到 /etc/nginx/sites-enabled/  SSL 证书 使用 letsencrypt 签发的证书，目录位置：/etc/letsencrypt/ ss">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/3/18/162393ce24ce250b?w=543&h=271&f=png&s=32894">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.130Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="openresty&#x2F;nginx 实践">
+<meta name="twitter:description" content="nginx的两个很重要的优势就是反向代理和负载均衡 前言：本文nginx采用目录模板如下：  nginx 配置文件 将你的服务的 Nginx 配置文件目录：/etc/nginx/sites-available/ 目录下，然后通过软连接链到 /etc/nginx/sites-enabled/  SSL 证书 使用 letsencrypt 签发的证书，目录位置：/etc/letsencrypt/ ss">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2018/3/18/162393ce24ce250b?w=543&h=271&f=png&s=32894">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言："><span class="toc-text">前言：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-基础知识"><span class="toc-text">1. 基础知识</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-实践"><span class="toc-text">2. 实践</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-配置"><span class="toc-text">3. 配置</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-运维/nginx/nginx 实践" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      openresty/nginx 实践
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2018.04.29
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/运维/">运维</a> / <a class="article-category-link" href="/categories/运维/nginx/">nginx</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <p>nginx的两个很重要的优势就是反向代理和负载均衡</p>
+<h3 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h3><p>本文nginx采用目录模板如下：</p>
+<ul>
+<li><p>nginx 配置文件</p>
+<p>将你的服务的 Nginx 配置文件目录：<em>/etc/nginx/sites-available/</em></p>
+<p>目录下，然后通过软连接链到 <em>/etc/nginx/sites-enabled/</em></p>
+</li>
+<li><p>SSL 证书</p>
+<p>使用 letsencrypt 签发的证书，目录位置：<em>/etc/letsencrypt/</em></p>
+<p>ssl_dhparam 目录位置：<em>/etc/letsencrypt/</em></p>
+<p>若为其他机构签发的证书可在<em>/etc</em> 下新建一个文件夹存放</p>
+</li>
+<li><p>静态文件部署</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/mnt/var/www/&lt;your-name&gt;/&lt;your-project-name&gt;/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>项目部署</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/var/www/&lt;your-name&gt;/&lt;your-project-name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Nginx日志</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/mnt/log/nginx/&lt;your-project-name&gt;/&lt;env&gt;/</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="1-基础知识"><a href="#1-基础知识" class="headerlink" title="1. 基础知识"></a>1. 基础知识</h4><p><strong>反向代理</strong>（Reverse Proxy）方式是指用代理服务器来接受 internet 上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给 internet 上请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。</p>
+<p>举个例子，一个用户访问 <a href="http://www.example.com/readme" target="_blank" rel="noopener">http://www.example.com/readme</a>，但是 <a href="http://www.example.com" target="_blank" rel="noopener">www.example.com</a> 上并不存在 readme 页面，它是偷偷从另外一台服务器上取回来，然后作为自己的内容返回给用户。但是用户并不知情这个过程。对用户来说，就像是直接从 <a href="http://www.example.com" target="_blank" rel="noopener">www.example.com</a> 获取 readme 页面一样。这里所提到的 <a href="http://www.example.com" target="_blank" rel="noopener">www.example.com</a> 这个域名对应的服务器就设置了反向代理功能。</p>
+<p>反向代理服务器，对于客户端而言它就像是原始服务器，并且客户端不需要进行任何特别的设置。客户端向反向代理的命名空间(name-space)中的内容发送普通请求，接着反向代理将判断向何处(原始服务器)转交请求，并将获得的内容返回给客户端，就像这些内容原本就是它自己的一样。如下图所示：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/3/18/162393ce24ce250b?w=543&amp;h=271&amp;f=png&amp;s=32894" alt="proxy"></p>
+<h4 id="2-实践"><a href="#2-实践" class="headerlink" title="2. 实践"></a>2. 实践</h4><p>假如你有多台服务器（下文中分别用代号1， 2， 3， 4表示），那么你可以只暴露1号服务器，通过在1号服务器上架设反向代理，映射到2、3、4号服务器上，同时在2、3、4号服务器上设置防火墙让2、3、4号服务器只允许通过1号服务器访问</p>
+<h3 id="3-配置"><a href="#3-配置" class="headerlink" title="3. 配置"></a>3. 配置</h3><p>服务器的nginx.conf文件：</p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#user  nobody;</span></span><br><span class="line"><span class="attribute">worker_processes</span>  <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">#error_log  logs/error.log;</span></span><br><span class="line"><span class="comment">#error_log  logs/error.log  notice;</span></span><br><span class="line"><span class="comment">#error_log  logs/error.log  info;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#pid        logs/nginx.pid;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section">events</span> &#123;</span><br><span class="line">    <span class="attribute">worker_connections</span>  <span class="number">1024</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">    <span class="attribute">include</span>       mime.types;</span><br><span class="line">    <span class="attribute">default_type</span>  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '</span></span><br><span class="line">    <span class="comment">#                  '$status $body_bytes_sent "$http_referer" '</span></span><br><span class="line">    <span class="comment">#                  '"$http_user_agent" "$http_x_forwarded_for"';</span></span><br><span class="line">    <span class="comment">#access_log  logs/access.log  main;</span></span><br><span class="line">    <span class="attribute">sendfile</span>        <span class="literal">on</span>;</span><br><span class="line">    <span class="comment">#tcp_nopush     on;</span></span><br><span class="line">    <span class="comment">#keepalive_timeout  0;</span></span><br><span class="line">    <span class="attribute">keepalive_timeout</span>  <span class="number">65</span>;</span><br><span class="line">    <span class="comment">#gzip  on;</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">include</span> /etc/nginx/sites-enabled/*;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>反向代理服务器的nginx配置文件模板：</p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="attribute">upstream</span> monitor_server &#123;</span><br><span class="line">    <span class="attribute">server</span> &lt;server1-host&gt;:&lt;port&gt;;</span><br><span class="line">    <span class="attribute">server</span> &lt;server2-host&gt;:&lt;port&gt;;   <span class="comment"># 可通过nginx负载均衡</span></span><br><span class="line">    <span class="attribute">keepalive</span> <span class="number">2000</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> hostname;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># redirect all http to https</span></span><br><span class="line">    <span class="attribute">return</span> <span class="number">301</span> https://<span class="variable">$host</span><span class="variable">$request_uri</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">443</span> ssl;</span><br><span class="line">    <span class="attribute">server_name</span> hostname;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">ssl_certificate</span> /etc/letsencrypt/live/hostname/fullchain.pem;</span><br><span class="line">    <span class="attribute">ssl_certificate_key</span> /etc/letsencrypt/live/hostname/privkey.pem;</span><br><span class="line">    <span class="comment"># disable SSLv2</span></span><br><span class="line">    <span class="attribute">ssl_protocols</span> TLSv1 TLSv1.<span class="number">1</span> TLSv1.<span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># ciphers' order matters</span></span><br><span class="line">    <span class="attribute">ssl_ciphers</span> <span class="string">"ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA384:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-RSA-AES256-SHA:AES128-SHA:AES256-SHA:DES-CBC3-SHA:!aNULL"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># the Elliptic curve key used for the ECDHE cipher.</span></span><br><span class="line">    <span class="attribute">ssl_ecdh_curve</span> secp384r1;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># use command line</span></span><br><span class="line">    <span class="comment"># openssl dhparam -out dhparam.pem 2048</span></span><br><span class="line">    <span class="comment"># to generate Diffie Hellman Ephemeral Parameters</span></span><br><span class="line">    <span class="attribute">ssl_dhparam</span> /etc/letsencrypt/ssl-dhparams.pem;</span><br><span class="line">      <span class="comment"># let the server choose the cipher</span></span><br><span class="line">    <span class="attribute">ssl_prefer_server_ciphers</span> <span class="literal">on</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># turn on the OCSP Stapling and verify</span></span><br><span class="line">    <span class="attribute">ssl_stapling</span> <span class="literal">on</span>;</span><br><span class="line">    <span class="attribute">ssl_stapling_verify</span> <span class="literal">on</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># http compression method is not secure in https</span></span><br><span class="line">    <span class="comment"># opens you up to vulnerabilities like BREACH, CRIME</span></span><br><span class="line">    <span class="attribute">gzip</span> <span class="literal">off</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span><span class="regexp"> ^~</span> /.well-known/acme-challenge/ &#123;</span><br><span class="line">        <span class="attribute">default_type</span> <span class="string">"text/plain"</span>;</span><br><span class="line">        <span class="attribute">root</span> /mnt/var/www/&lt;your-name&gt;/hostname;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_redirect</span> <span class="literal">off</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://monitor_server;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-Proto <span class="variable">$scheme</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">access_log</span> /mnt/log/nginx/hostname/access.log;</span><br><span class="line">    <span class="attribute">error_log</span> /mnt/log/nginx/hostname/error.log;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>原始服务器配置模板：</p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">      <span class="attribute">listen</span> &lt;port&gt;;</span><br><span class="line">      <span class="attribute">server_name</span> hostname;</span><br><span class="line">      <span class="attribute">location</span> / &#123;</span><br><span class="line">          <span class="attribute">root</span> /var/www/&lt;your-name&gt;/&lt;project name&gt;;</span><br><span class="line">          <span class="attribute">index</span> index.html;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="attribute">access_log</span> /var/log/nginx/hostname/access.log;</span><br><span class="line">      <span class="attribute">error_log</span> /var/log/nginx/hostname/error.log;</span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/04/24/编程语言/Python/python logging模块学习/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/04/30/编程语言/Node/Node排坑/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

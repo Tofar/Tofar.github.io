@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>游标实现链表及二叉树和BST树 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="数据结构," />
+  
+
+  <meta name="description" content="代码地址：https://github.com/tofar/data-structure/tree/master/code/cursor 1. 链表的游标实现诸如BASIC和FORTRAN等许多语言都不支持指针。如果需要链表而又不能使用指针，这时我们可以使用游标（cursor）实现法来实现链表。 在链表的实现中有两个重要的特点：  数据存储在一组结构体中。每一个结构体包含有数据以及指向下一个结构体">
+<meta name="keywords" content="数据结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="游标实现链表及二叉树和BST树">
+<meta property="og:url" content="http://mu-mo.top/2017/12/25/数据结构/游标实现链表及二叉树和BST树/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="代码地址：https://github.com/tofar/data-structure/tree/master/code/cursor 1. 链表的游标实现诸如BASIC和FORTRAN等许多语言都不支持指针。如果需要链表而又不能使用指针，这时我们可以使用游标（cursor）实现法来实现链表。 在链表的实现中有两个重要的特点：  数据存储在一组结构体中。每一个结构体包含有数据以及指向下一个结构体">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7109326-628b6a7b9aaf4b91.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.126Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="游标实现链表及二叉树和BST树">
+<meta name="twitter:description" content="代码地址：https://github.com/tofar/data-structure/tree/master/code/cursor 1. 链表的游标实现诸如BASIC和FORTRAN等许多语言都不支持指针。如果需要链表而又不能使用指针，这时我们可以使用游标（cursor）实现法来实现链表。 在链表的实现中有两个重要的特点：  数据存储在一组结构体中。每一个结构体包含有数据以及指向下一个结构体">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7109326-628b6a7b9aaf4b91.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-链表的游标实现"><span class="toc-text">1. 链表的游标实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-二叉树"><span class="toc-text">2. 二叉树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-BST树"><span class="toc-text">3. BST树</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-数据结构/游标实现链表及二叉树和BST树" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      游标实现链表及二叉树和BST树
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2017.12.25
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/数据结构/">数据结构</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <p>代码地址：<a href="https://github.com/tofar/data-structure/tree/master/code/cursor" target="_blank" rel="noopener">https://github.com/tofar/data-structure/tree/master/code/cursor</a></p>
+<h3 id="1-链表的游标实现"><a href="#1-链表的游标实现" class="headerlink" title="1. 链表的游标实现"></a>1. 链表的游标实现</h3><p>诸如BASIC和FORTRAN等许多语言都不支持指针。如果需要链表而又不能使用指针，这时我们可以使用游标（cursor）实现法来实现链表。</p>
+<p>在链表的实现中有两个重要的特点：</p>
+<ol>
+<li>数据存储在一组结构体中。每一个结构体包含有数据以及指向下一个结构体的指针。</li>
+<li>一个新的结构体可以通过调用malloc而从系统全局内存（global memory）得到，并可以通过free而被释放。</li>
+</ol>
+<p>游标法必须能够模仿实现这两条特性:</p>
+<p><strong>满足条件1的逻辑方法是要有一个全局的结构体数组（模拟系统全局内存）。对于数组中的任何单元，其数组下标可以用来代表一个地址。</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">typedef int PtrToNode;</span><br><span class="line">typedef PtrToNode List;</span><br><span class="line">typedef PtrToNode Position;</span><br><span class="line"></span><br><span class="line">struct Node &#123;</span><br><span class="line">    ElementType Element;</span><br><span class="line">    Position Next;</span><br><span class="line">&#125;;</span><br><span class="line">struct Node cursor_space[ SPACE_SIZE ];</span><br></pre></td></tr></table></figure>
+<p>作为备用单链表，用来malloc或free游标可用空间，该表用0作为表头。刚开始时，freelist就是整个结构体数组。<strong>0指向的为空余空间的下标，若0指向0则表示没有空余空间。</strong></p>
+<p>需要理解的是：所有的链表，包括备用表和已用表，全部都在我们定义的全局结构体数组中，只是它们的表头不同，从不同的表头出发形成了不同的单链表。</p>
+<p>假设我们定义了一个大小为11的游标空间，其初始化状态如下：</p>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>Element</th>
+<th>Next</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td></td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td></td>
+<td>2</td>
+</tr>
+<tr>
+<td>2</td>
+<td></td>
+<td>3</td>
+</tr>
+<tr>
+<td>3</td>
+<td></td>
+<td>4</td>
+</tr>
+<tr>
+<td>4</td>
+<td></td>
+<td>5</td>
+</tr>
+<tr>
+<td>5</td>
+<td></td>
+<td>6</td>
+</tr>
+<tr>
+<td>6</td>
+<td></td>
+<td>7</td>
+</tr>
+<tr>
+<td>7</td>
+<td></td>
+<td>8</td>
+</tr>
+<tr>
+<td>8</td>
+<td></td>
+<td>9</td>
+</tr>
+<tr>
+<td>9</td>
+<td></td>
+<td>10</td>
+</tr>
+<tr>
+<td>10</td>
+<td></td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>注：对于Next， 0的值等价于NULL指针。</strong></p>
+<p>上面的状态用链表形式表示为：cursor_space[0]—&gt;cursor_space[1]—&gt;cursor_space[2]—&gt;cursor_space[3]—&gt;cursor_space[4]—&gt;cursor_space[5]—&gt;cursor_space[6]—&gt;cursor_space[7]—&gt;cursor_space[8]—&gt;cursor_space[9]—&gt;cursor_space[10]—&gt;NULL.</p>
+<p>为执行malloc功能，将（在表头后面的）第一个元素从freelist中删除。为了执行free功能，我们将该单元放在freelist的前端。</p>
+<p>malloc和free的游标实现如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/*cursor_alloc*/</span><br><span class="line">Position cursor_alloc( void )</span><br><span class="line">&#123;</span><br><span class="line">    Position p;</span><br><span class="line">    p = cursor_space[0].Next;</span><br><span class="line">    cursor_space[0].Next = cursor_space[p].Next;</span><br><span class="line">    return p;  // 返回开辟空间，0永远指向空余空间</span><br><span class="line">&#125;</span><br><span class="line">/*cursor_free*/</span><br><span class="line">void cursor_free( Position p )</span><br><span class="line">&#123;</span><br><span class="line">    cursor_space[p].Next = cursor_space[0].Next;</span><br><span class="line">    cursor_space[0].Next = p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为加深理解，请参考如下实例: </p>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>Element</th>
+<th>Next</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>-</td>
+<td>6</td>
+</tr>
+<tr>
+<td>1</td>
+<td>b</td>
+<td>9</td>
+</tr>
+<tr>
+<td>2</td>
+<td>f</td>
+<td>0</td>
+</tr>
+<tr>
+<td>3</td>
+<td>header</td>
+<td>7</td>
+</tr>
+<tr>
+<td>4</td>
+<td>-</td>
+<td>0</td>
+</tr>
+<tr>
+<td>5</td>
+<td>header</td>
+<td>10</td>
+</tr>
+<tr>
+<td>6</td>
+<td>-</td>
+<td>4</td>
+</tr>
+<tr>
+<td>7</td>
+<td>c</td>
+<td>8</td>
+</tr>
+<tr>
+<td>8</td>
+<td>d</td>
+<td>2</td>
+</tr>
+<tr>
+<td>9</td>
+<td>e</td>
+<td>0</td>
+</tr>
+<tr>
+<td>10</td>
+<td>a</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>如果单链表L的值是5，M的值是3，我们又规定了freelist表头为0，因此，从上表中我们可以得到三个链表：</p>
+<p>freelist：cursor_space[0]—&gt;cursor_space[6]—&gt;cursor_space[4]—&gt;NULL </p>
+<p>L：header—&gt;a—&gt;b—&gt;e—&gt;NULL</p>
+<p>M：header—&gt;c—&gt;d—&gt;f—&gt;NULL</p>
+<p>freelist是分配L、M链表后还剩余的可分配空间。</p>
+<p>游标实现</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/* return ture if L is empty */</span><br><span class="line">int isempty(list L)</span><br><span class="line">&#123;</span><br><span class="line">    return cursor_space[L].next = 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/* return true if P is the last position in list L */</span><br><span class="line"></span><br><span class="line">int islast(position p, list L)</span><br><span class="line">&#123;</span><br><span class="line">    return cursor_space[P].next == 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/* return position of X in L; 0 if not found */</span><br><span class="line">/* uses a header node */</span><br><span class="line"></span><br><span class="line">position find(element_type X, list L)</span><br><span class="line">&#123;</span><br><span class="line">    position p;</span><br><span class="line">    </span><br><span class="line">    p = cursor_space[L].next;</span><br><span class="line">    while(p &amp;&amp; cursor_space[p].element != X)</span><br><span class="line">        p = cursor_space[p].next;</span><br><span class="line">    </span><br><span class="line">    return p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/* delete first occurence of X from a list */</span><br><span class="line">/* assume use of a header node */</span><br><span class="line"></span><br><span class="line">void delete(element_type X, list L)</span><br><span class="line">&#123;</span><br><span class="line">    position p, tmpcell;</span><br><span class="line">    </span><br><span class="line">    p = find_previous(X, L);</span><br><span class="line">    </span><br><span class="line">    if(!islast(p, L))</span><br><span class="line">    &#123;</span><br><span class="line">        tmpcell = cursor_space[p].next;</span><br><span class="line">        cursor_space[p].next = cursor_space[tmpcell].next;</span><br><span class="line">        cursor_free(tmpcell);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/* insert (after legal position P) */</span><br><span class="line"></span><br><span class="line">void insert(element_type X, list L, position P)</span><br><span class="line">&#123;</span><br><span class="line">    position tmpcell;</span><br><span class="line">    </span><br><span class="line">    tmpcell = cursor_alloc();</span><br><span class="line">    if(tmpcell == 0)</span><br><span class="line">        fatal_error(&quot;out of sapce!!!&quot;);</span><br><span class="line"></span><br><span class="line">    cursor_space[tmpcell].element = X;</span><br><span class="line">    cursor_space[tmpcell].next = cursor_space[P].next;</span><br><span class="line">    cursor_space[P].next = tmpcell;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-二叉树"><a href="#2-二叉树" class="headerlink" title="2. 二叉树"></a>2. 二叉树</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">typedef struct tREE</span><br><span class="line">&#123;</span><br><span class="line">  int data;</span><br><span class="line">  int left;</span><br><span class="line">  int right;</span><br><span class="line">&#125; TREE;</span><br></pre></td></tr></table></figure>
+<p>和链表实现类似，再定义一个全局数组 tr[ ] 即可。</p>
+<h3 id="3-BST树"><a href="#3-BST树" class="headerlink" title="3. BST树"></a>3. BST树</h3><p><strong>BST：</strong>即二叉搜索树：</p>
+<ol>
+<li><p>所有非叶子结点至多拥有两个儿子（Left和Right）；</p>
+</li>
+<li><p>所有结点存储一个关键字；</p>
+</li>
+<li><p>非叶子结点的左指针指向小于其关键字的子树，右指针指向大于其关键字的子树；</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7109326-628b6a7b9aaf4b91.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+<p><strong>二叉树定义：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//define a tree using cursors</span><br><span class="line">typedef struct tREE</span><br><span class="line">&#123;</span><br><span class="line">  int data;</span><br><span class="line">  int left;</span><br><span class="line">  int right;</span><br><span class="line">&#125; TREE;</span><br></pre></td></tr></table></figure>
+<p><strong>寻找最小节点：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//找到最小的节点</span><br><span class="line">static int find_min (int root)</span><br><span class="line">&#123;</span><br><span class="line">  if (tr[root].left &lt; 0)</span><br><span class="line">    return (root);</span><br><span class="line"></span><br><span class="line">  return (find_min (tr[root].left));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​</p>
+<p><strong>插入:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//插入</span><br><span class="line">static int insert (int root, int i)</span><br><span class="line">&#123;</span><br><span class="line">  if (root &lt; 0)</span><br><span class="line">  &#123;</span><br><span class="line">    return (i);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  if (tr[i].data &lt; tr[root].data)</span><br><span class="line">    tr[root].left =  insert (tr[root].left, i) ;</span><br><span class="line">  else if (tr[i].data &gt; tr[root].data)</span><br><span class="line">    tr[root].right = insert (tr[root].right, i) ;</span><br><span class="line"></span><br><span class="line">  return (root);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>删除:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//删除节点i</span><br><span class="line">static int delete (int root, int i)</span><br><span class="line">&#123;</span><br><span class="line">  int tmp;</span><br><span class="line"></span><br><span class="line">  if (root &lt; 0)</span><br><span class="line">    return (-1);</span><br><span class="line"></span><br><span class="line">  if (tr[i].data &lt; tr[root].data)</span><br><span class="line">    tr[root].left = delete (tr[root].left, i);</span><br><span class="line">  else if (tr[i].data &gt; tr[root].data)</span><br><span class="line">    tr[root].right = delete (tr[root].right, i);</span><br><span class="line">  else if (tr[root].left &gt; 0 &amp;&amp; tr[root].right &gt; 0)</span><br><span class="line">  &#123;</span><br><span class="line">    tmp = find_min (tr[root].right);</span><br><span class="line">    tr[root].data = tr[tmp].data;</span><br><span class="line">    tr[root].right = delete (tr[root].right, tmp);</span><br><span class="line">  &#125;</span><br><span class="line">  else if (tr[root].left &gt; 0)</span><br><span class="line">    return (tr[root].left);</span><br><span class="line">  else</span><br><span class="line">    return (tr[root].right);</span><br><span class="line"></span><br><span class="line">  return (root);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/12/24/学习笔记/学习笔记5/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/12/28/学习笔记/学习笔记6/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

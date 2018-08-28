@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Node 排坑 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="node," />
+  
+
+  <meta name="description" content="1. callback 事件回调是nodejs非常常见的一个应用场景，那大家先来看看以下这段代码是否存在什么问题？ get(params, function(err, data) &amp;#123;  if (err) &amp;#123;   callback(err); &amp;#125; //对data进行操作 var row = data[0];&amp;#125;); 看出来了吧。对，就是err存在时，callba">
+<meta name="keywords" content="node">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node 排坑">
+<meta property="og:url" content="http://mu-mo.top/2018/04/30/编程语言/Node/Node排坑/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="1. callback 事件回调是nodejs非常常见的一个应用场景，那大家先来看看以下这段代码是否存在什么问题？ get(params, function(err, data) &amp;#123;  if (err) &amp;#123;   callback(err); &amp;#125; //对data进行操作 var row = data[0];&amp;#125;); 看出来了吧。对，就是err存在时，callba">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.126Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Node 排坑">
+<meta name="twitter:description" content="1. callback 事件回调是nodejs非常常见的一个应用场景，那大家先来看看以下这段代码是否存在什么问题？ get(params, function(err, data) &amp;#123;  if (err) &amp;#123;   callback(err); &amp;#125; //对data进行操作 var row = data[0];&amp;#125;); 看出来了吧。对，就是err存在时，callba">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-编程语言/Node/Node排坑" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      Node 排坑
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2018.04.30
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/node/">node</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <p><strong>1. callback</strong></p>
+<p>事件回调是nodejs非常常见的一个应用场景，那大家先来看看以下这段代码是否存在什么问题？</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">get(params, function(err, data) &#123;</span><br><span class="line">  if (err) &#123;</span><br><span class="line">   callback(err);</span><br><span class="line"> &#125;</span><br><span class="line"> //对data进行操作</span><br><span class="line"> var row = data[0];</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>看出来了吧。对，就是err存在时，callback之后，接下来的代码还是要执行的。而这时，data值是什么，我们往往是没办法控制的。如果data这时返回的是undefined，那么就悲剧了，程序肯定报错。当然解决方法很简单，就是在callback之前加个return即可：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">get(params, function(err, data) &#123;</span><br><span class="line">  if (err) &#123;</span><br><span class="line">    return callback(err);</span><br><span class="line">  &#125;</span><br><span class="line"> //对data进行操作</span><br><span class="line"> var row = data[0];</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这个知识点并不是很难，但往往是初学者特别容易犯的错，甚至已经写了很久代码的同学也会偶尔犯这种低级错误。</p>
+<p>再来一个更隐蔽的：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">db.get(key, function(err, data) &#123;</span><br><span class="line">  if (err) &#123;</span><br><span class="line">    return callback(err);</span><br><span class="line">  &#125;</span><br><span class="line">  try &#123;</span><br><span class="line">    callback(null, JSON.parse(data.toString()))</span><br><span class="line">  &#125; catch(e) &#123;</span><br><span class="line">    callback(e);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>看似没有任何问题吧。嘿嘿，揭晓答案， 对，被回调两次。callback(null, Error)一次，callback(e)，具体比如：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function asyncfun(data, callback) &#123;</span><br><span class="line">  try &#123;</span><br><span class="line">    callback(null, JSON.parse(data.toString()));</span><br><span class="line">  &#125; catch (e) &#123;</span><br><span class="line">    callback(e);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">var json = &#123;&apos;a&apos;: &apos;b&apos;&#125;;</span><br><span class="line">var jsonstr = JSON.stringify(json);</span><br><span class="line">var d = new Buffer(jsonstr);</span><br><span class="line"></span><br><span class="line">asyncfun(d, function(err, data) &#123;</span><br><span class="line">  console.log(err);</span><br><span class="line">  throw new Error(&apos;new Error&apos;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">null</span><br><span class="line">[Error: new Error]</span><br></pre></td></tr></table></figure>
+<p>这在一个大项目绝对是坑爹了，排错都需要很久。</p>
+<p>ps:之前的描述存在问题，谢谢<a href="http://cnodejs.org/user/suqian" target="_blank" rel="noopener">苏千</a>的指正。</p>
+<p><strong>2. buffer</strong></p>
+<p>还是老规矩，先看代码：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var data = &quot;&quot;;</span><br><span class="line">res.on(&apos;data&apos;, function (chunk) &#123;</span><br><span class="line">  data += chunk;</span><br><span class="line">&#125;)</span><br><span class="line">.on(&quot;end&quot;, function () &#123;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这段代码在chunk都是ascii码数据或者数据量比较少时是没有问题，但如果你的数据是大量中文的话，恭喜你，中枪了，会出现乱码。其原因是两个chunk（Buffer对象）的拼接并不正常，相当于进行了buffer.toString() + buffer.toString()。如果buffer不是完整的，则toString出来后的string是存在问题的（比如一个中文字被截断）。具体可以参见<a href="http://cnodejs.org/user/Jackson" target="_blank" rel="noopener">朴灵</a>写得这篇文章：<a href="http://cnodejs.org/topic/4faf65852e8fb5bc65113403" target="_blank" rel="noopener">http://cnodejs.org/topic/4faf65852e8fb5bc65113403</a></p>
+<p><strong>3. 深度嵌套</strong></p>
+<p>很多刚开始写nodejs代码的人，由于思路还停留在同步的思维，所以或多或少写过这样的代码：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">func1(err, function(err1, data1) &#123;</span><br><span class="line">  func2(err1, function(err2, data2) &#123;</span><br><span class="line">    func3(err3, function(err3, data3) &#123;</span><br><span class="line">      func4(err4, function(err4, data4) &#123;</span><br><span class="line">        .......</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/04/29/运维/nginx/nginx 实践/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/05/01/编程语言/Python/effective python学习笔记/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

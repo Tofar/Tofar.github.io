@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>学习笔记3 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="学习笔记," />
+  
+
+  <meta name="description" content="1. 机器学习 评估假设 一旦我们通过以下方式在我们的预测中做了一些故障排除：  获得更多培训示例 尝试更小的功能集 尝试其他功能 尝试多项式特征 增加或减少λ  我们可以继续评估我们的新假设。 假设对于训练样例可能具有低误差，但仍然不准确（因为过拟合）。因此，为了评估一个假设，给定一个训练样本数据集，我们可以将数据分成两组：训练集和测试集。通常情况下，训练集包含70％的数据，测试集是剩下的30％">
+<meta name="keywords" content="学习笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习笔记3">
+<meta property="og:url" content="http://mu-mo.top/2017/11/24/学习笔记/学习笔记3/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="1. 机器学习 评估假设 一旦我们通过以下方式在我们的预测中做了一些故障排除：  获得更多培训示例 尝试更小的功能集 尝试其他功能 尝试多项式特征 增加或减少λ  我们可以继续评估我们的新假设。 假设对于训练样例可能具有低误差，但仍然不准确（因为过拟合）。因此，为了评估一个假设，给定一个训练样本数据集，我们可以将数据分成两组：训练集和测试集。通常情况下，训练集包含70％的数据，测试集是剩下的30％">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://mu-mo.top/home/tofar/图片/选区_001.png">
+<meta property="og:image" content="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/I4dRkz_pEeeHpAqQsW8qwg_bed7efdd48c13e8f75624c817fb39684_fixed.png?expiry=1510444800000&hmac=kGTxXBZKn_-OTBI0LQj45iZL2KpfQW-jPiBjfC3iNKA">
+<meta property="og:image" content="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/3XyCytntEeataRJ74fuL6g_3b6c06d065d24e0bf8d557e59027e87a_Screenshot-2017-01-13-16.09.36.png?expiry=1510444800000&hmac=__zXJR53oN2UDmpZq2G3k5hHywJ2BQdNq4H4YFEJt2o">
+<meta property="og:image" content="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/bpAOvt9uEeaQlg5FcsXQDA_ecad653e01ee824b231ff8b5df7208d9_2-am.png?expiry=1510444800000&hmac=zvsoyG_GmrYjBD8S2Hps1f4mmKd_TUJkCOrFTqK0Wy4">
+<meta property="og:image" content="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/vqlG7t9uEeaizBK307J26A_3e3e9f42b5e3ce9e3466a0416c4368ee_ITu3antfEeam4BLcQYZr8Q_37fe6be97e7b0740d1871ba99d4c2ed9_300px-Learning1.png?expiry=1510444800000&hmac=iW98QAh_M8XdkxfcWgoXx9OXFgsyxz9FqRKdtET1iDk">
+<meta property="og:image" content="http://img.blog.csdn.net/20161102105327162?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://mu-mo.top/home/tofar/图片/选区_002.png">
+<meta property="og:image" content="http://img.blog.csdn.net/20170531172351222?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjcwMDgwNzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170531180700686?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjcwMDgwNzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170531181014409?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjcwMDgwNzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170531181437743?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjcwMDgwNzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170531181853170?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjcwMDgwNzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170531182401955?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjcwMDgwNzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170531182604397?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjcwMDgwNzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://mu-mo.top/home/tofar/图片/选区_003.png">
+<meta property="og:image" content="http://img.blog.csdn.net/20170531195107110?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjcwMDgwNzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170531211622040?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjcwMDgwNzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://images.cnitblog.com/blog/142275/201410/171635185299075.png">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.122Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="学习笔记3">
+<meta name="twitter:description" content="1. 机器学习 评估假设 一旦我们通过以下方式在我们的预测中做了一些故障排除：  获得更多培训示例 尝试更小的功能集 尝试其他功能 尝试多项式特征 增加或减少λ  我们可以继续评估我们的新假设。 假设对于训练样例可能具有低误差，但仍然不准确（因为过拟合）。因此，为了评估一个假设，给定一个训练样本数据集，我们可以将数据分成两组：训练集和测试集。通常情况下，训练集包含70％的数据，测试集是剩下的30％">
+<meta name="twitter:image" content="http://mu-mo.top/home/tofar/图片/选区_001.png">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-机器学习"><span class="toc-text">1. 机器学习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#诊断神经网络"><span class="toc-text">诊断神经网络</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-SQL反模式"><span class="toc-text">2. SQL反模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#10-取整错误"><span class="toc-text">10. 取整错误</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-每日新花样"><span class="toc-text">11. 每日新花样</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-幽灵文件"><span class="toc-text">12. 幽灵文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-使用索引"><span class="toc-text">13. 使用索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-对未知的恐惧"><span class="toc-text">14. 对未知的恐惧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#15-模棱两可的分组"><span class="toc-text">15. 模棱两可的分组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#16-使用随机数排序"><span class="toc-text">16. 使用随机数排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#17-可怜人的搜索引擎"><span class="toc-text">17. 可怜人的搜索引擎</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#18-意大利面条式查询"><span class="toc-text">18. 意大利面条式查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#19-使用-号，隐式的列"><span class="toc-text">19. 使用*号，隐式的列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#20-明文密码"><span class="toc-text">20. 明文密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#21-SQL注入"><span class="toc-text">21. SQL注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#22-伪键洁癖，整理数据"><span class="toc-text">22. 伪键洁癖，整理数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#23-非礼勿视"><span class="toc-text">23. 非礼勿视</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#24-外交豁免权"><span class="toc-text">24. 外交豁免权</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#25-魔豆"><span class="toc-text">25. 魔豆</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-学习笔记/学习笔记3" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      学习笔记3
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2017.11.24
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/学习笔记/">学习笔记</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <h2 id="1-机器学习"><a href="#1-机器学习" class="headerlink" title="1. 机器学习"></a>1. 机器学习</h2><ul>
+<li><p>评估假设</p>
+<p>一旦我们通过以下方式在我们的预测中做了一些故障排除：</p>
+<ul>
+<li>获得更多培训示例</li>
+<li>尝试更小的功能集</li>
+<li>尝试其他功能</li>
+<li>尝试多项式特征</li>
+<li>增加或减少λ</li>
+</ul>
+<p>我们可以继续评估我们的新假设。</p>
+<p>假设对于训练样例可能具有低误差，但仍然不准确（因为过拟合）。因此，为了评估一个假设，给定一个训练样本数据集，我们可以将数据分成两组：<strong>训练集</strong>和<strong>测试集</strong>。通常情况下，训练集包含70％的数据，测试集是剩下的30％。</p>
+<p><img src="/home/tofar/图片/选区_001.png" alt="选区_001"></p>
+<ul>
+<li><p>模型选择和训练/验证/测试集</p>
+<p>我们的数据集分成三组的一种方法是：</p>
+<ul>
+<li>训练集：60%</li>
+<li>交叉验证集：20％</li>
+<li>测试集：20％</li>
+</ul>
+<p>现在我们可以使用以下方法为三个不同的集合计算三个单独的错误值：</p>
+<ol>
+<li>使用每个多项式的训练集来优化Θ中的参数。</li>
+<li>使用交叉验证集找出具有最小误差的多项式度d。</li>
+<li>使用带有测试集的估计泛化错误 Jtest(Θ(d))，（d =具有较低误差的多项式的θ）;</li>
+</ol>
+<p>这样，多项式d的程度还没有使用测试集进行训练。</p>
+</li>
+<li><p>诊断偏差(欠拟合)与方差(过拟合)</p>
+<p><img src="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/I4dRkz_pEeeHpAqQsW8qwg_bed7efdd48c13e8f75624c817fb39684_fixed.png?expiry=1510444800000&amp;hmac=kGTxXBZKn_-OTBI0LQj45iZL2KpfQW-jPiBjfC3iNKA" alt=""></p>
+</li>
+<li><p>正则化和偏向/方差</p>
+<p><img src="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/3XyCytntEeataRJ74fuL6g_3b6c06d065d24e0bf8d557e59027e87a_Screenshot-2017-01-13-16.09.36.png?expiry=1510444800000&amp;hmac=__zXJR53oN2UDmpZq2G3k5hHywJ2BQdNq4H4YFEJt2o" alt="img"></p>
+<p>在上图中，我们看到了λ 升增加，我们的适应变得更加僵硬。另一方面，如λ 接近0，我们倾向于过度拟合数据。那么我们如何选择我们的参数λ 得到它“恰到好处”？为了选择模型和正则化项λ，我们需要：</p>
+<ol>
+<li>创建一个lambda表（即λ∈{0,0.01,0.02,0.04,0.08,0.16,0.32,0.64,1.28,2.56,5.12,10.24}）;</li>
+<li>创建一个不同程度的模型或任何其他变体。</li>
+<li>迭代通过 升s和每个 λ  通过所有的模型来学习一些Θ.</li>
+<li>使用学习的Θ（用λ计算）计算交叉验证错误  JCV(Θ)  <strong>没有</strong>正则化或λ= 0。</li>
+<li>选择交叉验证集合中产生最低错误的最佳组合。</li>
+<li>使用最佳组合 Θ and λ, apply it on Jtest(Θ)  看看它是否有一个很好的概括性的问题。</li>
+</ol>
+</li>
+<li><p>学习曲线</p>
+<p>在少数几个数据点（如1,2或3）上训练算法将很容易产生0个错误，因为我们总是可以找到一个接近这些点数的二次曲线。因此：</p>
+<ul>
+<li>随着训练集变大，二次函数的误差增加。</li>
+<li>经过一定的m或训练集大小后，误差值将平稳。</li>
+</ul>
+<p><strong>经历高偏见：</strong></p>
+<p><img src="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/bpAOvt9uEeaQlg5FcsXQDA_ecad653e01ee824b231ff8b5df7208d9_2-am.png?expiry=1510444800000&amp;hmac=zvsoyG_GmrYjBD8S2Hps1f4mmKd_TUJkCOrFTqK0Wy4" alt="img"></p>
+<p><strong>经历高方差：</strong></p>
+<p><img src="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/vqlG7t9uEeaizBK307J26A_3e3e9f42b5e3ce9e3466a0416c4368ee_ITu3antfEeam4BLcQYZr8Q_37fe6be97e7b0740d1871ba99d4c2ed9_300px-Learning1.png?expiry=1510444800000&amp;hmac=iW98QAh_M8XdkxfcWgoXx9OXFgsyxz9FqRKdtET1iDk" alt="img"></p>
+</li>
+<li><p>决定下一步做什么</p>
+<p>Our decision process can be broken down as follows:</p>
+<ul>
+<li><p><strong>Getting more training examples:</strong> Fixes high variance</p>
+</li>
+<li><p><strong>Trying smaller sets of features:</strong> Fixes high variance</p>
+</li>
+<li><p><strong>Adding features:</strong> Fixes high bias</p>
+</li>
+<li><p><strong>Adding polynomial features:</strong> Fixes high bias</p>
+</li>
+<li><p><strong>Decreasing λ:</strong> Fixes high bias</p>
+</li>
+<li><p><strong>Increasing λ:</strong> Fixes high variance.</p>
+</li>
+</ul>
+<h3 id="诊断神经网络"><a href="#诊断神经网络" class="headerlink" title="诊断神经网络"></a><strong>诊断神经网络</strong></h3><ul>
+<li>一个参数较少的神经网络<strong>容易出现</strong>不足。这也是<strong>计算更便宜</strong>。</li>
+<li>具有更多参数的大型神经网络<strong>容易过度拟合</strong>。这在<strong>计算</strong>上也是<strong>昂贵的</strong>。在这种情况下，您可以使用正则化（增加λ）来解决过度拟合问题。</li>
+</ul>
+<p>使用单个隐藏层是一个很好的默认开始。您可以使用交叉验证集在许多隐藏层上训练您的神经网络。然后您可以选择性能最好的一个。</p>
+<p><strong>模型复杂性的影响：</strong></p>
+<ul>
+<li>低阶多项式（低模型复杂度）具有高偏差和低方差。在这种情况下，模型不太一致。</li>
+<li>高阶多项式（高模型复杂度）非常适合训练数据，测试数据极其糟糕。这些对训练数据的偏倚低，但差异很大。</li>
+<li>实际上，我们希望选择一个介于两者之间的模型，这个模型可以很好地推广，但是也可以很好地拟合数据。</li>
+</ul>
+</li>
+<li><p>优先处理什么工作</p>
+<p><strong>系统设计示例：</strong></p>
+<p>给定一个电子邮件数据集，我们可以为每个电子邮件构建一个向量。这个向量中的每个条目代表一个单词。该矢量通常包含10,000到50,000个条目，通过查找我们的数据集中最常用的单词来收集。如果在电子邮件中找到一个单词，我们将分配它的相应条目1，否则如果没有找到，条目将是0.一旦我们已经准备好了所有的x向量，我们将训练我们的算法，最后，我们可以用它来分类电子邮件是否是垃圾邮件。</p>
+<p>​</p>
+<p>那么你怎么能花时间来提高这个分类器的准确度呢？</p>
+<ul>
+<li>收集大量数据（例如“蜜罐”项目，但并不总是工作）</li>
+<li>开发复杂的功能（例如：在垃圾邮件中使用电子邮件标题数据）</li>
+<li>开发算法以不同的方式处理您的输入（识别垃圾邮件中的拼写错误）。</li>
+</ul>
+<p>很难判断哪个选项最有用。</p>
+</li>
+<li><p>错误分析</p>
+<p>解决机器学习问题的推荐方法是：</p>
+<ul>
+<li>从一个简单的算法开始，快速实施它，并尽早在交叉验证数据上进行测试。</li>
+<li>绘制学习曲线来决定是否有更多的数据，更多的功能等可能有所帮助。</li>
+<li>手动检查交叉验证集中示例的错误，并尝试找出发生大部分错误的趋势。</li>
+</ul>
+</li>
+<li><p>FI值</p>
+<p>如果我们定义一个测试集中，正样本个数为P, 负样本个数为N, 那么我们可以知道：P=TP+FN, N=TN+FP<br>$$<br>Recall=TP/(TP+FN)=TP/P<br>$$</p>
+<p>$$<br>Precision=TP/(TP+FP)<br>$$</p>
+<p>$$<br>F1=2⋅Precision⋅Recall/(Precision+Recall)<br>$$</p>
+<p>可以看到，recall 体现了分类模型H对正样本的识别能力，recall 越高，说明模型对正样本的识别能力越强，precision 体现了模型对负样本的区分能力，precision越高，说明模型对负样本的区分能力越强。F1-score 是两者的综合。F1-score 越高，说明分类模型越稳健。</p>
+</li>
+</ul>
+</li>
+<li><p>支持向量机</p>
+<p>支持向量机从本质上来讲，就是最大间隔分类器。</p>
+<p>这边从逻辑回归引出支持向量机，以及它最重要的思路——最大间隔。</p>
+<p>考虑逻辑回归：</p>
+<p><img src="http://img.blog.csdn.net/20161102105327162?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="img"></p>
+<p>我们看下在SVM中对costfunction的改变 ：</p>
+<p><img src="/home/tofar/图片/选区_002.png" alt="选区_002"></p>
+<ul>
+<li><p>Large Margin Intuition</p>
+<p><img src="http://img.blog.csdn.net/20170531172351222?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjcwMDgwNzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>​</p>
+<p>SVM通过寻找分类中淡黄色背景的那条线作为边界，而不是其余满足条件的边界，因此SVM又被称为大间隔分类器。</p>
+<p><img src="http://img.blog.csdn.net/20170531180700686?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjcwMDgwNzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p><img src="http://img.blog.csdn.net/20170531181014409?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjcwMDgwNzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+</li>
+<li><p>The mathematics behind large margin classification<br>下面我们从数学角度看一下SVM过简化问题，我们知道要求的最小值为||θ||的最小值，即θ的范数最小值</p>
+<p><img src="http://img.blog.csdn.net/20170531181437743?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjcwMDgwNzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>下面看一下限制条件代表的含义，通过高中数学，我们知道两个向量相乘的几何含义如下 </p>
+<p><img src="http://img.blog.csdn.net/20170531181853170?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjcwMDgwNzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>通过上面可知，我们要求||θ||的最小值，因此我们希望p(i)尽量大。</p>
+<p>假如选择了下面图中的绿色线作为边界，我们会发现p(i)比较小，这样不能得出||θ||的最小值 </p>
+<p><img src="http://img.blog.csdn.net/20170531182401955?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjcwMDgwNzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>如果选择下面的绿色线作为边界，我们可以得到较小的||θ||值 </p>
+<p><img src="http://img.blog.csdn.net/20170531182604397?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjcwMDgwNzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+</li>
+<li><p>核函数</p>
+<p><img src="/home/tofar/图片/选区_003.png" alt="选区_003"></p>
+<p>通过下面的图我们可以看出δ2对函数图形的改变</p>
+<p><img src="http://img.blog.csdn.net/20170531195107110?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjcwMDgwNzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<ul>
+<li>关于参数对算法的影响 :</li>
+</ul>
+<p>大C:低偏差，高方差（对应低λ） </p>
+<p>小C:高偏差，低方差（对应高λ）</p>
+<p>大δ2：fi分布更平滑，高偏差，低方差<br>小δ2：fi分布更集中，低偏差，高方差 </p>
+<ul>
+<li>使用SVM步骤 ：</li>
+</ul>
+<p><img src="http://img.blog.csdn.net/20170531211622040?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjcwMDgwNzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h2 id="2-SQL反模式"><a href="#2-SQL反模式" class="headerlink" title="2. SQL反模式"></a>2. SQL反模式</h2></li>
+</ul>
+</li>
+</ul>
+<h3 id="10-取整错误"><a href="#10-取整错误" class="headerlink" title="10. 取整错误"></a>10. 取整错误</h3><p>   <strong>目标</strong>：使用小数取代整数</p>
+<p>   <strong>反模式</strong>：使用Float类型</p>
+<pre><code>根据IEEE754标识，float类型使用二进制格式编码实数数据。
+
+缺点：
+</code></pre><p>   (1) 舍入的必要性： 并不是所有的十进制中描述的信息都能使用二进制存储，出于一些必要的因，浮点数通常是舍入到了一个非常接近的值。</p>
+<p>   　　    举例：select rate from A where id=123   –Result:59.95</p>
+<p>​                         select * from A where rate=59.95     –Result：empty set;  no rows match.</p>
+<p>   ​                      select * from A where ABS(rate-59.95)&lt;0.000001   –这个才能正确查出数据！</p>
+<p>   ​                      59.95，在二进制中存储了最接近59.95的值，用十进制表示就是59.950000762939</p>
+<pre><code>（2）在SQL中使用FLOAT
+</code></pre><p>   ​           FLOAT类型的列中实际存储的数据可能并不完全等于它的值。如果将这个值扩大十亿倍，就能看出其中的区别</p>
+<p>   ​           示例：上例中的59.95</p>
+<p>   ​           变通的方法就是将浮点数看做“近似相等”，即两个值之间的差值足够小就认为它们相等。</p>
+<p>​     </p>
+<pre><code>**如何识别反模式**：任何使用Float、Real或者Double Percent类型的设计都有可能是反模式
+</code></pre><p>​     </p>
+<pre><code>**合理使用反模式**：如果要存储的值取值范围很大，大于integer、numeric的范围，那只能用float了。科学计算类的程序通常使用float。
+</code></pre><p>​     </p>
+<pre><code>**解决方案**：使用numeric、decimal类型
+
+                使用numeric、decimal代替float，他们不会对存储的有理数进行舍入，因此select * from A where rate=59.95会返回记录。
+
+               示例: ALTER TABLE Accounts ADD COLUMN hourly_rate NUMERIC(9, 2);    -- 9代表总位数，2代表精确度
+
+　　        注意：numeric、decimal在sqlserver乃至sybase中，是完全一样的。
+
+**结论**：尽可能不要使用浮点数
+</code></pre><h3 id="11-每日新花样"><a href="#11-每日新花样" class="headerlink" title="11. 每日新花样"></a>11. 每日新花样</h3><p><strong>目标</strong>：限定列的有效值，将一列的有效字段值约束在一个固定的集合中。类似于数据字典。</p>
+<p><strong>反模式</strong>：在列定义上指定可选值</p>
+<p>​            1、 对某一列定义一个检查约束项，这个约束不允许往列中插入或者更新任何会导致约束失败的值：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> Bugs(<span class="keyword">status</span> <span class="built_in">varchar</span>(<span class="number">20</span>) <span class="keyword">check</span>(<span class="keyword">status</span> <span class="keyword">in</span>(<span class="string">'new'</span>,<span class="string">'in progress'</span>,<span class="string">'fixed'</span>)));</span><br></pre></td></tr></table></figure>
+<p>​            2、使用域或者用户自定义类型（UDT）等方法。即使用这些方法约束某一列只能接受一个特定集合的数据，并且能很方便的将这约束应用到整个域上。但这些特性并没有得到大多数关系数据库的支持。</p>
+<p>　         3、使用触发器：编写一个触发器，当修改指定列的内容时触发，将被修改的值和允许输入的值进行匹配，</p>
+<p>​                如果不符合则产生一个错误中断操作。</p>
+<p>　　缺点：</p>
+<p>​    1、 无法查询出所有的约束值来供上层应用程序使用。</p>
+<p>​           不能用select distinct status from Bugs，因为可能有的status目前还没有存储。维护不好的话，还有可能造成列表和数据库存储的值，不一致。</p>
+<p>　　 2、增加新的约束值，需要修改数据库定义或者触发器。</p>
+<p>　　 3、废弃或修改某个值，可能要修改大量的数据，风险很大也不合理。</p>
+<p>　　 4、可移植性差，check约束、域，或者UDT在各种数据库中的支持形式并不统一。</p>
+<p> <strong>如何识别反模式</strong>：当出现以下情况时，可能是反模式</p>
+<p>　　1、我们不得不将数据库下线，才能在程序中加入一个新的选项。</p>
+<p>　　2、这个Status列可以填入这些候选值中的一个。我们不应该改变这个后选值列表。</p>
+<p>　　3、程序代码中关于业务规则的选项列表和数据库中的值又不同步了。</p>
+<p><strong>合理使用反模式</strong>：</p>
+<p>　　1、在候选值几乎不变化的时候可以使用。</p>
+<p>　　2、存储没有业务逻辑且不需要改变的候选值时非常方便。</p>
+<p>​          比如存储一对二选一切相互对立的值：Left/Right、On/Off等。</p>
+<p>　　3、Check约束可以再更多的场景下使用，比如用来检测一个时间区间中start永远小于end。</p>
+<p><strong>解决方案</strong>：创建一张检查表（类似于字典表），每一行包含一个允许在列中出现的候选值，然后在目标表中定义一个外键约束。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> BugStatus ( <span class="keyword">status</span> <span class="built_in">VARCHAR</span>(<span class="number">20</span>) PRIMARY <span class="keyword">KEY</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>结论</strong>：在验证固定集合的候选值时使用元数据；</p>
+<p>​           在验证可变集合的候选值时使用数据。</p>
+<h3 id="12-幽灵文件"><a href="#12-幽灵文件" class="headerlink" title="12. 幽灵文件"></a>12. 幽灵文件</h3><p><strong>目标</strong>：存储图片或其他多媒体大文件</p>
+<p><strong>反模式</strong>：图片存储在数据库外的文件系统中，数据库表中存储文件的对应的路径和名称。</p>
+<p>　　<strong>缺点</strong>：</p>
+<p>　　     1、文件不支持Delete操作。使用SQL语句删除一条记录时，对应的文件不会被删除，需要使用额外的程序来操作。　　　</p>
+<p>　　     2、文件不支持事务隔离</p>
+<p>　        3、文件不支持回滚操作</p>
+<p>　        4、文件不支持数据库备份工具：备份工具不知道如何将通过路径引用的哪些文件也包含在备份操作当中。</p>
+<p>　　     5、文件不支持sql的访问权限设置</p>
+<p>　　     6、文件不是sql数据类型：字段中存储的是文件的路径，数据库不会验证这个字符串是否是一个有效的路径，也不会验证对应的文件是否存在。任何将这个字符串作为路径处理的逻辑都依赖于你的程序逻辑。</p>
+<p><strong>如何识别反模式</strong>：典型的使用反模式的项目通常没有考虑以下几个或者全部问题</p>
+<p>　　1、数据备份和回复的过程是怎样的？怎么对一个备份进行验证？</p>
+<p>​          你有没有在一个干净的系统或者别的系统上对备份回复的数据进行测试？</p>
+<p>　　2、图片文件堆积在那里，还是当他们孤立的时候就从系统中移除？移除他们的过程是怎么样的？</p>
+<p>​          这是一个自动的还是手动的过程？</p>
+<p>　　3、系统中的哪些用户有权限查看这些图片？进入权限是怎么限制的？当用户请求查看他们无权查看的图片时会发生什么？</p>
+<p>　　4、我能撤销对图片的变更吗？如果能，是应用程序来回复图片之前的状态吗？</p>
+<p><strong>合理使用反模式</strong>：如下是将图片或者大文件存储在数据库之外的好理由</p>
+<p>　　1、这个数据库在没有图片的时候能精艺很多，因为图片相比于简单的数据类型来说大很多；</p>
+<p>　　2、当不包含图片时备份数据库会更快并且备份的文件更小。你必须额外的执行一次文件备份，</p>
+<p>​          但这些比备份一个大型数据库要更容易管理；</p>
+<p>　　3、如果图片是存储在数据库之外的文件系统中，对图片的预览或者编辑就能够使用更简单直接的处理方式。</p>
+<p>　　如果这些图片存在文件系统中的好处是重要的，那么可以将大文件存储在数据库之外。</p>
+<p><strong>解决方案</strong>：在需要的时候使用BLOB类型。</p>
+<p>　　所有的数据库产品都支持BLOB类型，支持你存储任何二进制数据。</p>
+<p><strong>注</strong>: 存储在数据库之外的数据不由数据库管理</p>
+<h3 id="13-使用索引"><a href="#13-使用索引" class="headerlink" title="13. 使用索引"></a>13. 使用索引</h3><p><strong>目标</strong>：优化性能</p>
+<p>​        改善性能最好的技术就是在数据库中合理地使用索引。</p>
+<p>　　 索引也是数据结构，它能使数据库将指定列中的某个值快速定位在相应的行。</p>
+<p><strong>反模式</strong>：无规划的使用索引</p>
+<p>　　1、不使用索引或索引不足</p>
+<p>　　2、使用了太多的索引或一些无效的索引</p>
+<p>　　　　（1）大多数数据库会自动地位主键建立索引，因此额外再定义一个索引就是冗余。这个额外的索引并无任何好处，它只会成为额外的开销。</p>
+<p>　　　　（2）字符串索引很大，而且也不太可能对它进行<strong>全匹配查找</strong>。</p>
+<p>　　　　（3）使用组合索引是一个很好的选择，但是大部分创建的组合索引都是冗余或者很少使用。</p>
+<p>​                  组合索引的顺序也很重要：在查询条件、联合条件或者排序规则上使用索引时按照<strong>从左到右的顺序</strong>。</p>
+<p>　　3、执行了一些让索引无能为力的查询</p>
+<p>　　　　Like、表达式，都可能使索引无效。</p>
+<p><strong>如何识别反模式</strong>：当出现以下情况时，可能是反模式</p>
+<p>　　1、这是我的查询语句，怎样使它更快？</p>
+<p>　　2、我在每个字段上都定义了索引，为什么它没有变的更？</p>
+<p>　　3、我听说索引会使数据库变慢，所以我不使用它。</p>
+<p><strong>合理使用反模式</strong>：</p>
+<p>　　　　<strong>分离率</strong>是衡量数据库索引的一个指标。分离率越高索引效率就越高。需要时刻关注你的数据库中索引的分离率，并且抛弃那些低效的索引。 </p>
+<p><strong>解决方案</strong>：MENTOR你的索引</p>
+<p>　　1、Measure测量：大多数数据库都提供了一些方法来记录执行SQL查询的耗时，因此可以来定位最耗时的查询。</p>
+<p>　　2、Explain解释：测量之后，分析查询变慢的原因。</p>
+<p>​          每个数据库都使用一种优化工具为每次查询选择最合适的索引，并生产分析报表，称之为“<strong>查询执行计划（QEP）</strong>”。</p>
+<p>　　3、Nominate挑选：有了查询优化工具的QEP报表，应该仔细地查找那些没有使用索引的查询操作。</p>
+<p>　　4、Test测试：创建完索引之后，需要重新测试跟踪那些查询，确认你的改动确实提升了性能。</p>
+<p>　　5、Optimize优化：索引是小型的、频繁使用的数据结构，因为很适合将他们常驻在内存中。内存操作的性能是磁盘I/O操作的好几倍。</p>
+<p>​          数据库服务器允许你配置缓存所需要的系统内存大小。   </p>
+<p>　　6、Rebuild重组：索引在平衡的时候其效率最高，当你更新或者删除记录时，索引就逐渐变得不平衡。　</p>
+<p>​          要想最大限度地使用索引，因此要定期对索引进行维护。</p>
+<p><strong>结论</strong>：了解你的数据库，了解你的查询，然后MENTOR你的索引。</p>
+<h3 id="14-对未知的恐惧"><a href="#14-对未知的恐惧" class="headerlink" title="14. 对未知的恐惧"></a>14. 对未知的恐惧</h3><p><strong>目标</strong>：辨别并使用Null值</p>
+<p><strong>反模式</strong>：将Null值作为普通的值，反之亦然</p>
+<p>　　1、在表达式中使用Null：</p>
+<p>​          Null值与空字符串是不一样的，Null值参与任何的加、减、乘、除等其他运算，<strong>结果都是Null</strong>；</p>
+<p>​          Null值与False也不同。And、Or和Not三个bool操作如果设计Null，结果很迷惑。</p>
+<p>　　2、搜索运行为空的列：任何与Null的比较逗返回“未知”，既不是True，也不是False。</p>
+<p>​          在Where表达式中只能使用 Is Null 或者 Is Not Null，其他操作都查询不到结果。</p>
+<p>　　3、不能使用Null作为参数传入查询表达式中。</p>
+<p>　　要避免上述问题，可以使用约束，设置列禁止Null。存储值必须是有意义的内容。</p>
+<p><strong>如何识别反模式</strong>：当出现以下情况时，可能是反模式</p>
+<p>　　1、我如何将没有值（Null）的列取出来？</p>
+<p>　　2、将字符串与Null进行拼接操作，结果返回Null</p>
+<p><strong>合理使用反模式</strong>：</p>
+<p>　　使用Null并不是反模式，反模式是将Null作为一个普通值处理或者使用一个普通的值来取代Null的作用。有一种情况可以讲Null视为普通值，就是导入或者导出数据的时候。 </p>
+<p><strong>解决方案</strong>：将Null值视为特殊值　</p>
+<p>　　1、在标量表达式中使用null</p>
+<p>　　　　进行=、&lt;&gt;、+、||操作时，只要有一个null值，结果就为null。</p>
+<p>　　2、在布尔表达式中使用null</p>
+<p>　　　　布尔表达式中，只有：null and false结果为false，null or true结果为true，其它情况结果都是null。</p>
+<p>　　3、检索null值</p>
+<p>　　　　使用 is null、is not null</p>
+<p>　　4、声明not null列</p>
+<p>　　　　有时候可以通过使用default值来避免null，但有时候却不可以这么做。</p>
+<p>　　5、使用动态默认值</p>
+<p>　　　　SqlServer中的Coalesec()与isnull()函数</p>
+<h3 id="15-模棱两可的分组"><a href="#15-模棱两可的分组" class="headerlink" title="15. 模棱两可的分组"></a>15. 模棱两可的分组</h3><p><strong>目标</strong>：查询得到每组的max（或者min等其他聚合函数）值，并且得到这个行的其他字段 </p>
+<p><strong>反模式</strong>：引用非分组列</p>
+<p>　　1、单值规则：跟在Select之后的选择列表中的每一列，对于每个分组来说都必须返回且仅返回一直值。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> ProductId,<span class="keyword">Max</span>(DateReported) <span class="keyword">as</span> Latest</span><br><span class="line"><span class="keyword">from</span> Bugs  <span class="keyword">as</span> b</span><br><span class="line"><span class="keyword">Join</span> BugProducts  <span class="keyword">as</span> bp</span><br><span class="line"><span class="keyword">on</span> b.BugId = bp.BugId</span><br><span class="line"><span class="keyword">Group</span> <span class="keyword">by</span> ProductId;</span><br></pre></td></tr></table></figure>
+<p>　　在Group By字句中出现的列能够保证他们在每一组都只有一个值，无论这个组匹配多少行；</p>
+<p>​        Max()等表达式也能保证每组都返回单一的值，即传回参数中的最大值。</p>
+<p><strong>如何识别反模式</strong>：当输入一个违背了单值规则的查询时，会立刻返回给你一个错误。数据库会返回不同的错误信息。</p>
+<p>　　在SQLite和MySQL中，有歧义的列可能包含不可预测的和不可靠的数据。</p>
+<p><strong>合理使用反模式</strong>：</p>
+<p>　　没有歧义的关系叫做“<strong>功能依赖</strong>”，最常见的就是表的主键和对应的值。</p>
+<p><strong>解决方案</strong>：使用无歧义的列</p>
+<p>　　1、只查询功能依赖的列：将有歧义的列排除在查询之外。</p>
+<p>　　2、使用关联子查询：关联子查询会引用外连接查询，并且根据外联结果查询中的每一条记录最终返回不同的结果。</p>
+<p>​          关联子查询的性能不是最好的，因为外联结查询结果中的每一条记录都会执行一遍关联的子查询。</p>
+<p>　　3、使用衍生表：使用衍生表来执行子查询，先得到一个临时的结果，然后用这个临时表和原表进行连接查询。</p>
+<p>​          性能相比子查询更好一些。但是数据库必须将临时表得到的记录存在一张临时表中，因此这个方案也不是最好的。</p>
+<p>　　4、使用Join：创建一个联结查询区匹配哪些可能不存在的记录。这样的查询结果被称为<strong>外连接查询。</strong>该方案使用与针对大量数据查询并且可伸缩性比较关键时。能更好的适应数据量的变化，但是难以理解与维护。</p>
+<p>　　5、对额外的列使用聚合函数。只有确定最新的bug_id对应的Bug的日期也是最新的时候，才能使用这个方案，也就是说，Bug是按照时间顺序提交的。</p>
+<p>　　6、链接同组所有值：MySQL与SQLite提供了一个叫做Group_Contract（）函数，能将这一组中的所有的值连在一起作为单一值返回，多个值之间用逗号分隔。其他数据库不支持该函数。 </p>
+<p><strong>结论</strong>：遵循单值规则，避免获得模棱两可的查询结果。</p>
+<h3 id="16-使用随机数排序"><a href="#16-使用随机数排序" class="headerlink" title="16. 使用随机数排序"></a>16. 使用随机数排序</h3><p><strong>目标</strong>：随机排序，使用高效的SQL语句查询获取随机数据样本。</p>
+<p><strong>反模式</strong>：使用RAND()随机函数</p>
+<p>​           SELECT * FROM Employees AS e ORDER BY RAND() Limit 1</p>
+<p>　　缺点：无法利用索引，每次选择的时候都不同且不可预测。进行<strong>全表遍历</strong>，性能极差。</p>
+<p><strong>如何识别反模式</strong>：当出现以下情况时，可能是反模式</p>
+<p>　　1、在SQL中，返回一个随机行速度非常慢；</p>
+<p>　　2、要获取所有的记录然后随机一个。要如何增加程序可使用的内存大小？</p>
+<p>　　3、有些列出现的频率比别的列要高一些，这个随机算法不是很随机。 </p>
+<p><strong>合理使用反模式</strong>：在数据量很小的时候，可以使用随机排序。</p>
+<p><strong>解决方案</strong>：没有具体的排序……</p>
+<p>　　1、从1到最大值之间随机选择</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> b1.* </span><br><span class="line"><span class="keyword">from</span> Bugs <span class="keyword">as</span> b1</span><br><span class="line"><span class="keyword">join</span> (<span class="keyword">select</span> <span class="keyword">ceiling</span>(<span class="keyword">rand</span>()*(<span class="keyword">select</span> <span class="keyword">max</span>(bugId) <span class="keyword">from</span> Bugs)) <span class="keyword">as</span> randId) <span class="keyword">as</span> b2</span><br><span class="line">  <span class="keyword">on</span> (b1.bugId = b2.bugId);</span><br></pre></td></tr></table></figure>
+<p>​          因为id可能是不连续的，所以可能有时候无法查询到结果。</p>
+<p>　　2、选择下一个最大值</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> b1.* </span><br><span class="line"><span class="keyword">from</span> Bugs <span class="keyword">as</span> b1</span><br><span class="line"><span class="keyword">join</span> (<span class="keyword">select</span> <span class="keyword">ceiling</span>(<span class="keyword">rand</span>()*(<span class="keyword">select</span> <span class="keyword">max</span>(bugId) <span class="keyword">from</span> Bugs)) <span class="keyword">as</span> randId) <span class="keyword">as</span> b2</span><br><span class="line"><span class="keyword">where</span>  b1.bugId &gt;= b2.bugId <span class="comment">--为了避免id不存在，我们找上面那条id的后一条数据。</span></span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> b1.bugId <span class="keyword">limit</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>​            当缝隙中是缝隙不是很大并且每个值都要被等概率选择的重要性不是很高时，可以考虑使用此方案。</p>
+<p>　　3、索取所有的键值，随机选择一个，再使用这个随机选择的主键查找完整的记录。</p>
+<p>　　4、使用偏移量选择随机行</p>
+<p>计算总的数据行数，随机选择0到总行数之间的一个值，然后用这个值作为位移来获取随机行</p>
+<p>​       5、专有解决方案</p>
+<p>　　每种数据库都提供专有的解决方案</p>
+<p><strong>结论</strong>：有些查询是无法优化的，换种方法试试看。</p>
+<h3 id="17-可怜人的搜索引擎"><a href="#17-可怜人的搜索引擎" class="headerlink" title="17. 可怜人的搜索引擎"></a>17. 可怜人的搜索引擎</h3><p><strong>目标</strong>：全文搜索</p>
+<p>​        使用SQL搜索关键字，同时保证快速和精确，依旧是相当地困难。</p>
+<p>​        SQL的一个基本原理（以及SQL所继承的关系原理）就是一列中的单个数据是<strong>原子性</strong>的。</p>
+<p><strong>反模式</strong>：模式匹配</p>
+<p>​           使用Like 或者正则表达式。</p>
+<p>　　缺点：（1）无法使用索引，进行全表遍历，非常耗时，性能极低。</p>
+<p>　　　　　（2）有时候会返回意料之外的结果。select * from bugs where description like ‘%one%’，</p>
+<p>​                    返回结果可能是money、prone、lonely。</p>
+<p>​                    正则表达式可能会为单词边界提供一个模式来解决单词的匹配问题: </p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Bugs <span class="keyword">WHERE</span> description REGEXP <span class="string">'[[:&lt;:]]one[[:&gt;:]]'</span>;</span><br></pre></td></tr></table></figure>
+<p><strong>如何识别反模式</strong>：当出现以下情况时，可能是反模式</p>
+<p>　　1、如何在like表达式的2个通配符之间插入一个变量？</p>
+<p>　　2、如何写一个正则表达式来检查一个字符串是否包含多个单词、不包含一个特定的单词，或者包含给定单词的任意形式？</p>
+<p>　　3、网站的搜索功能在增加了很多文档进去之后慢的不可理喻。</p>
+<p><strong>合理使用反模式</strong>：</p>
+<p>　　1、性能总是最重要的，如果一些查询过程很少执行，就不必要花很多功夫去对它进行优化</p>
+<p>　　2、使用模式匹配操作进行很复杂的查询是很困难的，但是如果你为了一些简单的需求设计这样的模式匹配，它们能帮助你用最少的工作量获得正确的结果。</p>
+<p><strong>解决方案</strong>：使用正确的工具</p>
+<p>　　最好的方案就是使用特殊的搜索引擎技术，而不是SQL。</p>
+<p>　　另一个方案是将结果保存起来从而减少重复的搜索开销。</p>
+<p>　　1、MySQL中的全文索引：可以再一个类型为Char、varchar或者Text的列上定义一个全文索引。然后使用Match函数来搜索。</p>
+<p>　　2、Oracle中的文本索引：Context、Ctxcat、Ctxxpath、Ctxule。</p>
+<p>　　3、SQL Server中的全文搜索：使用Contains()操作符来使用全文索引。使用之前需要通过复杂的步骤来配置。</p>
+<p>　　4、PostgreSQL的文本搜索：提供一个复杂大可大量配置的方式来将文本转换为可搜索的词汇集合，并且让这些文档能够进行模式匹配搜索。</p>
+<p>　　5、SQLite的全文搜索：使用SQLite的扩展组件来实现。</p>
+<p>　　6、第三方搜索引擎：</p>
+<p>　　　　（1）Sphinx Search：开源的搜索引擎，用于MySQL以及PostgreSQL来配套使用。</p>
+<p>　　　　（2）Apache Lucene:是一个针对Java程序的成熟搜索引擎。</p>
+<p>​       7、实现自己的搜索引擎：</p>
+<p>​          使用反向索引方案：反向索引就是一个所有可能被搜索的单词列表。</p>
+<p>　　　　（1）定义一个<strong>KeyWords表</strong>来记录所有用户搜索的关键字，然后定义一个<strong>交叉表</strong>来建立多对多的关系。</p>
+<p>　　　　（2）将每个关键字和匹配的内容添加到交叉表中。</p>
+<p>　　　　　　　　当有新的搜索单词，就使用like查询结果，并将结果保存到交叉表里，这样下次就不必like了。当有新的文档入库，就需要用触发器（或者定时）去填充交叉表。</p>
+<p><strong>结论</strong>：不必使用SQL来解决所有问题。</p>
+<h3 id="18-意大利面条式查询"><a href="#18-意大利面条式查询" class="headerlink" title="18. 意大利面条式查询"></a>18. 意大利面条式查询</h3><p><strong>目标</strong>：减少SQL查询数据</p>
+<p><strong>反模式</strong>：使用一步操作解决复杂问题</p>
+<p>　　使用一个查询来获得所有结果的最常见后果就是产生了一个<strong>笛卡尔积</strong>。导致查询性能降低。 </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT p.product_id, </span><br><span class="line">  COUNT(f.bug_id) AS count_fixed,</span><br><span class="line">  COUNT(o.bug_id) AS count_open,</span><br><span class="line">FROM BugsProducts p</span><br><span class="line">LEFT OUTER JOIN Bugs f ON (p.bug_id = f.bug_id AND f.status = &apos;FIXED&apos;)</span><br><span class="line">LEFT OUTER JOIN Bugs o ON (p.bug_id = o.bug_id AND o.status = &apos;OPEN&apos;)</span><br><span class="line">WHERE p.product_id = 1</span><br><span class="line">GROUP BY P.product_id;</span><br></pre></td></tr></table></figure>
+<p>你碰巧知道对于给定的这个产品，有12个Bug被修复了，有7个Bug是打开的，因此，结果看上去很耐人寻味：</p>
+<p>Product_id           count_fixed           count_open</p>
+<p>1                               84                          84</p>
+<p><strong>如何识别反模式</strong>：当出现以下情况时，可能是反模式</p>
+<p>　　1、为什么我的求和、技术返回的结果异常地大？</p>
+<p>　　2、我一整天都在和整个变态的查询语句做斗争。SQL并不是那么的难写，如果你和单条SQL查询纠结了很长时间，</p>
+<p>​          应该重新考虑实现方式。</p>
+<p>　　3、试试再加一个Distinct去除重复数据。</p>
+<p><strong>解决方案</strong>：分而治之</p>
+<p>　　1、用多个sql语句查询得到数据，再进行整合。或者union多个sql的结果。</p>
+<p>　　2、使用SQL语句批量生成多个动态SQL语句。</p>
+<p><strong>结论</strong>：尽管SQL支持用一行代码解决复杂的问题，但是也别做不切实际的事情。</p>
+<h3 id="19-使用-号，隐式的列"><a href="#19-使用-号，隐式的列" class="headerlink" title="19. 使用*号，隐式的列"></a>19. 使用*号，隐式的列</h3><p><strong>目标</strong>：减少输入 </p>
+<p><strong>反模式</strong>：捷径会让你迷失方向</p>
+<p>　　使用通配符和未命名的列能够达到减少输入的目的，但是这个习惯会带来一些危害。</p>
+<p>　　1、破坏代码重构：增加一列后，使用隐式的Insert插入语句报错；</p>
+<p>　　2、查询中使用通配符，影响性能和扩展性。大量数据在网络之间传输，可能会造成阻塞。</p>
+<p><strong>如何识别反模式</strong>：当出现以下情况时，可能是反模式</p>
+<p>　　1、程序由于还使用老的列名而挂掉。</p>
+<p>　　　　改变了数据库里的一张表，添加、删除、重命名列，或者改变列的顺序。但没能更新全部使用到这张表的代码。</p>
+<p>　　2、花了几天时间终于找到了网络的瓶颈，终于减小了到数据库服务器的庞大的通信量。</p>
+<p><strong>合理使用反模式</strong>：</p>
+<p>　　1、在开发或者测试环境下可以使用通配符，在生成环境下尽量不要使用。</p>
+<p>　　2、可以在联结查询中的每个独立的表使用通配符。在通配符之前加上表名或者别名作为前缀。</p>
+<p>　　3、如果你的程序需要在增加、删除、重命名或者重新配置列时依旧能自动适应及调整，</p>
+<p>　　　那最好还是使用通配符。</p>
+<p><strong>解决方案：</strong>明确列出列名</p>
+<p><strong>结论：</strong>无论如何都不要使用通配符 </p>
+<h3 id="20-明文密码"><a href="#20-明文密码" class="headerlink" title="20. 明文密码"></a>20. 明文密码</h3><p><strong>目标</strong>：恢复或重置密码</p>
+<p><strong>反模式</strong>：使用明文存储密码</p>
+<p>　　1、存储密码</p>
+<p>　　　　使用明文存储密码或者在网络上传递密码是不安全的。</p>
+<p>​          如果攻击者截取到你用来插入（或者修改）密码的sql语句，就可以获得密码。</p>
+<p>　　     黑客获取密码的方式有很多种：</p>
+<p>　　　　（1）在客户端和服务器端数据库交互的网络线路上接货数据包。比如使用Wireshark黑客软件。</p>
+<p>　　　　（2）在数据库服务器上搜索SQL的查询日志。</p>
+<p>　　　　（3）从服务器或者备份介质上读取数据库备份文件内的数据。</p>
+<p>　　2、验证密码：同上。</p>
+<p>　　3、在Email中发送密码：Email的收发都需要经由网络层传输，数据可能会在其他的路由节点上被黑客劫持。 </p>
+<p><strong>如何识别反模式</strong>：当出现以下情况时，可能是反模式合理使用反模式：</p>
+<p>　　1、能够恢复你的密码；</p>
+<p>　　2、将密码通过邮件以明文或可逆转的加密的格式发给你的程序。</p>
+<p><strong>合理使用反模式</strong>：</p>
+<p>　　1、你的程序可能需要使用密码来访问一个地第三方的服务，这意味着你的程序可能是一个客户端，</p>
+<p>​          必须使用可读的格式来存储这个密码。最好的做法是使用一些程序能够解码的加密方法来存储，</p>
+<p>　　　　而不是直接使用明文的方式存储在数据库中。</p>
+<p>　　2、并不是所有的程序都有被攻击的风险，也不是所有的程序都有敏感的程序需保护的信息。</p>
+<p>　　　　内文通讯的程序，只使用认证机制就可以了。</p>
+<p><strong>解决方案</strong>：</p>
+<p>　　1、先加密再存储</p>
+<p>​         （1）哈希是指将输入字符串转换成为另一个新的、不可识别的字符串的函数。</p>
+<p>​                哈希算法是不可逆的。</p>
+<p>　　　（2）在SQL中使用哈希</p>
+<p>　　　　　　哈希函数并是标准的SQL语言，因此你可能要依赖于所使用的数据库提供的哈希扩展。</p>
+<p>​               insert into Accounts(AccountId,AccountName,password)</p>
+<p>​               values(123,’billKarwin’, <strong>SHA2(</strong>‘xyzzy’<strong>)</strong>);—MySQL6.0.5的扩展函数</p>
+<p>​            （3）给哈希加料</p>
+<p>　　　　　  使用哈希值替换原来的明文密码，但是黑客仍然能够破解你的哈希值。通过他们预先准备好的自己的数据库，里面存储的可能的密码与对应的哈希值，然后比较久可以找出明文密码。预防这种“字典攻击”的一种方法是给你的密码加密表达式加点佐料。具体方法是在将用户密码传入哈希函数进行加密之前，将其和一个无意义的字符串拼接在一起。</p>
+<p>​               SHA2(‘password’) = ‘5exxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxd8’;</p>
+<p>​               SHA2(‘password-0xT!sp9’) = ‘72xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx5b’;</p>
+<p>​               佐料的合理长度应该是8个字节。</p>
+<p>　　　　（4）在SQL中隐藏密码</p>
+<p>​                 只要不将明文密码放到SQL查询语句中，就能避免泄露。</p>
+<p>​                 具体做法：在程序代码中生成密码的哈希字符串，然后在SQL查询中使用哈希串。</p>
+<p>　　　　（5）在网络传输中，还有一个地方是攻击者有机会接货网络数据包的：在用户的浏览器和网站服务器之间。</p>
+<p>​                  当用户提交了一个登录表单时，浏览器将用户的密码以明文方式发送到服务器端，随后服务器端才能</p>
+<p>​                 使用这个密码进行哈希运算。</p>
+<p>​                 解决方法：在用户的浏览器发送表单数据之前就进行哈希运算。</p>
+<p>​                 但是这个方案也有一些不足的地方，就是你需要再进行正确的哈希运算之前，还要通过别的途径来获得和</p>
+<p>​                 这个密码相关联的佐料。这种方案是在从浏览器向服务器端提交表单密码时，使用安全的HTTP(https)链接。</p>
+<p>　　2、重置密码而不是恢复密码</p>
+<h3 id="21-SQL注入"><a href="#21-SQL注入" class="headerlink" title="21. SQL注入"></a>21. SQL注入</h3><p><strong>目标</strong>：编写SQL动态查询，防止SQL注入</p>
+<p>　　通常所说的“<strong>SQL动态查询</strong>”是指将程序中的变量和基本SQL语句拼接成一个完整的查询语句。</p>
+<p><strong>反模式</strong>：将未经验证的输入作为代码执行</p>
+<p>　　当向SQL查询的字符串中插入别的内容，而这些被插入的内容以你不希望的方式修改了查询语法时，<strong>SQL注入</strong>就成功了。</p>
+<p>　　传统的SQL注入案例中，所插入的内容首先完成了一个查询，然后再执行第二个完整的查询逻辑比如：@bugId的值是1234;Delete from Bugs，最后的SQL语句变成如下格式：</p>
+<p>​      Select * from Bugs where bugId = 1234<strong>;Delete from Bugs</strong></p>
+<p>​       1、意外无处不在</p>
+<p>​         由于字符串引起的语法错误，SQL语句是不会被执行的。</p>
+<p>　　    风险较大的是产生的SQL没有任何语法错误，并且以一种你所不希望的方式执行。</p>
+<p>　　2、对Web安全的严重威胁</p>
+<p>　　　　当攻击者能够使用SQL注入操控你的SQL查询语句时，就变成了一个巨大的威胁。</p>
+<p>​           通常做法是在参数后插入额外的字符串，改变对应SQL语句的意义，例如：</p>
+<p>​          Update Account </p>
+<p>​          set password = SHA2(‘zyxzy’)</p>
+<p>​          where accountId = 123 <strong>or true</strong>  –在传入accountId参数等于123的后面，添加了 or true</p>
+<p>​          理解SQL注入的关键，也是如何防止SQL注入的关键：<strong>SQL注入是通过在SQL语句被数据库解析之前，</strong></p>
+<p><strong>以修改其语法的形式工作的</strong>。只要在解析语句之前插入动态部分，就存在SQL注入的风险。</p>
+<p>3、寻找解决方法</p>
+<p>　　　　（1）转义：对传入的参数字符串进行转义操作，使它们不至于成为字符串的结束符。</p>
+<p>​                         使用2个连续的单引号或者反斜杠来转义。实现原理是在将应用程序中的数据插入到SQL语句之前</p>
+<p>​                         就进行转换。这种技术能减少由于动态内容中不匹配是引号做造成的SQL注入的风险，但在非字符串</p>
+<p>​                         内容的情况下，这种技术就会失效。</p>
+<p>　　　　（2）查询参数：查询参数的做法是在准备查询语句的时候，在对应参数的地方使用“<strong>参数占位符</strong>”。随后，</p>
+<p>​                         在执行这个预先准备好的查询时提供一个参数。</p>
+<p>​                         该方法的确是应对SQL注入的强劲解决方案，但是这还不是一个通用的解决方案，因为查询参数总是被视为是一个字面值。</p>
+<p>　　　　　　（a）多个值的列表不可以当成单一参数；</p>
+<p>　　　　　　（b）表名无法作为参数；</p>
+<p>​                      （c）列名无法作为参数；</p>
+<p>​                      （d）SQL关键字无法作为参数；</p>
+<p>　　　　（3）存储过程：存储过程是包含固定的SQL语句，这些语句在定义这个存储过程的时候被解析的。</p>
+<p>​                 在存储过程也可以使用SQL动态查询的，这样也存在安全隐患。</p>
+<p>　　　　（4）数据访问框架ORM：对于所有允许你使用字符串方式传入SQL语句的框架来说，都无法抵御SQL注入的攻击。</p>
+<p><strong>如何识别反模式</strong>：几乎所有的数据库应用程序都动态地构建SQL语句，如果使用拼接字符串的形式或者将变量插入到字符串的</p>
+<p>　　方法来构建SQL语句，这样的sql语句就会受到SQL注入攻击的威胁。 </p>
+<p><strong>合理使用反模式</strong>：没有任何理由使用反模式</p>
+<p><strong>解决方案</strong>：</p>
+<p>　　1、过滤输入内容，将所有不合法的字符从用户输入中剔除掉。</p>
+<p>　　2、参数化动态内容：如果查询中的变化部分是一些简单的类型，应该使用查询参数将其和SQL表达式分离。</p>
+<p>​         如果是在RDBMS解析完SQL语句之后才插入这个参数值，没有哪种SQL注入的功能能改变一个参数化了查询的语法结构。</p>
+<p>​         即使攻击者尝试使用带有恶意的参数值，诸如123 or true ，关系型数据库管理系统也会将这个字符串当成一个完整的值插入     </p>
+<p>​           Update Account </p>
+<p>​           set password = SHA2(‘zyxzy’</p>
+<p>​           where accountId =<strong>‘123 or true’ –当做一个完整的字符串而不会造成威胁</strong></p>
+<p>​        3、给动态输入的值加引号</p>
+<p>​          参数查询通常来说是最好的解决方案，但是在有些特殊的情况下，参数的占位符会导致查询优化器无法选择使用</p>
+<p>​          哪个索引来进行优化查询。</p>
+<p>​        4、找个可靠的人来帮你审查SQL语句</p>
+<p>​          在检查代码是否包含SQL注入风险的时候，参考一下几点：</p>
+<p>　　　　（1）找出所有使用了程序变量、字符串链接或者替换等方法组成的SQL语句。</p>
+<p>　　　　（2）跟踪在SQL语句中使用的动态内容的来源。找出所有的外部输入，比如用户输入、文件、系统环境、网络服务、 第三方代码，甚至于从数据库中获取的字符串。</p>
+<p>​              （3）假设任何外部内容都是潜在的威胁，对于不受信任的内容都要进行过滤、验证或者使用数组映射的方式来处理。</p>
+<p>　　　　（4）在将外部数据合并到SQL语句时，使用查询参数，或者用稳健的转义函数预先处理。</p>
+<p>　　　　（5）在存储过程的代码以及任何其他使用SQL动态查询语句的地方都做同样的检查。 </p>
+<p><strong>结论</strong>：让用户输入内容，但永远别让用户输入代码 </p>
+<h3 id="22-伪键洁癖，整理数据"><a href="#22-伪键洁癖，整理数据" class="headerlink" title="22. 伪键洁癖，整理数据"></a>22. 伪键洁癖，整理数据</h3><p><strong>目标</strong>：整理数据，使不连续的主键Id数据记录变的连续。</p>
+<p><img src="http://images.cnitblog.com/blog/142275/201410/171635185299075.png" alt="img"></p>
+<p><strong>反模式</strong>：填充断档的数据空缺。</p>
+<p>　　1、不按照顺序分配编号</p>
+<p>​          在插入新行时，通过遍历表，找到的第一个未分配的主键编号分配给新行，来代替原来自动分配的伪主键机制。</p>
+<p>​          使用Select Max(Id) + 1 这种查询语句，会出现并发访问的问题。</p>
+<p>　　2、为现有数据行重新编号：通常做法是找到主键最大的行，然后用最小的未被使用的值来更新它。</p>
+<p>　　　　缺点：（1）SQL语句比较麻烦；</p>
+<p>　　　　　　   （2）必须同时更新所有引用了你重新分配了主键的行的子记录；</p>
+<p>　　　　　　　（3）无法避免产生新的断档。</p>
+<p>​       3、制造数据差异</p>
+<p>　　　　如果别的外部系统依赖于数据库中的主键来定义数据，那么你的更新操作就会导致那个系统中的引用失效。</p>
+<p>　　　　重用主键不是一个号的注意，因为断档往往是由于一些合理的删除或者回滚数据所造成的。</p>
+<p>　　　　别因为那些伪键看上去是没用的而重新分配他们。</p>
+<p><strong>如何识别反模式</strong>：当出现以下情况时，可能是反模式</p>
+<p>　　1、在我回滚了一个插入操作后，要怎么重用囊而自动生成的标识？</p>
+<p>​          伪键一旦生成后不会回滚。如果非要回滚，RDBMS就必须在一耳光事务的声明周期内生成一个伪键，</p>
+<p>​          而这在多个客户端并发地插入数据时，会导致竞争或者死锁。</p>
+<p>　　2、bugId为3的这条记录怎么了？</p>
+<p>　　3、如何找到第一个未使用的Id？</p>
+<p>　　4、自增长整形id的数字标识如果达到了最大值怎么办？</p>
+<p><strong>合理使用反模式</strong>：</p>
+<p>　　没有理由要去改变伪键的值，由于它的值本身并没有什么重要的意义。如果这个主键列有实际的意义，那么这就是一个自然键，而不是伪键。</p>
+<p><strong>解决方案</strong>：</p>
+<p>　　主键的值必须是唯一且非空的，因而你才能使用主键来唯一确定一行记录，但这是主键的唯一约束，</p>
+<p>​     他们不需要一定非得是连续值才能用来标记行。</p>
+<p>　　1、定义行号：使用Row_Number()或者Limit等关键字来实现；</p>
+<p>　　2、使用Guid：数据库全局唯一标识符。</p>
+<p>​          优点：（1）可以再多个数据库服务器上并发地生成伪键，而不用担心生成同样的值。</p>
+<p>​                  （2）不存在断档的问题。</p>
+<p>​          缺点：（1）Guid的值太长，不方便输入；</p>
+<p>　　　　　　　（2）Guid的值是随机的，因此找不到任何规则或者依靠最大值来判断哪一行的最新插入的；</p>
+<p>　　　　　　　（3）Guid的存储需要16字节，这比传统的4自检整形伪键占用更多的控件，并且查询的速度更慢</p>
+<p><strong>结论</strong>：将伪键当做行的唯一性标识，但它们不是行号。</p>
+<h3 id="23-非礼勿视"><a href="#23-非礼勿视" class="headerlink" title="23. 非礼勿视"></a>23. 非礼勿视</h3><p><strong>目标</strong>：写更少的代码</p>
+<p><strong>反模式</strong>：无米之炊 忽略数据库API的返回值，将程序代码跟SQL混在一起<br>​       1.没有诊断的诊断 在多条sql顺序执行过程中，最好对结果进行诊断，保证错误能够快速定位。<br>​       2.字里行间 花费大量时间调试生成sql字符串的代码</p>
+<p><strong>解决方案</strong>：优雅的从错误中恢复<br>​       1.保持节奏 检查数据库API的返回状态和异常。<br>​       2.回溯你的脚步。sql语句记录，输出，调试。发现并解决代码中的问题已经很苦难了，就别再盲目的干了。</p>
+<h3 id="24-外交豁免权"><a href="#24-外交豁免权" class="headerlink" title="24. 外交豁免权"></a>24. 外交豁免权</h3><p>​  <strong>目标</strong>：最佳实践 使用版本控制工具管理源代码，编写单元测试脚本；编写文档，代码注释。<br>​  <strong>反模式</strong>：将SQL视为二等公民。</p>
+<h3 id="25-魔豆"><a href="#25-魔豆" class="headerlink" title="25. 魔豆"></a>25. 魔豆</h3><p><strong>目标</strong>: 简化MVC的模型</p>
+<p><strong>反模式</strong>: 模型仅仅是活动记录</p>
+<p>Robert L. Glass认为：</p>
+<blockquote>
+<p>80%的软件工作是智力活动。相当大的比例是创造性的活动，很少是文书性的工作。</p>
+</blockquote>
+<p>MVC架构指：模型-视图-控制器。我们使用MVC就是同时使用设计模式和软件框架。这是拆分程序逻辑的技术。</p>
+<ul>
+<li>View：处理输出。</li>
+<li>Controller：接收用户输入，处理响应逻辑，委托给Module执行操作，将结果传递给View。</li>
+<li>Module：程序核心，包括输入验证、业务逻辑，与数据库交互等。</li>
+</ul>
+<p>MVC使用者通常犯错在：仅把Module当作DAO（数据访问对象）。</p>
+<p><strong>解决方案</strong>: 模型包含活动记录</p>
+<p>不要把SQL查询语句传给Module对象，Module对象应该囊括了所有它需要的查询。</p>
+<p>将复杂的查询代码写在Module对象里，并作为接口暴露出来。遵循DRY原则。</p>
+<p>分离Module和DAO。Module和DAO/Active Record的关系是包含（has-a）而不是继承（is-a）。</p>
+<p>Module负责创建DAO。一个聚集了一系列DAO的Module应该负责创建这些对象。Controller和View只使用Module暴露出来的接口，而不要处理与数据交互的逻辑（如传递SQL给Module，以求其返回执行结果）。</p>
+<p>Module的接口应该是直接的（与业务逻辑直接相关，而不是过于抽象的接口），而不是数据库物理结构或CRUD操作。ADO/Active Record可以提供如find(), first(), insert(), save()之类的接口，但Module层的接口不要这么干。</p>
+<p>将Module类和DAO解耦，并可以为一个DAO设计多个模型类。</p>
+<p>框架很难给Module提供一个通吃的解决方案。</p>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/11/13/编程语言/Java/Java垃圾回收机制/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/11/29/任务发布/第一期任务/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

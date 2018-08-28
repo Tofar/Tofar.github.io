@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>学习笔记2 | my blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="学习笔记," />
+  
+
+  <meta name="description" content="1. 分享：Java垃圾回收机制一、常用垃圾回收机制1. 标记-清除算法(mark-sweep)  顾名思义，标记-清除算法分为两个阶段，标记(mark)和清除(sweep). 在标记阶段，collector从mutator根对象开始进行遍历，对从mutator根对象可以访问到的对象都打上一个标识，一般是在对象的header中，将其记录为可达对象。 而在清除阶段，collector对堆内存(hea">
+<meta name="keywords" content="学习笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习笔记2">
+<meta property="og:url" content="http://mu-mo.top/2017/11/10/学习笔记/学习笔记2/index.html">
+<meta property="og:site_name" content="my blog">
+<meta property="og:description" content="1. 分享：Java垃圾回收机制一、常用垃圾回收机制1. 标记-清除算法(mark-sweep)  顾名思义，标记-清除算法分为两个阶段，标记(mark)和清除(sweep). 在标记阶段，collector从mutator根对象开始进行遍历，对从mutator根对象可以访问到的对象都打上一个标识，一般是在对象的header中，将其记录为可达对象。 而在清除阶段，collector对堆内存(hea">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://www.processon.com/chart_image/530043e10cf2a3dc99dd9439.png">
+<meta property="og:image" content="http://static.oschina.net/uploads/img/201602/20150856_M3wa.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1010726/201611/1010726-20161116212913717-1922411555.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1010726/201611/1010726-20161116212928498-1546200064.png">
+<meta property="og:image" content="http://www.processon.com/chart_image/5309cefc0cf262b559f8d040.png">
+<meta property="og:image" content="http://www.processon.com/chart_image/53698d6e0cf21db1c3ec9394.png">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000007978404">
+<meta property="og:image" content="http://static.oschina.net/uploads/img/201602/20150856_bMmR.jpg">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/3/18/19439efe7873c65d1db30ae8aed4621a.png?imageView2/0/w/1280/h/960/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/3/18/05e7f5d66bde2e27678d1d2f66d66fd6.png?imageView2/0/w/1280/h/960/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/3/18/a28328cd362bc3d2c93b1f9cacb60fdd?imageView2/0/w/1280/h/960/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/3/18/265211c0de6e0eb91e26fbfa0c6c6ec0?imageView2/0/w/1280/h/960/ignore-error/1">
+<meta property="og:image" content="http://www.processon.com/chart_image/536b116e0cf290134a2ef1d9.png">
+<meta property="og:image" content="http://www.processon.com/chart_image/536b17f90cf290134a2f01fd.png">
+<meta property="og:image" content="http://www.processon.com/chart_image/536b68100cf290134a30ecb4.png">
+<meta property="og:image" content="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/H6qTdZmYEeaagxL7xdFKxA_2f0f671110e8f7446bb2b5b2f75a8874_Screenshot-2016-10-23-20.14.58.png?expiry=1508976000000&hmac=3CSWKalBleGfyzAgiZxdjxxInv5GZTeHDs85dQ5pbGY">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/9406e934gy1fkqusrovohj20ge03hq2x.jpg">
+<meta property="og:image" content="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/bn9SyaDIEeav5QpTGIv-Pg_0d06dca3d225f3de8b5a4a7e92254153_Screenshot-2016-11-01-23.48.26.png?expiry=1508976000000&hmac=NmdRUt6vlmzpzSXAt3L9PCLFSCAnKgYFZ3gV4XtO2-Y">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/9406e934gy1fkquv86c0fj2085033jrb.jpg">
+<meta property="og:image" content="http://mu-mo.top/home/tofar/图片/2017-10-24%2021-50-27屏幕截图.png">
+<meta property="og:image" content="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/QFpooaaaEea7TQ6MHcgMPA_cc3c276df7991b1072b2afb142a78da1_Screenshot-2016-11-09-08.30.54.png?expiry=1508976000000&hmac=xKf_y1jMoptxtkRcj2WKFloH-7p6ZUKYGj5bkt5cgCY">
+<meta property="og:image" content="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/xAQBlqaaEeawbAp5ByfpEg_24e9420f16fdd758ccb7097788f879e7_Screenshot-2016-11-09-08.36.49.png?expiry=1508976000000&hmac=OmTYeJ_Pg3IkmcQ_chZVP26PYwTfnOSW1FB3vB3oKxw">
+<meta property="og:image" content="http://mu-mo.top/home/tofar/图片/2017-10-26%2014-26-15屏幕截图.png">
+<meta property="og:image" content="http://mu-mo.top/home/tofar/图片/选区_001.png">
+<meta property="og:image" content="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/cqmPjanSEeawbAp5ByfpEg_299fcfbd527b6b5a7440825628339c54_Screenshot-2016-11-13-10.52.29.png?expiry=1509840000000&hmac=D_LO3Cj1A63UzmCRezmX9hC5NuaM2cbHh_5rhIQ5oGg">
+<meta property="og:image" content="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/0cOOdKsMEeaCrQqTpeD5ng_2a806eb8d988461f716f4799915ab779_Screenshot-2016-11-15-00.23.30.png?expiry=1509840000000&hmac=WcJEx6zzIssr6tLB-SQiNszurTyWO5XwahWmTDNl3yg">
+<meta property="og:image" content="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/j0X9h6tUEeawbAp5ByfpEg_ea3e85af4056c56fa704547770da65a6_Screenshot-2016-11-15-08.53.32.png?expiry=1509840000000&hmac=CzBB8Iz3mZBzUm3NHZ7RCU4XFzPqGeF7-7xvFmoUUe4">
+<meta property="og:image" content="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/dfHLC70SEea4MxKdJPaTxA_306de28804a7467f7d84da0fe3ee9c7b_Screen-Shot-2016-12-07-at-10.49.02-PM.png?expiry=1509840000000&hmac=J5RxJnuaWJ-FTg0tbSnpjA7MU5nDMyX43E2VMtnu28k">
+<meta property="og:image" content="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/0rgjYLDeEeajLxLfjQiSjg_0c07c56839f8d6e8d7b0d09acedc88fd_Screenshot-2016-11-22-10.08.51.png?expiry=1509840000000&hmac=oXstc_ZFx3gBvNnjuaGLiEuupfe9Wd1kOJO-5Tjk2Ok">
+<meta property="og:image" content="http://mu-mo.top/home/tofar/图片/选区_003.png">
+<meta property="og:image" content="http://mu-mo.top/home/tofar/图片/选区_004.png">
+<meta property="og:image" content="http://mu-mo.top/home/tofar/图片/选区_005.png">
+<meta property="og:image" content="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/f_ueJLGnEea3qApInhZCFg_a5ff8edc62c9a09900eae075e8502e34_Screenshot-2016-11-23-10.03.48.png?expiry=1509840000000&hmac=jV9t2TE8Ctc0RKssdVEtDwI11LGapRp3YI7g7B7JS8g">
+<meta property="og:image" content="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/wMOiMrGnEeajLxLfjQiSjg_bbbdad80f5c95068bde7c9134babdd77_Screenshot-2016-11-23-10.07.24.png?expiry=1509840000000&hmac=gZKlkFwiGiCLR3Q_3OGExXT6ncxmn3RqO59mcjFZ9Mo">
+<meta property="og:image" content="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/rag_zbGqEeaSmhJaoV5QvA_52c04a987dcb692da8979a2198f3d8d7_Screenshot-2016-11-23-10.28.41.png?expiry=1509840000000&hmac=YOOKo2Hmn28h8-nKDqve7NjjRWhsJtXGzP2p3-BKsh8">
+<meta property="og:image" content="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/9Aeo6bGtEea4MxKdJPaTxA_4febc7ec9ac9dd0e4309bd1778171d36_Screenshot-2016-11-23-10.49.05.png?expiry=1509840000000&hmac=wvORZ3183Xjl7ctUpfoB-XDnMGB7IzI1VqZL9xvwwhQ">
+<meta property="og:image" content="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/KBpHLXqiEealOA67wFuqoQ_95654ff11df1261d935ab00553d724e5_Screenshot-2016-09-14-10.38.27.png?expiry=1509840000000&hmac=o6UcU8scndsC02Q_9DDFqtI7ueshAkBOKojuX2gbcL4">
+<meta property="og:image" content="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/VBxpV7GvEeamBAoLccicqA_3e7f67888330b131426ecffd27936f61_Screenshot-2016-11-23-10.59.19.png?expiry=1509840000000&hmac=b2kurSaA6PMDAnu8m0wvFNVvct9z7bSUQ0y6x5TZ03w">
+<meta property="og:image" content="http://mu-mo.top/home/tofar/图片/选区_006.png">
+<meta property="og:image" content="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/Ul6i5teoEea1UArqXEX_3g_a36fb24a11c744d7552f0fecf2fdd752_Screenshot-2017-01-10-17.13.27.png?expiry=1509926400000&hmac=wMDYoXXSbNtFlREMpqv0cMzNEv4aDqAnSjq__vDm1eY">
+<meta property="og:image" content="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/qc309rdcEea4MxKdJPaTxA_324034f1a3c3a3be8e7c6cfca90d3445_fixx.png?expiry=1509926400000&hmac=GjJrf5QSEM8gKqigNNdwm6kH4XPGCQ1ZMgFmchQ_0ng">
+<meta property="og:image" content="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/y7gaS7pXEeaCrQqTpeD5ng_8868ccda2c387f5d481d0c54ab78a86e_Screen-Shot-2016-12-04-at-11.27.28-AM.png?expiry=1509926400000&hmac=NYl4aiig2HDLUF31ZEP8fKwUxb-XzTvgs0OZkbQEVUo">
+<meta property="og:image" content="http://www.2cto.com/uploadfile/2015/0603/20150603035757209.png">
+<meta property="og:image" content="http://www.2cto.com/uploadfile/2015/0603/20150603041238393.png">
+<meta property="og:image" content="http://www.2cto.com/uploadfile/2015/0603/20150603043300642.png">
+<meta property="og:image" content="http://www.2cto.com/uploadfile/2015/0603/20150603043340332.png">
+<meta property="og:image" content="http://www.2cto.com/uploadfile/2015/0604/20150604014747190.png">
+<meta property="og:image" content="http://www.2cto.com/uploadfile/2015/0604/20150604014930646.png">
+<meta property="og:image" content="http://www.2cto.com/uploadfile/2015/0604/20150604015016358.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/931074/201608/931074-20160831182908574-1101121377.gif">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/6128001-4d46e8f93873781f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/6128001-8792a019aa614726.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/6128001-3ff5c16a6fe703de.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://pic002.cnblogs.com/img/hyddd/200904/2009040916453171.jpg">
+<meta property="og:image" content="http://mu-mo.top/home/tofar/图片/选区_002.png">
+<meta property="og:updated_time" content="2018-08-28T12:23:36.122Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="学习笔记2">
+<meta name="twitter:description" content="1. 分享：Java垃圾回收机制一、常用垃圾回收机制1. 标记-清除算法(mark-sweep)  顾名思义，标记-清除算法分为两个阶段，标记(mark)和清除(sweep). 在标记阶段，collector从mutator根对象开始进行遍历，对从mutator根对象可以访问到的对象都打上一个标识，一般是在对象的header中，将其记录为可达对象。 而在清除阶段，collector对堆内存(hea">
+<meta name="twitter:image" content="http://www.processon.com/chart_image/530043e10cf2a3dc99dd9439.png">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?64b0816fa55321a78a9c75c6ded29a29";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-分享：Java垃圾回收机制"><span class="toc-text">1. 分享：Java垃圾回收机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一、常用垃圾回收机制"><span class="toc-text">一、常用垃圾回收机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-标记-清除算法-mark-sweep"><span class="toc-text">1. 标记-清除算法(mark-sweep)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-标记-压缩算法-mark-compact"><span class="toc-text">2. 标记-压缩算法(mark-compact)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-复制算法-copying"><span class="toc-text">3. 复制算法(copying)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-引用计数算法-reference-counting"><span class="toc-text">4. 引用计数算法(reference counting)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-分代收集算法"><span class="toc-text">5. 分代收集算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Java的内存分布"><span class="toc-text">1. Java的内存分布</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Java年轻代垃圾回收机制"><span class="toc-text">2. Java年轻代垃圾回收机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Java老年代垃圾回收机制"><span class="toc-text">3. Java老年代垃圾回收机制</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#空间分配担保"><span class="toc-text">空间分配担保</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Java垃圾收集器"><span class="toc-text">2.Java垃圾收集器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Octave学习"><span class="toc-text">2. Octave学习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-吴恩达课程学习"><span class="toc-text">3. 吴恩达课程学习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#多项式回归"><span class="toc-text">多项式回归</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-linux-命令学习"><span class="toc-text">4. linux 命令学习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-用户组和权限"><span class="toc-text">5. 用户组和权限</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#改变文件属性和权限"><span class="toc-text">改变文件属性和权限</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-计算机网络应用层和运输层"><span class="toc-text">6. 计算机网络应用层和运输层</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#应用层"><span class="toc-text">应用层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP非持续连接和持续连接"><span class="toc-text">HTTP非持续连接和持续连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP报文格式"><span class="toc-text">HTTP报文格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运输层"><span class="toc-text">运输层</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-网络安全方面"><span class="toc-text">7.网络安全方面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-SQL反模式"><span class="toc-text">8. SQL反模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-数据库设计的三范式"><span class="toc-text">9. 数据库设计的三范式</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-学习笔记/学习笔记2" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">
+      学习笔记2
+    </h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>
+          2017.11.10
+        </span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>
+            mu-mo
+          </span>
+        </span>
+        
+
+          
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/学习笔记/">学习笔记</a>
+  </span>
+
+
+
+            
+
+                
+                  <i class="fa fa-eye"></i>
+                  <span id="busuanzi_container_page_pv">
+                    &nbsp热度
+                    <span id="busuanzi_value_page_pv">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </span>℃
+                  </span>
+                  
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+              <h2 id="1-分享：Java垃圾回收机制"><a href="#1-分享：Java垃圾回收机制" class="headerlink" title="1. 分享：Java垃圾回收机制"></a>1. 分享：Java垃圾回收机制</h2><h2 id="一、常用垃圾回收机制"><a href="#一、常用垃圾回收机制" class="headerlink" title="一、常用垃圾回收机制"></a>一、常用垃圾回收机制</h2><h3 id="1-标记-清除算法-mark-sweep"><a href="#1-标记-清除算法-mark-sweep" class="headerlink" title="1. 标记-清除算法(mark-sweep)"></a>1. 标记-清除算法(mark-sweep)</h3><p>  顾名思义，标记-清除算法分为两个阶段，标记(mark)和清除(sweep).</p>
+<p>在标记阶段，collector从mutator根对象开始进行遍历，对从mutator根对象可以访问到的对象都打上一个标识，一般是在对象的header中，将其记录为可达对象。</p>
+<p>而在清除阶段，collector对堆内存(heap memory)从头到尾进行线性的遍历，如果发现某个对象没有标记为可达对象-通过读取对象的header信息，则就将其回收。</p>
+<p><img src="http://www.processon.com/chart_image/530043e10cf2a3dc99dd9439.png" alt="img"></p>
+<p>从上图我们可以看到，在Mark阶段，从根对象1可以访问到B对象，从B对象又可以访问到E对象，所以B,E对象都是可达的。同理，F,G,J,K也都是可达对象。到了Sweep阶段，所有非可达对象都会被collector回收。同时，Collector在进行标记和清除阶段时会将整个应用程序暂停(mutator)，等待标记清除结束后才会恢复应用程序的运行。</p>
+<p><strong>缺点</strong>：</p>
+<p>​    标记-清除算法的比较大的缺点就是垃圾收集后有可能会造成大量的内存碎片，像上面的图片所示，垃圾收集后内存中存在三个内存碎片，假设一个方格代表1个单位的内存，如果有一个对象需要占用3个内存单位的话，那么就会导致Mutator一直处于暂停状态，而Collector一直在尝试进行垃圾收集，直到Out of Memory。</p>
+<h3 id="2-标记-压缩算法-mark-compact"><a href="#2-标记-压缩算法-mark-compact" class="headerlink" title="2. 标记-压缩算法(mark-compact)"></a>2. 标记-压缩算法(mark-compact)</h3><p>​       顾名思义，标记-压缩算法分为两个阶段，标记(mark)和压缩(compact).</p>
+<p>​      其中标记阶段跟标记-清除算法中的标记阶段是一样的，而对于压缩阶段，它的工作就是移动所有的可达对象到堆内存的同一个区域中，使他们紧凑的排列在一起，从而将所有<strong>非可达对象释放出来的空闲内存</strong>都集中在一起，通过这样的方式来达到减少内存碎片的目的。</p>
+<p><img src="http://static.oschina.net/uploads/img/201602/20150856_M3wa.png" alt="img"></p>
+<h3 id="3-复制算法-copying"><a href="#3-复制算法-copying" class="headerlink" title="3. 复制算法(copying)"></a>3. 复制算法(copying)</h3><p>堆内存对半分为两个半区，只用其中一个半区来进行对象内存的分配，如果在这个半区内存不够给新的对象分配了，那么就开始进行垃圾收集，将这个半区中的所有可达对象都拷贝到另外一个半区中去，然后继续在另外那个半区进行新对象的内存分配。</p>
+<p><img src="http://images2015.cnblogs.com/blog/1010726/201611/1010726-20161116212913717-1922411555.png" alt="img"></p>
+<p>​                           <img src="http://images2015.cnblogs.com/blog/1010726/201611/1010726-20161116212928498-1546200064.png" alt="mg"></p>
+<p><strong>缺点: </strong></p>
+<p>​    内存压缩为原来的一半，利用率比较低，典型的空间换时间</p>
+<h3 id="4-引用计数算法-reference-counting"><a href="#4-引用计数算法-reference-counting" class="headerlink" title="4. 引用计数算法(reference counting)"></a>4. 引用计数算法(reference counting)</h3><p>​    通过在对象头中分配一个空间来保存该对象被引用的次数。如果该对象被其它对象引用，则它的引用计数加一，如果删除对该对象的引用，那么它的引用计数就减一，当该对象的引用计数为0时，那么该对象就会被回收。</p>
+<p>​    采用引用计数的垃圾收集机制跟前面三种垃圾收集机制最大的不同在于，垃圾收集的开销被分摊到整个应用程序的运行当中了，而不是在进行垃圾收集时，要挂起整个应用的运行，直到对堆中所有对象的处理都结束。因此，采用引用计数的垃圾收集不属于严格意义上的”Stop-The-World”的垃圾收集机制。</p>
+<p>注意：</p>
+<ul>
+<li><p>当某个对象的引用计数减为0时，collector需要递归遍历它所指向的所有域，将它所有域所指向的对象的引用计数都减一，然后才能回收当前对象。</p>
+</li>
+<li><p>但是这种引用计数算法有一个比较大的问题，那就是它不能处理环形数据 - 即如果有两个对象相互引用，那么这两个对象就不能被回收，因为它们的引用计数始终为1。这也就是我们常说的“内存泄漏”问题。如下图：</p>
+<p><img src="http://www.processon.com/chart_image/5309cefc0cf262b559f8d040.png" alt="img"></p>
+</li>
+</ul>
+<h3 id="5-分代收集算法"><a href="#5-分代收集算法" class="headerlink" title="5. 分代收集算法"></a>5. 分代收集算法</h3><p>​    当前的商业虚拟机都采用的是”分代收集“算法，一般是把java堆分成新生代和老生代，这样就可以根据各个年代的特点采用最适当的垃圾收集算法，新生代中，对象大多是”朝生夕死“可以采用复制算法，而老年代的对象存活率比较高，而且没有担保空间进行内存分配，就要采用”标记-清除算法“或者”标记-整理“算法。</p>
+<p>##　二、Java垃圾回收</p>
+<h3 id="1-Java的内存分布"><a href="#1-Java的内存分布" class="headerlink" title="1. Java的内存分布"></a>1. Java的内存分布</h3><p><img src="http://www.processon.com/chart_image/53698d6e0cf21db1c3ec9394.png" alt="img"></p>
+<p>其中，堆内存分为年轻代和年老代，非堆内存主要是Permanent区域，主要用于存储一些类的元数据，常量池等信息。而年轻代又分为两种，一种是Eden区域，另外一种是两个大小对等的Survivor区域。</p>
+<h3 id="2-Java年轻代垃圾回收机制"><a href="#2-Java年轻代垃圾回收机制" class="headerlink" title="2. Java年轻代垃圾回收机制"></a>2. Java年轻代垃圾回收机制</h3><p><img src="https://segmentfault.com/img/remote/1460000007978404" alt="img"></p>
+<p>​    部分的新创建对象分配在新生代。因为大部分对象很快就会变得不可达，所以它们被分配在新生代，然后消失不再。当对象从新生代移除时，我们称之为”Minor GC”。<strong>新生代使用的是复制收集算法</strong>。</p>
+<p>​    新生代划分为三个部分：分别为Eden、Survivor from、Survivor to，大小比例为8：1：1（为了防止复制收集算法的浪费内存过大）。每次只使用Eden和其中的一块Survivor，回收时将存活的对象复制到另一块Survivor中，这样就只有10%的内存被浪费，但是如果存活的对象总大小超过了Survivor的大小，那么就把多出的对象放入老年代中。</p>
+<p>在三个区域中有两个是Survivor区。对象在三个区域中的存活过程如下：</p>
+<ol>
+<li>大多数新生对象都被分配在Eden区。</li>
+<li>第一次GC过后Eden中还存活的对象被移到其中一个Survivor区。</li>
+<li>再次GC过程中，Eden中还存活的对象会被移到之前已移入对象的Survivor区。</li>
+<li>一旦该Survivor区域无空间可用时，还存活的对象会从当前Survivor区移到另一个空的Survivor区。而当前Survivor区就会再次置为空状态。</li>
+<li>经过数次（默认是15次）在两个Survivor区域移动后还存活的对象最后会被移动到老年代。</li>
+</ol>
+<p>如上所述，两个Survivor区域在任何时候必定有一个保持空白。如果同时有数据存在于两个Survivor区或者两个区域的的使用量都是0，则意味着你的系统可能出现了运行错误。</p>
+<h3 id="3-Java老年代垃圾回收机制"><a href="#3-Java老年代垃圾回收机制" class="headerlink" title="3. Java老年代垃圾回收机制"></a>3. Java老年代垃圾回收机制</h3><p>​    存活在新生代中但未变为不可达的对象会被复制到老年代。一般来说老年代的内存空间比新生代大，所以在老年代GC发生的频率较新生代低一些。当对象从老年代被移除时，我们称之为 “Major GC”(或者Full GC)。 <strong>老年代使用标记-清理或标记-整理算法</strong></p>
+<h5 id="空间分配担保"><a href="#空间分配担保" class="headerlink" title="空间分配担保"></a>空间分配担保</h5><p>在发生Minor GC前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间。</p>
+<ol>
+<li><p>如果大于，那么Minor GC可以确保是安全的。</p>
+</li>
+<li><p>如果小于，虚拟机会查看HandlePromotionFailure设置值是否允许担任失败。</p>
+<ul>
+<li>如果允许，那么会继续检查老年代最大可用连续空间是否大于历次晋升老年代对象的平均大小<ul>
+<li>如果大于，将尝试着进行一次Minor GC，尽管这次Minor GC是有风险的</li>
+<li>如果小于，进行一次Full GC</li>
+</ul>
+</li>
+<li>如果不允许，也要改为进行一次Full GC</li>
+</ul>
+<p>​      前面提到过，新生代使用复制收集算法，但为了内存利用率，只使用其中一个Survivor空间来作为轮换备份，因此当出现大量对象在Minor GC后仍然存活的情况时（最极端就是内存回收后新生代中所有对象都存活），就需要老年代进行分配担保，让Survivor无法容纳的对象直接进入老年代。与生活中的贷款担保类似，老年代要进行这样的担保，前提是老年代本身还有容纳这些对象的剩余空间，一共有多少对象会活下来，在实际完成内存回收之前是无法明确知道的，所以只好取之前每一次回收晋升到老年代对象容量的平均大小值作为经验值，与老年代的剩余空间进行比较，决定是否进行Full GC来让老年代腾出更多空间。</p>
+<p>​       取平均值进行比较其实仍然是一种动态概率的手段，也就是说如果某次Minor GC存活后的对象突增，远远高于平均值的话，依然会导致担保失败（Handle Promotion Failure）。如果出现了HandlePromotionFailure失败，那就只好在失败后重新发起一次Full GC。虽然担保失败时绕的圈子是最大的，但大部分情况下都还是会将HandlePromotionFailure开关打开，避免Full GC过于频繁。</p>
+</li>
+</ol>
+<h3 id="2-Java垃圾收集器"><a href="#2-Java垃圾收集器" class="headerlink" title="2.Java垃圾收集器"></a>2.Java垃圾收集器</h3><p><img src="http://static.oschina.net/uploads/img/201602/20150856_bMmR.jpg" alt="img"></p>
+<ul>
+<li><p>Serial收集器(Serial/Serial Old)</p>
+<p>Serial是一个单线程的收集器，但它的“单线程”意义并不仅仅说明它只会使用一个CPU或一条手机此案成去完成垃圾和收集工作，更重要的是它进行垃圾收集时，必须暂停其他所有的工作线程，直到它收集结束。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2017/3/18/19439efe7873c65d1db30ae8aed4621a.png?imageView2/0/w/1280/h/960/ignore-error/1" alt="img"></p>
+</li>
+<li><p>ParNew收集器</p>
+<p>ParNew收集器其实就是Serial收集器的多线程版本。</p>
+<p>它是运行在Server模式下的虚拟机中首选的新生代收集器，其中有一个与性能无关但很重要的原因是：除了Serial收集器外，目前只有它能与CMS收集器配合工作。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2017/3/18/05e7f5d66bde2e27678d1d2f66d66fd6.png?imageView2/0/w/1280/h/960/ignore-error/1" alt="img"></p>
+</li>
+<li><p>Parallel Scavenge收集器</p>
+<p>​      该收集器也是一个新生代的垃圾收集器，他也是使用复制算法的收集器，又是一个并行的垃圾收集器。该收集器的特点是他的关注点与其他的收集器不同，CMS等收集器的关注点是尽可能缩短垃圾回收时用户线程的停顿时间，而parallel Scavenge收集器的目标是达到一个可控制的吞吐量。所谓吞吐量就是CPU用于运行代码的时间与CPU总消耗时间的比值，即吞吐量=运行用户代码时间/(运行用户代码时间+垃圾回收时间)，比如虚拟机总共运行100分钟，垃圾回收占用了1分钟，那么吞吐量就是99%。</p>
+</li>
+<li><p>Parallel Old收集器</p>
+<p>Parallel Old是Parallel Scavenge收集器的老年代版本，使用多线程和“标记-整理”算法。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2017/3/18/a28328cd362bc3d2c93b1f9cacb60fdd?imageView2/0/w/1280/h/960/ignore-error/1" alt="img"></p>
+</li>
+<li><p>CMS收集器</p>
+<p>CMS（Concurrent Mark Sweep）收集器是一种以获取最短回收停顿时间为目标的收集器。CMS是基于“标记-清除”算法实现的，它的运作过程相对于前面几种收集器来说更复杂一些，整个过程分为4个步骤，包括：</p>
+<ul>
+<li>初始标记（CMS initial mark）</li>
+<li>并发标记（CMS concurrent mark）</li>
+<li>重新标记（CMS remark）</li>
+<li>并发清除（CMS concurrent sweep）</li>
+</ul>
+<p>其中，初始标记、重新标记这两个步骤仍然需要”Stop The world”。初始标记仅仅只是标记一下GC Roots Tracing的过程，而重新标记阶段则是为了修正并发标记期间因用户程序继续运作而导致标记产生变动的那一部分对象的标记记录，这个阶段的停顿时间一般会比初始标记阶段稍长一些，但远比并发标记的时间短。</p>
+<p>由于整个过程中耗时最长的并发标记和并发清除过程收集器线程都可以与用户线程一起工作，所以，从总体上来说，CMS收集器的内存回收过程是与用户线程一起并发执行的。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2017/3/18/265211c0de6e0eb91e26fbfa0c6c6ec0?imageView2/0/w/1280/h/960/ignore-error/1" alt="img"></p>
+<p><strong>CMS的优势：</strong>并发收集、低停顿。</p>
+<p><strong>CMS的缺点：</strong></p>
+<ul>
+<li>对CPU资源非常敏感。CMS默认启动的回收线程数是(CPU数量 + 3)/4,并发回收时垃圾收集线程所占CPU资源随着CPU数量的增加而下降，而且在CPU不足4个时，CMS对用户程序的影响就可能变得很大，导致执行速度降低。</li>
+<li>CMS收集器无法处理浮动垃圾，可能出现“Concurrent Mode Failure”失败而导致另一次Full GC的产生。</li>
+<li>CMS是一款基于“标记-清除”算法实现的收集器，这意味着收集结束时会有大量空间碎片产生。空间碎片太多的时候，将会给大对象分配带来很大麻烦。</li>
+</ul>
+</li>
+<li><p>G1收集器</p>
+<p>G1是一款面向服务端应用的垃圾收集器。HOtSpot开发团队赋予它的使命是未来可以替换掉CMS收集器。</p>
+<p><strong>G1具备如下特点：</strong></p>
+<ul>
+<li><strong>并行与并发：</strong>G1能充分利用多CPU、多核环境下的硬件优势，使用多个CPU来缩短Stop-The-World停顿的时间，部分其他收集器原本需要停顿Java线程执行的GC动作，G1收集器仍然可以通过并发的方式让Java程序继续执行。</li>
+<li><strong>分代收集：</strong>虽然G1可以不需要其他收集器配合就能独立管理整个GC堆，但它能够采用不同的方式去处理新创建的对象和已经存活了一段时间、熬过多次GC的就对象以获取更好的收集效果。</li>
+<li><strong>空间整合</strong>：G1从整体上来看是基于“标记-整理”算法实现的收集器，从局部（两个Region之间）上来看是基于“复制”算法实现的，这意味着G1运作期间不会产生内存空间碎片，收集后能提供规整的可用内存。</li>
+<li><strong>可预测的停顿</strong>：这是G1相对于CMS的另一大优势。</li>
+</ul>
+<p>​</p>
+<p>G1垃圾收集器和CMS垃圾收集器有几点不同。首先，最大的不同是内存的组织方式变了。Eden，Survivor和Tenured等内存区域不再是连续的了，而是变成了一个个大小一样的region - 每个region从1M到32M不等。</p>
+<p>​</p>
+<p><img src="http://www.processon.com/chart_image/536b116e0cf290134a2ef1d9.png" alt="img"></p>
+<p>​</p>
+<p>一个region有可能属于Eden，Survivor或者Tenured内存区域。图中的E表示该region属于Eden内存区域，S表示属于Survivor内存区域，T表示属于Tenured内存区域。图中空白的表示未使用的内存空间。G1垃圾收集器还增加了一种新的内存区域，叫做Humongous内存区域，如图中的H块。这种内存区域主要用于存储大对象-即大小超过一个region大小的50%的对象。</p>
+<p>​</p>
+<p>在G1垃圾收集器中，年轻代的垃圾回收过程跟PS垃圾收集器和CMS垃圾收集器差不多。</p>
+<p><img src="http://www.processon.com/chart_image/536b17f90cf290134a2f01fd.png" alt="img"></p>
+<p>​</p>
+<p>对于年老代上的垃圾收集，G1垃圾收集器也分为4个阶段，基本跟CMS垃圾收集器一样，但略有不同：</p>
+<ol>
+<li><p>Initial Mark阶段 - 同CMS垃圾收集器的Initial Mark阶段一样，G1也需要暂停应用程序的执行，它会标记从根对象出发，在根对象的第一层孩子节点中标记所有可达的对象。但是G1的垃圾收集器的Initial Mark阶段是跟minor gc一同发生的。也就是说，在G1中，你不用像在CMS那样，单独暂停应用程序的执行来运行Initial Mark阶段，而是在G1触发minor gc的时候一并将年老代上的Initial Mark给做了。</p>
+</li>
+<li><p>Concurrent Mark阶段 - 在这个阶段G1做的事情跟CMS一样。但G1同时还多做了一件事情，那就是，如果在Concurrent Mark阶段中，发现哪些Tenured region中对象的存活率很小或者基本没有对象存活，那么G1就会在这个阶段将其回收掉，而不用等到后面的clean up阶段。这也是Garbage First名字的由来。同时，在该阶段，G1会计算每个 region的对象存活率，方便后面的clean up阶段使用 。</p>
+</li>
+<li><p>Remark阶段 - 在这个阶段G1做的事情跟CMS一样, 但是采用的算法不同，能够在Remark阶段更快的标记可达对象。</p>
+</li>
+<li><p>Clean up/Copy阶段 - 在G1中，没有CMS中对应的Sweep阶段。相反 它有一个Clean up/Copy阶段，在这个阶段中,G1会挑选出那些对象存活率低的region进行回收，这个阶段也是和minor gc一同发生的,如下图所示：</p>
+<p><img src="http://www.processon.com/chart_image/536b68100cf290134a30ecb4.png" alt="img"></p>
+</li>
+</ol>
+<p>从上可以看到，由于Initial Mark阶段和Clean up/Copy阶段都是跟minor gc同时发生的，相比于CMS，G1暂停应用程序的时间更少，从而提高了垃圾回收的效率。</p>
+<p>​</p>
+</li>
+</ul>
+<h2 id="2-Octave学习"><a href="#2-Octave学习" class="headerlink" title="2. Octave学习"></a>2. Octave学习</h2><ol>
+<li><p>内建基本数学函数</p>
+<p>cos　　　余弦函数 (弧度制)<br>sin　　　 正弦函数 (弧度制)<br>tan 　　　正切函数 (弧度制)<br>exp 　　　指数函数 (e x )<br>log 　　　以 e 为底的指数函数<br>log10　　 以 10 为底的指数函数　<br>sinh 　　　双曲正弦函数<br>tanh 　　　双曲正切函数<br>cosh 　　　双曲余弦函数<br>acos 　　　反余弦函数<br>acosh 　　反双曲余弦函数<br>asin 　　　反正弦函数<br>asinh 　　反双曲正弦函数<br>atan 　　　反正切函数<br>atanh 　　　反双曲正切函数<br>abs 　　　　绝对值函数 (复数取模)<br>round 　　　　四舍五入<br>floor 　　　　近似为比它小的最大整数<br>ceil　　　　　 近似为比它大的最小整数<br>fix 　　　　　　向 0 方向近似<br>rem　　　　　 求余数</p>
+</li>
+<li><p>变量</p>
+<p>Octave 中变量的类型是不用声明的。Octave 所有的变量都是浮点型或者字符串。</p>
+<p>如：deg=pi/180</p>
+<p>注：ans 变量存储你每次最近运算的结果。</p>
+</li>
+<li><p>数组和向量</p>
+<ol>
+<li><p>构造向量</p>
+<p>示例：a = [1 4 5]   b = [1, 4, 5]   c = [1; 4; 5]    在方括号中由空格或者逗号隔开的一组数据被定义为<strong>行向量</strong>; 而由分号或者回车隔开的一组数据被定义为<strong>列向量</strong>。</p>
+</li>
+<li><p>冒号表达式</p>
+<p>示例：a = 2: 6  即  a = [2 3 4 5 6]</p>
+<p>​           a = 2: 0.5: 4 即 a = [2.0000 2.5000 3.0000 3.5000 4.0000]</p>
+</li>
+<li><p>向量中的元素操作</p>
+<p>a=[1:2:6 -1 0]  则 a(3)  为 5</p>
+<p>注：向量中的元素通过括号 (),而<strong>第一个元素的编号为 1</strong></p>
+</li>
+<li><p>向量计算</p>
+<p>使用 +− 算符,你同样可以对该向量中的每个元素都加上或者减去一个数值。</p>
+<p>两个向量的相乘遵循矩阵的乘法法则,向量乘法并不是对应元素的相乘。如果要进行对应元素的乘除法,你可以使用</p>
+<p>.* 和 ./     (注意前面有个点)</p>
+</li>
+</ol>
+</li>
+<li><p>基本画图命令: plot(x, y)  x为横轴，y为纵轴</p>
+</li>
+<li><p>控制语句</p>
+<p>判断语句：if expression<br>​                       statements<br>​                  elseif<br>​                       expression<br>​                       statements</p>
+<p>​                  else<br>​                        statements<br>​                  end</p>
+<p>switch语句 ：switch x</p>
+<p>​                        case x1<br>​                           statements<br>​                        case x2<br>​                           statements<br>​                        otherwise<br>​                           statements<br>​                      end</p>
+<p>   for 循环：for variable=vector<br>​                        statements<br>​                     end</p>
+<p>   while循环：while expression<br>​                          statements<br>​                      end</p>
+</li>
+<li><p>函数</p>
+<p>示例：function s=sind(x)<br>​             % SIND(x) Calculates sine(x) in degrees<br>​             s=sin(x*pi/180);<br>​           endfunction</p>
+</li>
+<li><p>矩阵和向量</p>
+<ul>
+<li>矩阵构建</li>
+</ul>
+<p>​       在 Octave 中输入矩阵与输入向量相似,逐行输入:<br>​       octave:##&gt; A= [ 5 7 9<br>​       -1 3 -2 ]</p>
+<p>​       或者使用分号来标定一行的结束,例如:<br>​       octave:##&gt; B=[2 0; 0 -1; 1 0]<br>​       octave:##&gt; B=<br>​       2 0<br>​       0 -1<br>​       1 0</p>
+<p>​      其他：  单位矩阵创建： I = eye(4)</p>
+<p>​                  对角矩阵创建:     M = diag([-1 7 4])    -1 7 4 为对角的值</p>
+<ul>
+<li><p>矩阵转置符  如：A’</p>
+</li>
+<li><p>提取矩阵元</p>
+<p>如： J(1, 3)   1, 3 分别为行号和列号</p>
+<p>​        J(1:3, 5)     1到3行，第五列</p>
+</li>
+<li><p>赋值</p>
+<p>如：J(1, 3) = 4</p>
+</li>
+<li><p>基本矩阵函数</p>
+<p>eye          创建单位矩阵<br>zeros     创建全零矩阵<br>ones     创建全一矩阵<br>rand     创建随机数矩阵<br>diag     创建一个对角矩阵,或者提取一个矩阵的对角元<br>inv         求矩阵逆矩阵<br>trace     求矩阵的迹<br>rank     求矩阵的秩</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="3-吴恩达课程学习"><a href="#3-吴恩达课程学习" class="headerlink" title="3. 吴恩达课程学习"></a>3. 吴恩达课程学习</h2><ul>
+<li><p>机器学习的两种方式：</p>
+<ul>
+<li><p>有监督学习：类似与我知道一个问题的答案，所以我可以从这个答案问题出发设计出一个推理逻辑。</p>
+<p>受监督的学习问题分为“回归”和“分类”问题。在回归问题中，我们试图在连续输出中预测结果，这意味着我们正在尝试将输入变量映射到一些连续函数。在分类问题中，我们试图用离散输出来预测结果。换句话说，我们正在尝试将输入变量映射到离散类别。</p>
+<p>示例：　回归 - 鉴于一个人的照片，我们必须根据给定的图片来预测他们的年龄</p>
+<p>　　　　分类 - 鉴于肿瘤患者，我们必须预测肿瘤是恶性还是良性</p>
+</li>
+<li><p>无监督学习：类似于我给你一堆数据，你也不知道它是干什么用的，但是你或许可以找出这些数据中蕴含的某种规律。无监督学习问题可分为聚类和非聚类两种。</p>
+<p>聚类：收集100万个不同的基因，并找到一种自动将这些基因组合成不同变量（如寿命，位置，作用等）相似或相关的组。</p>
+<p>非聚类：“鸡尾酒会算法”，让您在混乱的环境中找到结构。（即从<a href="https://en.wikipedia.org/wiki/Cocktail_party_effect" target="_blank" rel="noopener">鸡尾酒会</a>的声音网格中识别个人的声音和音乐）。</p>
+</li>
+</ul>
+</li>
+<li><p>模型表示</p>
+<p>为了更准确地描述监督学习问题，我们的目标是给出一个训练集，以学习一个函数h：X→Y，使得h（x）是相应的y值的“好”预测因子。由于历史原因，这个函数h被称为假设。从形象上看，这个过程是这样的：</p>
+<p><img src="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/H6qTdZmYEeaagxL7xdFKxA_2f0f671110e8f7446bb2b5b2f75a8874_Screenshot-2016-10-23-20.14.58.png?expiry=1508976000000&amp;hmac=3CSWKalBleGfyzAgiZxdjxxInv5GZTeHDs85dQ5pbGY" alt="img"></p>
+</li>
+<li><p>成本函数</p>
+<p>我们可以通过使用<strong>成本函数</strong>来衡量假设函数的准确性。这取决于x的输入和实际输出y的假设的所有结果的平均差异（实际上是平均值的平均值）。</p>
+<p><img src="https://ws1.sinaimg.cn/large/9406e934gy1fkqusrovohj20ge03hq2x.jpg" alt="img"></p>
+</li>
+<li><p>梯度下降</p>
+<p><img src="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/bn9SyaDIEeav5QpTGIv-Pg_0d06dca3d225f3de8b5a4a7e92254153_Screenshot-2016-11-01-23.48.26.png?expiry=1508976000000&amp;hmac=NmdRUt6vlmzpzSXAt3L9PCLFSCAnKgYFZ3gV4XtO2-Y" alt="img"></p>
+<p>​</p>
+<p>上图中的每个“星”之间的距离表示由我们的参数α确定的步长。较小的α将导致较小的步长，较大的α导致较大的步长。采取步骤的方向由偏导数决定Ĵ（i0，θ1)。根据图上的哪一个开始，人们可能会在不同的地方结束。上图显示了两个不同的起点，最终出现在两个不同的地方。</p>
+<p>下图展示了梯度向下的算式，当左式恒等于右式之时，找到局部最优解。</p>
+<p><img src="https://ws1.sinaimg.cn/large/9406e934gy1fkquv86c0fj2085033jrb.jpg" alt="img"></p>
+<ul>
+<li><p>线性回归的梯度下降</p>
+<p><img src="/home/tofar/图片/2017-10-24 21-50-27屏幕截图.png" alt="2017-10-24 21-50-27屏幕截图"></p>
+<p><img src="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/QFpooaaaEea7TQ6MHcgMPA_cc3c276df7991b1072b2afb142a78da1_Screenshot-2016-11-09-08.30.54.png?expiry=1508976000000&amp;hmac=xKf_y1jMoptxtkRcj2WKFloH-7p6ZUKYGj5bkt5cgCY" alt="img"></p>
+<p><img src="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/xAQBlqaaEeawbAp5ByfpEg_24e9420f16fdd758ccb7097788f879e7_Screenshot-2016-11-09-08.36.49.png?expiry=1508976000000&amp;hmac=OmTYeJ_Pg3IkmcQ_chZVP26PYwTfnOSW1FB3vB3oKxw" alt="img"></p>
+<p>上面所示的椭圆是二次函数的轮廓。还显示了由（48,30）初始化的梯度下降所采取的轨迹。图中的x（由直线连接）标记梯度下降经过的θ的连续值，因为它收敛到最小值。</p>
+</li>
+</ul>
+</li>
+<li><p>特征缩放</p>
+<p>们可以通过使我们的每个输入值在大致相同的范围内来加快梯度下降。这是因为在较小的范围内，θ会快速下降，而在较大的范围内会慢慢下降，因此当变量非常不均匀时，它会低效地摆动到最佳状态。</p>
+<p>防止这种情况的方法是修改输入变量的范围，使其大致相同。理想的情况是：</p>
+<p>-1 &lt;=  X &lt;= 1 或者  -0.5 &lt;= X &lt;= 0.5</p>
+<p>计算公式：</p>
+<p><img src="/home/tofar/图片/2017-10-26 14-26-15屏幕截图.png" alt="2017-10-26 14-26-15屏幕截图"></p>
+</li>
+</ul>
+<p>​       分母为范围。。。。</p>
+<ul>
+<li><p>学习比率</p>
+<p><strong>调试梯度下降。</strong>在x轴上绘制一个<em>迭代次数</em>的图。现在绘制成本函数J（θ）超过梯度下降次数。如果J（θ）增加，那么您可能需要减少α。</p>
+<p>如果 一 太小：收敛缓慢</p>
+<p>如果 一 太大：每次迭代都不能减少，从而可能不会收敛。</p>
+</li>
+<li><p>特征和多项式回归</p>
+<p>我们可以通过几种不同的方式改进我们的特征和我们的假设函数的形式。</p>
+<p>我们可以<strong>将</strong>多个功能<strong>组合</strong>成一个。例如，我们可以结合X1 和 X2 成为新功能 X3 通过服用 X1⋅X2.</p>
+<h3 id="多项式回归"><a href="#多项式回归" class="headerlink" title="多项式回归"></a><strong>多项式回归</strong></h3><p>如果不符合数据，我们的假设函数不需要是线性的（直线）。</p>
+<p>我们可以通过使其成为二次，立方或平方根函数（或任何其他形式）来<strong>改变</strong>假设函数<strong>的行为或曲线</strong>。</p>
+<p>例如，如果我们的假设函数是 H我（x）= θ0+ θ1X1 那么我们可以创建基于的附加功能 X1，得到二次函数 H我（x）= θ0+ θ1X1+ θ2X21 或立方函数 H我（x）= θ0+ θ1X1+ θ2X21+ θ3X31</p>
+<p>在立方体版本中，我们创建了新功能 X2 和 X3 哪里 X2= x21 和 X3= x31.</p>
+<p>为了使其成为平方根函数，我们可以做： H我（x）= θ0+ θ1X1+ θ2√X1</p>
+</li>
+<li><p>正规方程法</p>
+<p>计算公式：θ=(XTX)−1XTy</p>
+<p>以下是梯度下降与正态方程的比较：</p>
+<p>| 梯度下降      | 正常方程式           |<br>| ——— | ————— |<br>| 需要选择alpha | 不需要选择alpha      |<br>| 需要很多次迭代   | 不需要迭代           |<br>| T至ñ2)     | Tñ3），需要计算倒数 XŤX |<br>| 当n大时，效果很好 | 如果n非常大，则慢       |</p>
+</li>
+<li><p>正态方程不可逆</p>
+</li>
+</ul>
+<p>​    当在八度中实现正态方程时，我们要使用’pinv’函数而不是’inv’。’pinv’功能会给你一个值我 即使 XŤX 是不可逆的</p>
+<p>​    如果 XŤX是<strong>不可逆的，</strong>常见的原因可能是：</p>
+<ul>
+<li>​冗余特征，其中两个特征非常密切相关（即它们是线性相关的）</li>
+<li>​     功能太多（例如m≤n）。在这种情况下，删除某些功能或使用“正则化”（稍后将讲解）。</li>
+</ul>
+<p>解决上述问题的方法包括删除与另一个线性相关的特征或者当具有太多特征时删除一个或多个特征。</p>
+<ul>
+<li><p>逻辑回归</p>
+<ul>
+<li>成本函数</li>
+</ul>
+<p>我们不能使用与线性回归相同的成本函数，因为逻辑函数会导致输出波浪形，导致许多局部最优。换句话说，它不会是一个凸函数。</p>
+<p>相反，我们用于逻辑回归的成本函数如下所示：</p>
+<p><img src="/home/tofar/图片/选区_001.png" alt="选区_001"></p>
+</li>
+</ul>
+<ul>
+<li><p>优化</p>
+<p><strong>“Conjugate gradient”, “BFGS”, and “L-BFGS” </strong>are more sophisticated, faster ways to optimize θ that can be used instead of gradient descent. We suggest that you should not write these more sophisticated algorithms yourself (unless you are an expert in numerical computing) but use the libraries instead, as they’re already tested and highly optimized. Octave provides them.</p>
+</li>
+<li><p>一对多</p>
+<p>由于y = {0,1 … n}，我们将问题划分为n + 1（+1，因为索引从0开始）二进制分类问题; 在每个类中，我们预测’y’是我们其中一个类的成员的概率。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">y∈&#123;0,1...n&#125;</span><br><span class="line">h(0)θ(x)=P(y=0|x;θ)</span><br><span class="line">h(1)θ(x)=P(y=1|x;θ)</span><br><span class="line">⋯</span><br><span class="line">h(n)θ(x)=P(y=n|x;θ)</span><br><span class="line">prediction=maxi(h(i)θ(x))</span><br></pre></td></tr></table></figure>
+<p><img src="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/cqmPjanSEeawbAp5ByfpEg_299fcfbd527b6b5a7440825628339c54_Screenshot-2016-11-13-10.52.29.png?expiry=1509840000000&amp;hmac=D_LO3Cj1A63UzmCRezmX9hC5NuaM2cbHh_5rhIQ5oGg" alt="img"></p>
+</li>
+<li><p>过度拟合</p>
+<p>​</p>
+<p><img src="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/0cOOdKsMEeaCrQqTpeD5ng_2a806eb8d988461f716f4799915ab779_Screenshot-2016-11-15-00.23.30.png?expiry=1509840000000&amp;hmac=WcJEx6zzIssr6tLB-SQiNszurTyWO5XwahWmTDNl3yg" alt="img"></p>
+<p>图中左图为欠拟合，中间的图片差不多正好，右图为过拟合</p>
+<p>低估或高偏差是当我们的假设函数的形式h映射到数据的趋势。它通常是由一个功能太简单或功能太少造成的。在另一个极端，过度拟合或高度变异是由适合可用数据的假设函数引起的，但不能很好地推广以预测新的数据。这通常是由一个复杂的函数造成的，这个函数会产生大量与数据无关的不必要的曲线和角度。</p>
+<p>有两个主要的选择来解决过度拟合的问题：</p>
+<p>1）减少功能的数量：</p>
+<ul>
+<li>手动选择要保留的功能。</li>
+<li>使用模型选择算法（在课程后面研究）。</li>
+</ul>
+<p>2）正规化</p>
+<ul>
+<li>保留所有功能，但减少参数的大小 θj.</li>
+<li>当我们有很多有用的功能时，正则化运作良好。</li>
+</ul>
+</li>
+<li><p>正则化和处罚机制</p>
+<p><img src="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/j0X9h6tUEeawbAp5ByfpEg_ea3e85af4056c56fa704547770da65a6_Screenshot-2016-11-15-08.53.32.png?expiry=1509840000000&amp;hmac=CzBB8Iz3mZBzUm3NHZ7RCU4XFzPqGeF7-7xvFmoUUe4" alt="img"><br>$$<br>minθ 12m ∑mi=1(hθ(x(i))−y(i))2+λ ∑nj=1θ2j<br>$$<br>使用上述成本函数与额外的总和，我们可以平滑我们的假设函数的输出，以减少过度拟合。如果选择的lambda太大，可能会使功能过于平滑，导致不足。</p>
+</li>
+<li><p>正规化线性回归</p>
+<ul>
+<li><p>梯度向下</p>
+<p>…</p>
+</li>
+<li><p>正规方程<br>$$<br>θ=(XTX+λ⋅L)−1XTy<br>$$<br>是一个矩阵，左上角为0，下角为1，其他地方为0。它应该有尺寸（n + 1）×（n + 1）。直觉上，这是身份矩阵（虽然我们不包括在内）X0）乘以单个实数λ。</p>
+</li>
+</ul>
+<p>回想一下，如果m &lt;n，那么 XŤX是不可逆的。但是，当我们添加术语λ⋅L时，XŤX +λ⋅L变成可逆的。</p>
+</li>
+</ul>
+<ul>
+<li><p>正则化逻辑回归</p>
+<p>逻辑回归的成本函数：</p>
+<p>…</p>
+<p>正则化逻辑回归的成本函数：</p>
+<p>…</p>
+<p><img src="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/dfHLC70SEea4MxKdJPaTxA_306de28804a7467f7d84da0fe3ee9c7b_Screen-Shot-2016-12-07-at-10.49.02-PM.png?expiry=1509840000000&amp;hmac=J5RxJnuaWJ-FTg0tbSnpjA7MU5nDMyX43E2VMtnu28k" alt="img">​</p>
+</li>
+<li><p>神经网络</p>
+<ul>
+<li><ol>
+<li><p>模型表示</p>
+<p> 让我们来看看如何使用神经网络来表示一个假设函数。在一个非常简单的层面上，神经元基本上是计算单位，它们将输入（树突）作为输入（轴突）的电输入（称为“尖峰” ）。在我们的模型中，我们的树突就像输入的特征X1⋯xñ，输出是我们假设函数的结果。在这个模型中我们X0输入节点有时被称为“偏置单元”。它总是等于1.在神经网络中，我们使用与分类中相同的逻辑函数，1/(1 + e- θŤX)，但我们有时将其称为sigmoid（逻辑）激活功能。在这种情况下，我们的“theta”参数有时被称为“权重”。</p>
+<p> ​</p>
+<p> 例如：    </p>
+<p> <img src="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/0rgjYLDeEeajLxLfjQiSjg_0c07c56839f8d6e8d7b0d09acedc88fd_Screenshot-2016-11-22-10.08.51.png?expiry=1509840000000&amp;hmac=oXstc_ZFx3gBvNnjuaGLiEuupfe9Wd1kOJO-5Tjk2Ok" alt="img"></p>
+</li>
+</ol>
+</li>
+</ul>
+<p>​                  Example: If layer 1 has 2 input nodes and layer 2 has 4 activation nodes. Dimension of Θ(1) is going to be 4×3 where sj=2 and sj+1=4, so sj+1×(sj+1)=4×3.</p>
+<p><img src="/home/tofar/图片/选区_003.png" alt="选区_003"></p>
+<p>​</p>
+<p><img src="/home/tofar/图片/选区_004.png" alt="选区_003"></p>
+<p>​</p>
+<p><img src="/home/tofar/图片/选区_005.png" alt="选区_005"></p>
+<ul>
+<li><p>应用</p>
+<ul>
+<li>Examples and Intuitions I</li>
+</ul>
+<p>an example of the logical operator ‘OR’, meaning either x1 is true or x~2~ is true, or both:</p>
+<p><img src="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/f_ueJLGnEea3qApInhZCFg_a5ff8edc62c9a09900eae075e8502e34_Screenshot-2016-11-23-10.03.48.png?expiry=1509840000000&amp;hmac=jV9t2TE8Ctc0RKssdVEtDwI11LGapRp3YI7g7B7JS8g" alt="img"></p>
+<p>Where g(z) is the following:</p>
+<p><img src="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/wMOiMrGnEeajLxLfjQiSjg_bbbdad80f5c95068bde7c9134babdd77_Screenshot-2016-11-23-10.07.24.png?expiry=1509840000000&amp;hmac=gZKlkFwiGiCLR3Q_3OGExXT6ncxmn3RqO59mcjFZ9Mo" alt="img"></p>
+<ul>
+<li><p>Examples and Intuitions II</p>
+<p>here we have the XNOR operator using a hidden layer with two nodes! The following summarizes the above algorithm:</p>
+<p><img src="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/rag_zbGqEeaSmhJaoV5QvA_52c04a987dcb692da8979a2198f3d8d7_Screenshot-2016-11-23-10.28.41.png?expiry=1509840000000&amp;hmac=YOOKo2Hmn28h8-nKDqve7NjjRWhsJtXGzP2p3-BKsh8" alt="img"></p>
+<ul>
+<li><p>多类分类</p>
+<p>为了将数据分类到多个类中，我们假设函数返回值的向量。说我们想将我们的数据分为四类。我们将使用下面的例子来看看这个分类是如何完成的。该算法将图像作为输入并进行相应的分类：</p>
+<p><img src="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/9Aeo6bGtEea4MxKdJPaTxA_4febc7ec9ac9dd0e4309bd1778171d36_Screenshot-2016-11-23-10.49.05.png?expiry=1509840000000&amp;hmac=wvORZ3183Xjl7ctUpfoB-XDnMGB7IzI1VqZL9xvwwhQ" alt="img">    </p>
+<p>我们可以将我们的结果类定义为y：</p>
+<p><img src="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/KBpHLXqiEealOA67wFuqoQ_95654ff11df1261d935ab00553d724e5_Screenshot-2016-09-14-10.38.27.png?expiry=1509840000000&amp;hmac=o6UcU8scndsC02Q_9DDFqtI7ueshAkBOKojuX2gbcL4" alt="img"></p>
+<p><img src="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/VBxpV7GvEeamBAoLccicqA_3e7f67888330b131426ecffd27936f61_Screenshot-2016-11-23-10.59.19.png?expiry=1509840000000&amp;hmac=b2kurSaA6PMDAnu8m0wvFNVvct9z7bSUQ0y6x5TZ03w" alt="img"></p>
+</li>
+<li><p>代价函数</p>
+<p><img src="/home/tofar/图片/选区_006.png" alt="选区_006"></p>
+<p>注意：</p>
+<ul>
+<li>双重数额简单地将输出层中每个单元格的逻辑回归成本加起来</li>
+<li>三元组简单地将整个网络中所有单个Θ的平方相加。</li>
+<li>我在三合一中<strong>并不是</strong>指训练示例i</li>
+</ul>
+</li>
+<li><p>反向传播算法</p>
+<p><a href="https://www.coursera.org/learn/machine-learning/supplement/pjdBA/backpropagation-algorithm" target="_blank" rel="noopener">https://www.coursera.org/learn/machine-learning/supplement/pjdBA/backpropagation-algorithm</a></p>
+<p><a href="https://www.coursera.org/learn/machine-learning/supplement/v5Bu8/backpropagation-intuition" target="_blank" rel="noopener">https://www.coursera.org/learn/machine-learning/supplement/v5Bu8/backpropagation-intuition</a></p>
+<p><img src="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/Ul6i5teoEea1UArqXEX_3g_a36fb24a11c744d7552f0fecf2fdd752_Screenshot-2017-01-10-17.13.27.png?expiry=1509926400000&amp;hmac=wMDYoXXSbNtFlREMpqv0cMzNEv4aDqAnSjq__vDm1eY" alt="img"></p>
+<p><img src="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/qc309rdcEea4MxKdJPaTxA_324034f1a3c3a3be8e7c6cfca90d3445_fixx.png?expiry=1509926400000&amp;hmac=GjJrf5QSEM8gKqigNNdwm6kH4XPGCQ1ZMgFmchQ_0ng" alt="img"></p>
+</li>
+<li><p>梯度检验</p>
+<p>gradApprox矢量计算方法：</p>
+<p>A small value for ϵ (epsilon) such as ϵ=10^−4^, guarantees that the math works out properly.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">epsilon = 1e-4;</span><br><span class="line">for i = 1:n,</span><br><span class="line">  thetaPlus = theta;</span><br><span class="line">  thetaPlus(i) += epsilon;</span><br><span class="line">  thetaMinus = theta;</span><br><span class="line">  thetaMinus(i) -= epsilon;</span><br><span class="line">  gradApprox(i) = (J(thetaPlus) - J(thetaMinus))/(2*epsilon)</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
+<p>一旦我们计算我们的gradApprox矢量，我们可以检查gradApprox≈deltaVector。</p>
+<p>一旦你已经验证<strong>，一旦</strong>你的BP算法是正确的，则不需要再次计算gradApprox。计算gradApprox的代码可能非常慢。</p>
+</li>
+<li><p>随机初始化</p>
+<p>将所有的权重初始化为零不适用于神经网络。反向传播时，所有节点将重复更新为相同的值。相反，我们可以随机初始化我们的权重钍 矩阵使用以下方法：</p>
+<p><img src="https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/y7gaS7pXEeaCrQqTpeD5ng_8868ccda2c387f5d481d0c54ab78a86e_Screen-Shot-2016-12-04-at-11.27.28-AM.png?expiry=1509926400000&amp;hmac=NYl4aiig2HDLUF31ZEP8fKwUxb-XzTvgs0OZkbQEVUo" alt="img"></p>
+</li>
+<li><p><strong>培训一个神经网络</strong></p>
+<ol>
+<li>随机初始化权重</li>
+<li>实现向前传播得到hΘ(x(i)) 对于任何y x(i)</li>
+<li>实施成本函数</li>
+<li>实施反向传播以计算偏导数</li>
+<li>使用梯度检查来确认您的反向传播的作品。然后禁用梯度检查。</li>
+<li>使用梯度下降或内置的优化功能，以theta中的权重最小化成本函数。</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-linux-命令学习"><a href="#4-linux-命令学习" class="headerlink" title="4. linux 命令学习"></a>4. linux 命令学习</h2><ul>
+<li><p>cat </p>
+<ol>
+<li>一次显示整个文件。$ cat filename</li>
+<li>从键盘创建一个文件。$ cat &gt; filename  </li>
+</ol>
+<p>​      注：只能创建新文件,不能编辑已有文件.</p>
+<ol start="3">
+<li><p>将几个文件合并为一个文件： $cat file1 file2 &gt; file</p>
+<p>参数：</p>
+<p>-n 或 –number 由 1 开始对所有输出的行数编号<br>-b 或 –number-nonblank 和 -n 相似，只不过对于空白行不编号<br>-s 或 –squeeze-blank 当遇到有连续两行以上的空白行，就代换为一行的空白行</p>
+</li>
+<li><p>创建文件，创建文件后，要以EOF或STOP结束；如：$ cat &gt;  linuxsir.org.txt  &lt;&lt; EOF</p>
+</li>
+<li><p>追加内容   如：$ cat &gt;&gt; linuxsir.txt &lt;&lt; EOF</p>
+</li>
+<li><p>一个或多个已存在的文件内容，追加到一个已存在的文件中</p>
+<p>如：$ cat sir01.txt sir02.txt sir03.txt &gt;&gt; sir00.txt  （与  cat sir01.txt sir02.txt sir03.txt &gt; sir04.txt 区分，此为合并）</p>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="5-用户组和权限"><a href="#5-用户组和权限" class="headerlink" title="5. 用户组和权限"></a>5. 用户组和权限</h2><ul>
+<li><p>文件属性</p>
+<p> - rwx  r-x   r–            </p>
+<p>1 234 567 890    </p>
+<p>1代表问文件名或者目录， 234代表拥有者的权限，可读、可写、可执行（rwx)，567代表同用户组权限，890代表其他用户权限</p>
+<h3 id="改变文件属性和权限"><a href="#改变文件属性和权限" class="headerlink" title="改变文件属性和权限"></a>改变文件属性和权限</h3><p>chgrp: 改变文件所属用户组</p>
+<p>chown：改变文件所有者     例如: chown [-R]  账号名称  文件或者目录    （-R 递归）</p>
+<p>chmod：改变文件权限    </p>
+<p>​         权限分数： r : 4     w: 2    x:1</p>
+<p>​         例如： chmod 777 filename     (4+2+1=7)</p>
+<p>​                     chmod  u =rwx, g=rx, 0=r filename   (u-user, g-group, o-others)</p>
+<p>​                     chmod  a+x filename  增加权限</p>
+</li>
+</ul>
+<p>​                                    a-x                  减少权限</p>
+<h2 id="6-计算机网络应用层和运输层"><a href="#6-计算机网络应用层和运输层" class="headerlink" title="6. 计算机网络应用层和运输层"></a>6. 计算机网络应用层和运输层</h2><h3 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h3><p>应用层就定义了位于不同主机中的多个应用进程之间通信的协议。应用层的许多协议都是基于客户-服务器模式，客户是服务的请求方，服务器是服务提供方。</p>
+<h3 id="HTTP非持续连接和持续连接"><a href="#HTTP非持续连接和持续连接" class="headerlink" title="HTTP非持续连接和持续连接"></a>HTTP非持续连接和持续连接</h3><ul>
+<li><p>非持续连接</p>
+<p>定义：每个请求/相应对是结果一个单独的TCP连接发送</p>
+<p>我们看看在非持续连接情况下，从服务器向客户传送一个Web页面的步骤。假设该页面含有一个HTML基本文件和10个JPEG图形，并且这11个对象位于同一台服务器上。该HTML文件的URL为：<a href="http://www.someSchool.edu/someDepartment/home.index。" target="_blank" rel="noopener">http://www.someSchool.edu/someDepartment/home.index。</a></p>
+<p>我们看看发生了什么情况：</p>
+<ul>
+<li>HTTP客户进程在端口号80发起一个到服务器<a href="http://www.someSchool.edu的TCP连接，该端口号是HTTP的默认端口。在客户和服务器上分别有一个套接字与该连接相关联。" target="_blank" rel="noopener">www.someSchool.edu的TCP连接，该端口号是HTTP的默认端口。在客户和服务器上分别有一个套接字与该连接相关联。</a></li>
+<li>HTTP客户经它的套接字向该服务器发送一个HTTP请求报文。请求报文中包含了路径名/someDepartment/home.index（后面我们会详细讨论HTTP报文）。 </li>
+<li>HTTP服务器进程经它的套接字接收该请求报文，从其存储器（RAM或磁盘）中检索出对象<a href="http://www.someSchool.edu/someDepartment/home.index，在一个HTTP响应报文中封装对象，并通过其套接字向客户发送响应报文。" target="_blank" rel="noopener">www.someSchool.edu/someDepartment/home.index，在一个HTTP响应报文中封装对象，并通过其套接字向客户发送响应报文。</a> </li>
+<li>HTTP服务器进程通知TCP断开该TCP连接。（但是直到TCP确认客户已经完整地收到响应报文为止，它才会实际中断连接。） </li>
+<li>HTTP客户接收响应报文，TCP连接关闭。该报文指出封装的对象是一个HTML文件，客户从响应报文中提取出该文件，检查该HTML文件，得到对10个JPEG图形的引用。 </li>
+</ul>
+<p>对每个引用的JPEG图形对象重复前4个步骤。</p>
+<p>往返时间计算：粗略地讲，总的响应时间就是两个RTT加上服务器传输HTML文件的时间。</p>
+<p><img src="http://www.2cto.com/uploadfile/2015/0603/20150603035757209.png" alt="img"></p>
+</li>
+<li><p>持续连接</p>
+<p>定义：所有请求及其响应经过相同的TCP连接发送</p>
+<p>非持续连接有一些缺点。首先，必须为每一个请求的对象建立和维护一个全新的连接。对于每个这样的连接，在客户和服务器中都要分配TCP的缓冲区和保持TCP变量，这给Web服务器带来了严重的负担，因为一台Web服务器可能同时服务于数以百计不同的客户的请求。第二，就像我们刚描述的那样，每一个对象经受两倍RTT的交付时延，即一个RTT用于创建TCP，另一个RTT用于请求和接收一个对象。</p>
+<p>在采用持续连接的情况下，服务器在发送响应后保持该TCP连接打开。在相同的客户与服务器之间的后续请求和响应报文能够通过相同的连接进行传送。特别是，一个完整的Web页面（上例中的HTML基本文件加上10个图形）可以用单个持续TCP连接进行传送。更有甚者，位于同一台服务器的多个Web页面在从该服务器发送给同一个客户时，可以在单个持续TCP连接上进行。可以一个接一个地发出对对象的这些请求，而不必等待对未决请求（流水线）的回答。一般来说，如果一条连接经过一定时间间隔（一个可配置的超时间隔）仍未被使用，HTTP服务器就关闭该连接。HTTP的默认模式是使用带流水线的持续连接。</p>
+</li>
+</ul>
+<h3 id="HTTP报文格式"><a href="#HTTP报文格式" class="headerlink" title="HTTP报文格式"></a>HTTP报文格式</h3><ul>
+<li><p>HTTP请求报文</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET /somedir/page.html HTTP/1.1</span><br><span class="line">HOST: www.someschool.edu</span><br><span class="line">Connetion: close</span><br><span class="line">User-agent: Mozilla/5.0</span><br><span class="line">Accept-agent: fr</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>HTTP响应报文</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Date: Sat, 31 Dec 2005 23:59:59 GMT</span><br><span class="line">Content-Type: text/html;charset=ISO-8859-1</span><br><span class="line">Content-Length: 122</span><br><span class="line">＜html＞</span><br><span class="line">＜head＞</span><br><span class="line">＜title＞Wrox Homepage＜/title＞</span><br><span class="line">＜/head＞</span><br><span class="line">＜body＞</span><br><span class="line">＜!-- body goes here --＞</span><br><span class="line">＜/body＞</span><br><span class="line">＜/html＞</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用户与服务器交互：cookie</p>
+<p>由于HTTP是无状态的，我们可以使用cookie来对用户进行认证。</p>
+<p><img src="http://www.2cto.com/uploadfile/2015/0603/20150603041238393.png" alt="img"></p>
+<ul>
+<li><p>web缓存器（代理服务器）</p>
+<p><img src="http://www.2cto.com/uploadfile/2015/0603/20150603043300642.png" alt="img"></p>
+<p>请求过程：</p>
+<ul>
+<li><p>浏览器建立一个到Web缓存器的TCP连接，并向Web缓存器中的对象发送一个HTTP请求。</p>
+</li>
+<li><p>Web缓存器进行检查，看看本地是否存储了该对象副本。如果有，Web缓存器就向客户浏览器用HTTP响应报文返回该对象。</p>
+</li>
+<li><p>如果Web缓存器中没有该对象，它就打开一个与该对象的初始服务器（如<a href="http://www.someschool.edu）的TCP连接。Web缓存器则在这个缓存器到服务器的TCP连接上发送一个对该对象的HTTP请求。在收到该请求后，初始服务器向该Web缓存器发送具有该对象的HTTP响应。" target="_blank" rel="noopener">www.someschool.edu）的TCP连接。Web缓存器则在这个缓存器到服务器的TCP连接上发送一个对该对象的HTTP请求。在收到该请求后，初始服务器向该Web缓存器发送具有该对象的HTTP响应。</a></p>
+</li>
+<li><p>当Web缓存器接收到该对象时，它在本地存储空间存储一份副本，并向客户的浏览器用HTTP响应报文发送该副本（通过现有的客户浏览器和Web缓存器之间的TCP连接）。</p>
+<p>​</p>
+</li>
+</ul>
+<p>web缓存器可以大大减少对客户端请求的响应时间</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="http://www.2cto.com/uploadfile/2015/0603/20150603043340332.png" alt="img"></p>
+<pre><code>时延计算：
+因为客户和缓存连接在一个相同的高速局域网上，这样40%的请求将几乎立即会由缓存器得到响应，时延约在10ms以内。然而，剩下的60%的请求仍然要由初始服务器来满足。但是只有60%的被请求对象通过接入链路，在接入链路上的流量强度从1.0减小到0.6。一般而言，在15Mbps链路上，当流量强度小于0.8时对应的时延较小，约为几十毫秒。这个时延与2秒因特网时延相比是微不足道的。考虑这些之后，平均时延因此为0.4×（0.010秒）+0.6×（2.01秒）　图2-13　为机构网络添加一台缓存器这略大于1.2秒。
+</code></pre><ul>
+<li><p>FTP相关<br>一些较为常见的命令如下：</p>
+<ul>
+<li>USER username:用于向服务器传送用户标识。</li>
+<li>PASS password:用于向服务器发送用户口令。</li>
+<li>LIST:用于请求服务器回送当前远程目录中的所有文件列表。该文件列表是经一个（新建且非持续连接）数据连接传送的，而不是在控制TCP连接上传送。</li>
+<li>RETR filename:用于从远程主机当前目录检索（即get）文件。该命令引起远程主机发起一个数据连接，并经该数据连接发送所请求的文件。</li>
+<li>STOR filename:用于在远程主机的当前目录上存放（即put）文件。</li>
+</ul>
+<p>一些典型的回答连同它们可能的报文如下所示：</p>
+<ul>
+<li>331 Username OK，Password required（用户名OK，需要口令）。</li>
+<li>125 Data connection already open;transfer starting（数据连接已经打开，开始传送）。</li>
+<li>425 Can’t open data connection（无法打开数据连接）。</li>
+<li>452 Error writing file（写文件差错）。</li>
+<li>DNS相关</li>
+</ul>
+</li>
+<li><p>DNS层次结构</p>
+<p><img src="http://www.2cto.com/uploadfile/2015/0604/20150604014747190.png" alt="img"></p>
+</li>
+</ul>
+<p>  +　各种ＤＮＳ服务器交互</p>
+<p><img src="http://www.2cto.com/uploadfile/2015/0604/20150604014930646.png" alt="img"></p>
+<p><img src="http://www.2cto.com/uploadfile/2015/0604/20150604015016358.png" alt="img"></p>
+<ul>
+<li>递归查询</li>
+</ul>
+<p>​      递归查询是一种DNS 服务器的查询模式，在该模式下DNS 服务器接收到客户机请求，必须使用一个准确的查询结果回复客户机。如果DNS 服务器本地没有存储查询DNS 信息，那么该服务器会询问其他服务器，并将返回的查询结果提交给客户机。</p>
+<p>​    <strong>客户机和服务器之间的查询是递归查询</strong></p>
+<p>​    是<strong>递归查询告诉客户机IP</strong></p>
+<ul>
+<li>迭代查询</li>
+</ul>
+<p>​        DNS 服务器另外一种查询方式为迭代查询，DNS 服务器会向客户机提供其他能够解析查询请求的DNS 服务器地址，当客户机发送查询请求时，DNS 服务器并不直接回复查询结果，而是告诉客户机另一台DNS 服务器地址，客户机再向这台DNS 服务器提交请求，依次循环直到返回查询的结果为止。</p>
+<p>​        <strong>服务器之间的查询是迭代查询</strong></p>
+<p><img src="http://images2015.cnblogs.com/blog/931074/201608/931074-20160831182908574-1101121377.gif" alt="img"></p>
+<ul>
+<li><p>DNS缓存</p>
+<p>DNS服务器在一段时间后（通常设置为两天）将丢弃缓存的信息。</p>
+</li>
+</ul>
+<h3 id="运输层"><a href="#运输层" class="headerlink" title="运输层"></a>运输层</h3><ul>
+<li><p>多路复用和分解</p>
+<p>​    将运输层报文段中的数据交付到正确的套接字的工作称为<strong>多路分解(demultiplexing)</strong>,在源主机当中从不同的套接字中收集数据块，并为每一个数据块封装上首部信息(用于分解)从而生成报文段，然后将此报文段传递到网络层。所有的这些工作称为<strong>多路复用(multiplexing)</strong>。</p>
+<p>运输层多路复用的要求:</p>
+<p>套接字有唯一的标识符；<br>每一个报文段有特殊的字段来指示该报文段所要交付到的套接字。（这些特殊的字段是源端口字段和目的端口字段，端口号是一个16bit的数范围是0-65535.其中0-1023是周知端口）。</p>
+</li>
+</ul>
+<p>  TCP的首部开销为20个字节，而UDP的首部开销为8字节<br>  无连接的多路复用与多路分解(UDP)</p>
+<p>  一个UDP套接字是由一个二元组来全面标志的，该二元组包含一个目的IP地址和一个目的端口号，因此如果两个UDP报文段有不同的源IP地址和/或源端口号，但是具有相同的目的IP地址和目的端口号，那么这两个报文段将通过相同的套接字被定向到相同的进程。</p>
+<p>  UDP报文格式：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6128001-4d46e8f93873781f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="UDP报文格式"></p>
+<p>​     长度字段：指示了在UDP报文段中的字节数(首部加数据,以字节为单位)<br>​     检验和：接收方使用检验和来检查在该报文段中是否出现差错</p>
+<p>​      UDP虽然实现了检验和，但是对恢复差错无能为力，要么它丢弃受损的报文段，要么将受损的报文段交给应用程序并给出警告。</p>
+<p> 面向连接的多路复用和多路分解(TCP)</p>
+<p>​       TCP套接字和UDP套接字的细微的差别是，TCP套接字是由一个四元组(源IP地址，源端口号，目的IP地址，目的端口号)来标识的。这样当一个TCP报文段从网络到达另外一台主机时,该主机使用全部的4个值来将报文段定向(分解)到相应的套接字。特别与UDP不同的是，两个具有不同的IP地址的或者是源端口号的到达TCP报文段将被定向到两个不同的套接字，除非TCP报文段携带了初始创建连接的请求 。服务器主机可以支持很多并行的TCP套接字，每一个套接字和一个进程相联系，并由其四元组来标识每一个套接字。当一个TCP报文段到达主机时，所有的四个字段(源IP、源端口、目的IP、目的端口)被用来将报文段定向(分解)到相应的套接字。<br>​      TCP连接总是点对点的，所谓的“多播”，即在一次的发送操作当中从一个发送方将数据传输给多个接收方，对于TCP来说是不可能的。</p>
+<p>  4位首部长度：指示TCP头部大小(以32bit为单位)，指示何处数据开始，由于TCP选项的原因，TCP首部长度是可变的。(但是通常选项为空，TCP头部典型长度为20字节，所以首部长度通常为5，即1001).<br>  16位窗口大小：用来表示想要收到的每个TCP数据段的大小。TCP的流量控制由连接的每一端通过声明窗口的大小来提供。窗口的大小为字节数，起始于确认序号字段指明的值，这个值是接收端正期望接收到的字节。窗口的大小是一个16字节字段，因而窗口大小最大为65535字节。<br>  16位检验和：16位TCP头部检验和。源主机基于数据内容计算一个数值，目的主机要和源主机计算的结果一致，从而验证数据的有效性。检验和覆盖的是整个的TCP报文段：这是一个强制性的字段，一定是由发送端计算和存储，并由接收端进行验证。</p>
+<p>  URG:紧急标志，为1时表示有效，紧急数据的最后一个字节由16bit的紧急数据指针字段指出。当紧急数据存在时，</p>
+<p>  ACK：确认标志。表明确认编号栏有效，大多数情况下该标识位是置位的。TCP报头内的确认编号栏内包含的确认编号(W+1)为下一个预期接收到的序列编号，同时提示远端系统已经成功的接收到了所有数据。</p>
+<p>  PSH：推标志。该标志置位时，接收端不将该数据进行队列处理，而是尽可能快地将数据转由应用处理(接收方立即将数据交给上层)。在处理Telnet或rlogin等交互模式的连接时，该标志总是置位的。</p>
+<p>  RST：复位标志。用于复位(重置)相应的TCP连接。</p>
+<p>  SYN：同步标志。表明同步序列编号栏有效。该标志仅在三次握手建立TCP连接时有效。它提示TCP连接的服务端检查序列编号，该序列编号为TCP连接初始端（一般是客户端）的初始序列编号。</p>
+<p>  FIN：结束标志。</p>
+<p>  TCP三次握手建立连接</p>
+<p>  三次握手(Three-Way Handshake)即建立TCP连接时，需要客户端和服务端总共发送3个包确认连接的建立。在socket编程中，这一过程由客户端执行connect()来触发。流程如下：</p>
+<p>  TCP三次握手</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6128001-8792a019aa614726.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="TCP三次握手"></p>
+<p>  第一次握手：Client将标志位SYN置为1，随机产生一个值seq=J，并将该数据包发送给Server，Client进入SYN_SENT状态，等待Server确认。</p>
+<p>  第二次握手：Server收到数据包后由标志位SYN=1知道Client请求建立连接，Server将标志位SYN和ACK都置为1，ack=J+1，随机产生一个值seq=K，并将该数据包发送给Client以确认连接请求，Server进入SYN_RCVD状态。<br>  第三次握手：Client收到确认后，检查ack是否为J+1，ACK是否为1，如果正确则将标志位ACK置为1，ack=K+1，并将该数据包发送给Server，Server检查ack是否为K+1，ACK是否为1，如果正确则连接建立成功，Client和Server进入ESTABLISHED状态，完成三次握手，随后Client与Server之间可以开始传输数据了。(前两次握手是是不承载”有效载荷”的，而第三次握手是可以承载”有效载荷”的。)</p>
+<p>  其中有一个半连接状态：服务器维护一个半连接队列，该队列为每个客户端SYN包开设一个条目，标明服务器已经接到SYN包，并向客户端发出确认，这些条目表示的连接处于SYN_RECV状态，得到客户端的确认后进入ESTABLISHED状态。</p>
+<p>  TCP四次挥手断开连接</p>
+<p>  四次挥手(Four-Way Wavehand)是指断开一个TCP连接时需要客户端和服务器总共发送四个包以确认连接的断开。在socket()编程中，这一个过程由客户端或者服务器端的任意一方执行close来触发。整个流程图如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6128001-3ff5c16a6fe703de.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="TCP四次挥手"></p>
+<p>第一次挥手：Client发送一个FIN，用来关闭Client到Server的数据传送，Client进入FIN_WAIT_1状态。</p>
+<p>第二次挥手：Server收到FIN后，发送一个ACK给Client，确认序号为收到序号+1（与SYN相同，一个FIN占用一个序号），Server进入CLOSE_WAIT状态。</p>
+<p>第三次挥手：Server发送一个FIN，用来关闭Server到Client的数据传送，Server进入LAST_ACK状态。</p>
+<p>第四次挥手：Client收到FIN后，Client进入TIME_WAIT状态，接着发送一个ACK给Server，确认序号为收到序号+1，Server进入CLOSED状态，完成四次挥手。</p>
+<p>  链接：<a href="http://www.jianshu.com/p/37d132327724" target="_blank" rel="noopener">http://www.jianshu.com/p/37d132327724</a></p>
+<ul>
+<li><p>TCP拥塞控制机制</p>
+<p>​         拥塞控制（congestion control)是TCP协议的一项重要功能，TCP的拥塞控制机制是从端到端的角度，推测网络是否发生拥塞，如果推断网络发生拥塞，则立即将数据发送速率降下来，以便缓解网络拥塞。<br>​         TCP的拥塞控制采用的是窗口机制，通过调节窗口的大小实现对数据发送速率的调整。TCP的发送端维持一个称为拥塞窗口cwnd的变量，单位为字节，用于表示在未收到接收端确认的情况下，可以连续发送的数据字节数。cwnd的大小取决于网络的拥塞程度，并且动态地发生变化。拥塞窗口调整的原则是：只要网络没有出现拥塞，就可以增大拥塞窗口，以便将更多的数据发送出去，相当于提高发送速率；一旦网络出现拥塞，拥塞窗口就减小一些，减少注入网络的数据量，从而缓解网络的拥塞。<br>​    发送端判断网络发生拥塞的依据是：发送端设置一个重传计时器RTO，对于某个已发出的数据报文段，如果在RTO计时到期后，还没有收到来自接收端的确认，则认为此时网络发生了拥塞。<br>TCP的拥塞控制算法包括了慢启动（slow start）、拥塞避免（congestion avoidance）、快速重传（fast retransmit）和快速恢复（fast recovery）四部分。<br>​    慢启动算法作用在TCP数据传输的开始阶段，当主机开始发送数据时，因为不知道网络中的负荷情况，如果立即发送大量的数据，有可能会引起网络的拥塞。因此，TCP采用试探的方法，逐渐增大拥塞窗口。通常在刚开始发送数据报文段时，先将拥塞窗口cwnd设置为一个TCP最大段长度MSS的值。而在每收到一个数据报文段的确认后，cwnd就增加一个MSS的数值。这样就可以逐渐增大发送端的拥塞窗口，使数据注入网络的速率比较合理。如果定义从发送端发出一个数据报文段到收到这个数据报文段的确认的时间间隔为往返时间RTT，则在慢启动阶段，每经过一个RTT，cwnd的值就加倍。<br>​    为了防止拥塞窗口增长过快而引起网络拥塞，TCP还需要设置一个慢启动阈值ssthresh，当拥塞窗口的值增加到ssthresh时，就要减缓拥塞窗口的增长速度，具体的做法是每经过一个RTT，拥塞窗口cwnd的值加1（单位为MSS），这样就可以使cwnd按线性规律缓慢增长，这个过程称之为“加性增加”（Additive Increase）算法。通常情况下，拥塞窗口cwnd的初值被设置为1，慢启动阈值ssthresh的初值被设置为16。当拥塞避免算法执行到某个时刻，发送端在规定时间内没有收到接收端的确认，即发生了网络超时，则意味着网络发生了拥塞。此时，发送端首先将ssthresh的值变为发生超时时cwnd值的一半，同时将cwnd的值置为1，重新执行慢启动算法。这样做的好处是，当网络频繁出现拥塞时，ssthresh下降得很快，可以大大减少注入网络中的数据报文段。通常称这个过程为“乘性减小”（MultiplicativeDecrease）算法。TCP中的“加性增加”和“乘性减小”算法合起来称为AIMD算法。<br>​    慢启动和拥塞避免是1988年提出的拥塞控制算法，1990年在此基础上又增加了快速重传和快速恢复两个算法。<br>快速重传算法的基本思想是：接收端每收到一个失序的数据报文段后就立即发出重复确认，以便更早地通知发送端有丢包的情况发生。假设在某个TCP数据传输过程中，接收端依次收到发送端发出的1号和2号数据报文段，并对这两个数据报文段发送确认后，没有按次序收到3号数据报文段，而是收到了4号，这时就需要立即向发送端发送一个2号数据报文段的确认，称为重复确认。同理，如果继续收到5号、6号数据报文段，接收端仍然要向发送端发出2号数据报文段的重复确认。此时，发送端会收到多个2号数据报文段的重复确认，则认为3号数据报文段发生了丢包，需要立即向接收端重传3号数据报文段，而不需要等待重传计时器到期再重传。快速重传算法中规定如果收到某数据报文段的三个重复确认，则立即重传下一个数据报文段。<br>​    快速恢复是配合快速重传使用的算法，其基本思想是：当发送端连续收到三个重复确认时，就将慢启动阈值ssthresh减半，以预防网络拥塞的发生，并且将拥塞窗口cwnd的值置为减半后的ssthresh，然后开始执行拥塞避免算法，使得cwnd缓慢地加性增大。</p>
+<p>TCP拥塞控制算法描述如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SlowStartPhase( )   //慢启动算法</span><br><span class="line">&#123;</span><br><span class="line">  CongWin=1；  //拥塞窗口cwnd的初值为1个MSS</span><br><span class="line">  while (CongWin&lt;Threshold&amp;&amp; 无数据丢失) </span><br><span class="line"> //当拥塞窗口小于慢启动阈值且没有发生丢包时</span><br><span class="line">  &#123;</span><br><span class="line">  for each ACK</span><br><span class="line">CongWin++;    //每收到一个确认数据报，拥塞窗口加1</span><br><span class="line">  &#125;</span><br><span class="line">  if (CongWin&gt;=Threshold) then</span><br><span class="line">  CongestionAvoidancePhase( );</span><br><span class="line"> //当拥塞窗口大于等于慢启动阈值时，启动拥塞避免算法；</span><br><span class="line">  if (数据丢失) then</span><br><span class="line">  DataLoss( );   // 丢包后的处理方法</span><br><span class="line">&#125;</span><br><span class="line">CongestionAvoidancePhase( )    // 拥塞避免算法</span><br><span class="line">&#123;</span><br><span class="line">  while (无数据丢失)</span><br><span class="line">  &#123;</span><br><span class="line">  for each RTT</span><br><span class="line">CongWin=CongWin+1;     //每经过一个RTT，拥塞窗口加1</span><br><span class="line">  &#125;</span><br><span class="line">  DataLoss( );</span><br><span class="line">&#125;</span><br><span class="line">DataLoss( )    //丢包后的处理方法</span><br><span class="line">&#123;</span><br><span class="line">  if (超时) then</span><br><span class="line">  &#123;</span><br><span class="line">Threshold=CongWin/2;</span><br><span class="line">  CongWin=1;</span><br><span class="line">  SlowStartPhase( );</span><br><span class="line"> //如果发生超时，慢启动阈值置为当前拥塞窗口的一半，然后将拥塞窗口置1，开始执行拥塞避免算法。</span><br><span class="line">  &#125;</span><br><span class="line">  if (3次重复确认) then</span><br><span class="line">  &#123;</span><br><span class="line">Threshold=CongWin/2;</span><br><span class="line">      CongWin=CongWin/2;</span><br><span class="line">      CongestionAvoidancePhase();</span><br><span class="line">//如果收到3个重复的确认，则执行快速重传和快速恢复算法，慢启动阈值减小为拥塞窗口的一半，同时将拥塞窗口减半，开始拥塞避免算法</span><br></pre></td></tr></table></figure>
+<p>链接：<a href="http://www.jianshu.com/p/7d59f9292b03" target="_blank" rel="noopener">http://www.jianshu.com/p/7d59f9292b03</a></p>
+</li>
+</ul>
+<h2 id="7-网络安全方面"><a href="#7-网络安全方面" class="headerlink" title="7.网络安全方面"></a>7.网络安全方面</h2><ol>
+<li>SQL注入</li>
+</ol>
+<p>示例：</p>
+<p><code>sql_login = &quot;SELECT COUNT(*) FROM login WHERE userName= %s AND password=%s&quot; %(userName, password)</code>  </p>
+<p>此时若 <code>username = &#39;admin--&#39; 则不论password为什么都能登录</code></p>
+<p>解决方案：<code>sql_login = &quot;SELECT COUNT(*) FROM login WHERE userName= %s AND password=%s&quot;</code></p>
+<p>​          <code>values = (username, password)</code></p>
+<p>​          <code>cur.execute(sql_login, values)</code></p>
+<p>学习简单SQL注入：</p>
+<ul>
+<li><p>AND</p>
+<p>and 1=1 and 1=2</p>
+<ul>
+<li><p>猜表</p>
+<p>and 0 &lt; (select count(*) from admin)        —判断是否存在admin这张表</p>
+</li>
+<li><p>此类类似，通过使用 and来达到自己的查询目的</p>
+</li>
+</ul>
+</li>
+<li><p>;<br>;结束之前的SQL语句</p>
+</li>
+<li><p>–<br>忽略后面的语句</p>
+</li>
+<li><p>OR<br>使前面的判断失效<br>解决方案：<br> 绑定变量使用预编译语句是预防SQL注入的最佳方式，使用预编译的SQL语句语义不会发生改变，在SQL语句中，变量用问号?表示，黑客即使本事再大，也无法改变SQL语句的结构，像上面例子中，username变量传递的plhwin’ AND 1=1– hack参数，也只会当作username字符串来解释查询，从根本上杜绝了SQL注入攻击的发生。</p>
+</li>
+</ul>
+<ol start="2">
+<li><p>DDOS攻击</p>
+<p>DDOS的表现形式主要有两种，一种为流量攻击，主要是针对网络带宽的攻击，即大量攻击包导致网络带宽被阻塞，合法网络包被虚假的攻击包淹没而无法到达主机;另一种为资源耗尽攻击，主要是针对服务器主机的攻击，即通过大量攻击包导致主机的内存被耗尽或CPU被内核及应用程序占完而造成无法提供网络服务。</p>
+</li>
+<li><p>xss攻击<br>示例：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@main_view.route(&apos;/test&apos;)</span><br><span class="line">def test():</span><br><span class="line">    test_data = &quot;zhaonan=guest&lt;script&gt;alert(&apos;attacked&apos;)&lt;/script&gt;&quot;</span><br><span class="line">    return &apos;&apos;&apos;</span><br><span class="line">    &lt;html&gt;</span><br><span class="line">      &lt;head&gt;</span><br><span class="line">        &lt;title&gt;Home Page&lt;/title&gt;</span><br><span class="line">      &lt;/head&gt;</span><br><span class="line">      &lt;body&gt;</span><br><span class="line">        &lt;h1&gt;Hello, &apos;&apos;&apos; + test_data + &apos;&apos;&apos;&lt;/h1&gt;</span><br><span class="line">      &lt;/body&gt;</span><br><span class="line">    &lt;/html&gt;</span><br><span class="line">    &apos;&apos;&apos;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>在网站上输入 localhost/test之后会显示一个attacked的弹窗</p>
+<ol start="4">
+<li>CSRF攻击</li>
+</ol>
+<p>参考网站：<a href="http://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html" target="_blank" rel="noopener">http://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html</a></p>
+<p><img src="http://pic002.cnblogs.com/img/hyddd/200904/2009040916453171.jpg" alt="img"></p>
+<p>防御：服务端的CSRF方式方法很多样，但总的思想都是一致的，就是在客户端页面增加伪随机数。</p>
+<ul>
+<li>Cookie Hashing(所有表单都包含同一个伪随机值)：</li>
+</ul>
+<p>　　这可能是最简单的解决方案了，因为攻击者不能获得第三方的Cookie(理论上)，所以表单中的数据也就构造失败了:&gt;</p>
+<p>　　这个方法个人觉得已经可以杜绝99%的CSRF攻击了，那还有1%呢….由于用户的Cookie很容易由于网站的XSS漏洞而被盗取，这就另外的1%。一般的攻击者看到有需要算Hash值，基本都会放弃了，某些除外，所以如果需要100%的杜绝，这个不是最好的方法。</p>
+<ul>
+<li>验证码</li>
+</ul>
+<p>　　这个方案的思路是：每次的用户提交都需要用户在表单中填写一个图片上的随机字符串，厄….这个方案可以完全解决CSRF，但个人觉得在易用性方面似乎不是太好，还有听闻是验证码图片的使用涉及了一个被称为MHTML的Bug，可能在某些版本的微软IE中受影响。</p>
+<p>  +　One-Time Tokens(不同的表单包含一个不同的伪随机值)</p>
+<p>　　在实现One-Time Tokens时，需要注意一点：就是“并行会话的兼容”。如果用户在一个站点上同时打开了两个不同的表单，CSRF保护措施不应该影响到他对任何表单的提交。考虑一下如果每次表单被装入时站点生成一个伪随机值来覆盖以前的伪随机值将会发生什么情况：用户只能成功地提交他最后打开的表单，因为所有其他的表单都含有非法的伪随机值。必须小心操作以确保CSRF保护措施不会影响选项卡式的浏览或者利用多个浏览器窗口浏览一个站点。</p>
+<h2 id="8-SQL反模式"><a href="#8-SQL反模式" class="headerlink" title="8. SQL反模式"></a>8. SQL反模式</h2><ul>
+<li><p><strong>乱穿马路</strong></p>
+<p><strong>目标</strong>：存储多值属性</p>
+<p><strong>反模式</strong>：格式化的逗号分隔列表</p>
+<p><strong>坏处</strong>：</p>
+<ul>
+<li>索引显然是不能用了</li>
+<li>增加了查询的难度，这里的难度是说sql语句更难写了，只有及其少数的操作优化了，是哪个操作就显而易见了。</li>
+<li>列表的长度有限制，比如varchar的字段长度是有限的。</li>
+</ul>
+<p>​</p>
+<p><strong>解决方案</strong>：创建一张交叉表</p>
+<p><strong>示例</strong>：</p>
+<p>一个产品可能有多个联系人。<br>可以这样设计：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CREATE TABLE Contacts (</span><br><span class="line">  product_id BIGINT UNSIGNED NOT NULL,</span><br><span class="line">  account_id BIGINT UNSIGNED NOT NULL ,</span><br><span class="line">  PRIMARY KEY (product_id,account_id),</span><br><span class="line">  FOREIGN KEY (product_id) REFERENCES Products(product_id),</span><br><span class="line">  FOREIGN KEY (account_id) REFERENCES Accounts(account_id)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p><strong>好处</strong>：</p>
+<ul>
+<li>可以添加索引</li>
+<li>可以添加额外的信息，比如一些操作时间等</li>
+<li>主要联系人和次要联系人等都可以实现</li>
+</ul>
+</li>
+<li><p><strong>单纯的树</strong></p>
+<p>​    在树形结构中，实例被称为<strong>节点</strong>。每个节点都有多个子节点与一个父节点。</p>
+<p>​        最上层的节点叫做<strong>根（root）节点，</strong>它没有父节点。</p>
+<p>​        最底层的没有子节点的节点叫做<strong>叶（leaf）</strong>。</p>
+<p>​        中间的节点简单地称为<strong>非叶节点（nonleaf）</strong>。</p>
+<p><strong>目标：</strong>分层存储与查询，比如：系统字典、组织机构、省份区域等树形结构数据或者以层级方式组织的数据。</p>
+<p><strong>反模式：</strong>总是依赖父节点（使用邻接表）。</p>
+<p>​           最简单的实现方式是添加ParentId字段，引用同一张表的主键ID。</p>
+<p>​           邻接表维护树比较方便，但是查询很笨拙，如果要找一个节点下的所有子节点，要关联很多次，这个关联次数取决于树的深度，</p>
+<p>​           所以，邻接表不能用于存储比较深的树。</p>
+</li>
+</ul>
+<p>  <strong>如何识别反模式：</strong>当出现以下情况时，可能是反模式</p>
+<p>  ​        （1）我们的数结构要支持多少层</p>
+<p>  ​        （2）我们总是很害怕接触那些管理树结构的代码</p>
+<p>  　　 （3）我需要一个脚本来定期的清理树中的孤立节点数据</p>
+<p>   <strong>解决方案：</strong>使用其他树模型</p>
+<ul>
+<li><p>路径枚举：</p>
+<p>　　　　用一个path字段保存当前节点的最顶层的祖先到自己的序列(路径)</p>
+<p><img src="/home/tofar/图片/选区_002.png" alt="选区_002"></p>
+<p>　　　　优点：查询方便；</p>
+<p>　　　　缺点：1、不能保证存储的值的有效性。</p>
+<p>​                   2、增、删时，要考虑对原位置下的子节点如何处理，比较麻烦。</p>
+<p>​                   3、如果还要维护一个排序path，那就更麻烦了。</p>
+</li>
+<li><p>嵌套集：</p>
+<p>　　　　存储子孙节点的相关信息，而不是节点的直接祖先。用nsleft存储所有后台的nsleft中最小的数-1，</p>
+<p>​          用nsright存储所有后台的nsright中最大的数+1。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CREATE TABLE Comments (</span><br><span class="line">comment_id</span><br><span class="line">SERIAL PRIMARY KEY,</span><br><span class="line">nsleft</span><br><span class="line">INTEGER NOT NULL,</span><br><span class="line">nsright</span><br><span class="line">INTEGER NOT NULL,</span><br><span class="line">bug_id</span><br><span class="line">BIGINT UNSIGNED NOT NULL,</span><br><span class="line">author</span><br><span class="line">BIGINT UNSIGNED NOT NULL,</span><br><span class="line">comment_date DATETIME NOT NULL,</span><br><span class="line">comment</span><br><span class="line">TEXT NOT NULL,</span><br><span class="line">FOREIGN KEY (bug_id) REFERENCES Bugs (bug_id),</span><br><span class="line">FOREIGN KEY (author) REFERENCES Accounts(account_id)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>　　　　优点：删除时，原来子节点的关系自动上移。</p>
+<p>　　　　缺点：1、查询一个节点的直接上级或下级，很困难。</p>
+<p>​                   2、增、删，困难。</p>
+</li>
+<li><p>闭包：记录了树中所有节点间的关系，而不仅仅是只有那些直接的父子关系。</p>
+<p>​             将树中任何具有<strong>“祖先-后代”</strong>关系的<strong>节点对</strong>都存储在TreePath表中的一行，同时增加一行指向节点自己。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CREATE TABLE Comments (</span><br><span class="line">comment_id</span><br><span class="line">SERIAL PRIMARY KEY,</span><br><span class="line">bug_id</span><br><span class="line">BIGINT UNSIGNED NOT NULL,</span><br><span class="line">author</span><br><span class="line">BIGINT UNSIGNED NOT NULL,</span><br><span class="line">comment_date DATETIME NOT NULL,</span><br><span class="line">comment</span><br><span class="line">TEXT NOT NULL,</span><br><span class="line">FOREIGN KEY (bug_id) REFERENCES Bugs(bug_id),</span><br><span class="line">FOREIGN KEY (author) REFERENCES Accounts(account_id)</span><br><span class="line">);</span><br><span class="line">CREATE TABLE TreePaths (</span><br><span class="line">ancestor</span><br><span class="line">BIGINT UNSIGNED NOT NULL,</span><br><span class="line">descendant BIGINT UNSIGNED NOT NULL,</span><br><span class="line">PRIMARY KEY(ancestor, descendant),</span><br><span class="line">FOREIGN KEY (ancestor) REFERENCES Comments(comment_id),</span><br><span class="line">FOREIGN KEY (descendant) REFERENCES Comments(comment_id)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>​</p>
+<p>​            优点：1、能快速的查询给定节点的祖先与后代；</p>
+<p>​                    2、能更加简单的维护分层信息；</p>
+<p>​                    3、如果删除了TreePath表中的一条记录，那么并不是真正的删除具体信息表中的记录。这样设计有时候很有用：</p>
+<p>比如在产品目录的分类或者员工组织架构的图标中，当你改变了节点关系的时候，并不是真的想要删除一个节点。</p>
+<p>​                        我们把关系路径存储在一个分开独立的表中，使得设计更加灵活。 </p>
+<p>​            缺点：查询直接父节点或子节点，需要在表中增加Path_Length字段来维护。</p>
+</li>
+</ul>
+<p>  <strong>结论：</strong></p>
+<p>  ​    每种设计各有优劣，如何选择设计依赖于应用程序中的哪种操作最需要性能上的优化。</p>
+<p>  ​         邻接表：简单，但不适用于很深的表； </p>
+<p>  　　  枚举路径：无法保证引用完整性；</p>
+<p>  　　  嵌套集：无法保证引用完整性，太复杂；</p>
+<p>  　　  闭包：需要一个额外的表存储关系；</p>
+<ul>
+<li><p><strong>需要ID</strong></p>
+<p><strong>目标</strong>：建立主键规范</p>
+<p><strong>反模式</strong>：以不变应万变，即每个数据库中的表都需要一个<strong>伪主键</strong>Id</p>
+<p>​    在表中，需要引入一个对于表的域模型无意义的新列来存储一个伪值，这一列被用作这张表的主键，从而通过它来确定表中的一条记录，即便其他的列允许出现适当的重复项。这种类型的主键列我们通常称其为“<strong>伪主键</strong>”或者“<strong>代理键</strong>”。</p>
+<ol>
+<li>冗余键值：如果存在一个逻辑上更为自然的主键并且也满足unique约束，那么id就多余了；</li>
+<li>允许重复项：伪主键本身确保了表的数据不会存在重复项，所以也就无法避免表中的其它数据出现重复项；</li>
+<li>意义不明的关键字：主键名应该便于理解，所以建议用XxxId，而不都是用Id；</li>
+<li>使用组合键。</li>
+</ol>
+<p><strong>如何识别反模式：</strong>当出现以下情况时，可能是反模式</p>
+<ol>
+<li>我觉得这张表不需要主键；</li>
+<li>我怎么能在多对多的表中存储重复的项；</li>
+<li>我学过《数据库设计理论》，里面说我应该把数据移动到一张查询表中，然后通过ID查找。但是我不想这么做，因为每次我想要获得真是的数据，都不得不做一次连接查询。（这在数据库设计中是一个常见的误区，称为“<strong>正规化</strong>”，然而实际中对于伪主键并没有什么需要做的）</li>
+</ol>
+<p><strong>解决方案：</strong></p>
+<ol>
+<li><p>直接了当的描述设计，主键名应该便于理解，所以建议用XxxId，而不都是用Id；</p>
+</li>
+<li><p>拥抱自然键和组合键。</p>
+<p>​</p>
+</li>
+</ol>
+</li>
+<li><p><strong>不用钥匙的入口（外键约束）</strong></p>
+<p><strong>目标：</strong>简化数据库架构</p>
+<p><strong>反模式：</strong>无视约束，即不使用约束</p>
+<p><strong>如何识别反模式：</strong>当出现以下情况时，可能是反模式</p>
+<p>​         1、我要怎么写这个查询来检查一个值是否没有被同时存在2张表中？</p>
+<p>​    （通常这样的需求是为了查找那些孤立的行数据）</p>
+<p>​         2、有没有一种简单的方法来判断在一张表中的数据是否也在第二张表中存在？</p>
+<p>​         （这么做是用来确认父记录切实存在。外键会自动完成这些，并且外键会使用这父表的索引尽可能的高效完成）</p>
+<p>​         3、有人说不要用外键，外键影响数据库效率。</p>
+<p><strong>解决方案：</strong>声明约束</p>
+<p>​      1、通过使用外键来确保应用完整性；</p>
+<p>​          使用约束时：</p>
+<p>​        （1）数据库本身会拒绝所有不合理的改变，无论这个改变是通过什么方式造成的。</p>
+<p>​                （2）能够避免编写不必要的代码，同时还能确保一旦修改了数据库中的内容，所有的代码依旧能够用同样的方式执行。    </p>
+<p>​                （3）外键的特性：级联更新，比如：On Update Cascade、On Delete Restrict等。 在执行更新和删除2个操作中的任意1个是，数据库都会自动修改多张表中的数据， 外键的引用状态在操作之前和之后都保持完好。</p>
+<p>​      2、外键约束的确需要多那么一点额外的系统开销，但相比于其他的一些选择，外键确实更高效一点：</p>
+<p>​          （1）不需要在更新或删除记录前执行Select检查；</p>
+<p>​          （2）在同步修改时不需要再锁住整张表；</p>
+<p>​          （3）不再需要执行定期监控脚本来修正不可避免的孤立数据。</p>
+<p>​</p>
+</li>
+<li><p><strong>实体-属性-值</strong></p>
+<p><strong>目标：</strong>支持可变属性</p>
+</li>
+</ul>
+<p>  <strong>反模式：</strong>使用泛型属性表。这种设计成为实体-属性-值（EAV），也可叫做开放架构、名-值对。</p>
+<p>  ​           优点：通过增加一张额外的表，可以有以下好处</p>
+<p>  ​                   （1）表中的列很少；</p>
+<p>  ​                   （2）新增属性时，不需要新增列。不会影响现有表的结构；</p>
+<p>  ​                   （3）存储的字段内容不会为空值。</p>
+<p>  ​           缺点：（1）查询语句变得更加复杂；</p>
+<p>  ​                   （2）使用EAV设计后，需要放弃传统的数据库设计所带来的方便之处，比如：无法保障数据完整性；</p>
+<p>  ​                   （3）无法使用SQL的数据类型，比如对日期、金钱等格式内容都只能保持为字符串类型；</p>
+<p>  ​                   （4）无法确保引用完整性；</p>
+<p>  ​                   （5）无法配置属性名。比如，有可能表中存在两条记录，</p>
+<p>  ​                                                       一条的attr_name是sex，一条attr_name是gender，都是表示性别；</p>
+<p>  ​                   （6）查询结果中有多个属性时，查询非常困难，且查询性能无法控制。</p>
+<p>  ​                   </p>
+<p>  <strong>如何识别反模式：</strong>当出现以下情况时，可能是反模式</p>
+<p>  　　（1）数据库不需要修改元数据库（表中的列属性）就可以扩展。还可以在运行时定义新的属性。</p>
+<p>  　　（2）查询是连接数量非常多，且连接的数量可能会达到数据库的限制时，你的数据库的设计可能是有问题的。</p>
+<p>  　　（3）普通的报表查询变的及其复杂甚至不且实际。</p>
+<p>  <strong>解决方案：</strong>模型化子类型</p>
+<p>  　　1、单表继承：所有属性都在一个单表上保存，增加属性时就扩充这个表。</p>
+<p>  ​            缺点：</p>
+<p>  ​        （1）当程序需要加入新对象时，必须修改数据库来适应这些新对象。又由于这些新对象具有一些和老对象                不用的属性， 因而必须在原有表里增加新的属性列，可能会遇到一个实际的问题，就是每张表的列的数量是有限制的。</p>
+<p>  ​                （2）没有任何的元信息来记录哪个属性属于哪个子类型。</p>
+<p>  ​    当数据的子类型很少，以及子类型特殊属性很少，就可以使用单表继承。</p>
+<p>  　　2、实体表继承：为每个子类型创建一张独立的表，每个表包含哪些属于基类的共有属性，同时也包含了子类型特殊化的属性。</p>
+<p>​               优点：</p>
+<p>  ​        （1）实体继承类设计相比于但表继承设计的优势在于提供了一种方法， 让你能组织在一行内存储一些和当前子类型无关的属性。如果你引用一个并不存在于这张表中的属性列，数据库会自动提示你错误。</p>
+<p>  ​                （2）不用像在单表继承设计里那样使用额外的属性来标记子类型。</p>
+<p>  ​             缺点：很难将通用属性和子类特有属性区分开来。因此，如果将一个新的属性增加到通用属性中，必须为每个子类表都添加一遍。</p>
+<p>  ​             当你很少需要一次性查询多有子类型时，实体继承表设计是最好的选择。</p>
+<p>  　　3、类表继承：把表当成面向对象里的类。</p>
+<p>​           创建一张基类表，包含所有子类型的公共属性。对于每个子类型，创建一个独立的表，通过外键和基类表相连。</p>
+<p>  　　4、半结构化数据模型：如果有很多子类型或者必须经常增加新的属性支持，那么可以用一个BLOB列来存储数据，用XML或者JSON格式——同事包含了属性的名字和值。这叫做序列化大对象块。</p>
+<p>  　　  这个设计的优势是扩展性，缺点是，这样的结构中sql无法获取某个指定的属性。你必须或者整个blob字段并通过程序去解释这些属性。</p>
+<p>  　　 当你需要绝对的灵活性时，可以使用这个方案。</p>
+<p>​         如果使用了EAV，那么可以先将全部属性取出，然后再做其他处理。</p>
+<ul>
+<li><p>多态关联</p>
+<p>​</p>
+</li>
+<li><p>多列属性</p>
+<p>​</p>
+</li>
+<li><p>元数据分裂</p>
+<p>​</p>
+</li>
+</ul>
+<h2 id="9-数据库设计的三范式"><a href="#9-数据库设计的三范式" class="headerlink" title="9. 数据库设计的三范式"></a>9. 数据库设计的三范式</h2><ul>
+<li>1NF：无重复的列，即每一列都是不可分割的基本数据项</li>
+</ul>
+<p>商品表 goods：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>price</th>
+<th>color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>10</td>
+<td>red</td>
+</tr>
+<tr>
+<td>2</td>
+<td>20</td>
+<td>blue</td>
+</tr>
+<tr>
+<td>3</td>
+<td>30</td>
+<td>red, blue</td>
+</tr>
+</tbody>
+</table>
+<p>可以拆分为两个表，价格表和颜色表：<br>价格表 goods_price：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>price</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>10</td>
+</tr>
+<tr>
+<td>2</td>
+<td>20</td>
+</tr>
+<tr>
+<td>3</td>
+<td>30</td>
+</tr>
+</tbody>
+</table>
+<p>颜色表 goods_color</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>red</td>
+</tr>
+<tr>
+<td>2</td>
+<td>blue</td>
+</tr>
+<tr>
+<td>3</td>
+<td>red</td>
+</tr>
+<tr>
+<td>3</td>
+<td>blue</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>2NF：属性完全依赖于主键<br>如下表所示：学分依赖于课程，不依赖于主键学号<br>考试成绩表 exam：</p>
+<p>| 学号   | 姓名   | 课程   | 学分   | 成绩   |<br>| —- | —- | —- | —- | —- |<br>| 1    | Tom  | 数学   | 4    | 80   |<br>| 2    | Kate | 数学   | 4    | 90   |</p>
+</li>
+</ul>
+<p>可以拆分为三个表，学生信息表，课程表和考试成绩表：</p>
+<p>学生信息表 student：</p>
+<table>
+<thead>
+<tr>
+<th>学号</th>
+<th>姓名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Tom</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Kate</td>
+</tr>
+</tbody>
+</table>
+<p>课程表 course：</p>
+<table>
+<thead>
+<tr>
+<th>课程编号</th>
+<th>课程名</th>
+<th>学分</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>101</td>
+<td>数学</td>
+<td>4</td>
+</tr>
+<tr>
+<td>102</td>
+<td>语文</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>考试成绩表 exam：</p>
+<table>
+<thead>
+<tr>
+<th>学号</th>
+<th>课程编号</th>
+<th>成绩</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>101</td>
+<td>80</td>
+</tr>
+<tr>
+<td>2</td>
+<td>101</td>
+<td>90</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>3NF：属性不依赖于其他非主属性，即不能有冗余</p>
+<p>如下表所示：班主任手机依赖于班主任姓名 这个非主属性</p>
+</li>
+</ul>
+<p>学生信息表 student：</p>
+<table>
+<thead>
+<tr>
+<th>学号</th>
+<th>姓名</th>
+<th>班主任姓名</th>
+<th>班主任手机</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Tom</td>
+<td>Lily</td>
+<td>138</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Kate</td>
+<td>Lily</td>
+<td>138</td>
+</tr>
+</tbody>
+</table>
+<p>可以拆分为两个表，学生信息表，班主任信息表：</p>
+<p>学生信息表 student：</p>
+<table>
+<thead>
+<tr>
+<th>学号</th>
+<th>姓名</th>
+<th>班主任姓名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Tom</td>
+<td>Lily</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Kate</td>
+<td>Lily</td>
+</tr>
+</tbody>
+</table>
+<p>班主任信息表 teacher：</p>
+<table>
+<thead>
+<tr>
+<th>班主任姓名</th>
+<th>班主任手机</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lily</td>
+<td>138</td>
+</tr>
+<tr>
+<td>Cat</td>
+<td>139</td>
+</tr>
+</tbody>
+</table>
+<p>链接：<a href="http://www.jianshu.com/p/841573f02f8e" target="_blank" rel="noopener">http://www.jianshu.com/p/841573f02f8e</a></p>
+
+                
+  </div>
+
+</article>
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/10/21/学习笔记/学习笔记1/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/11/13/编程语言/Java/Java垃圾回收机制/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
